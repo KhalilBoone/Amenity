@@ -22,6 +22,7 @@ const FRIENDLY: Record<string, string> = {
   "auth/weak-password":         "Password is too weak.",
   "auth/popup-closed-by-user":  "Sign-in was cancelled.",
   "auth/network-request-failed":"Network error — check your connection.",
+  "auth/unauthorized-domain":   "Sign-in is not enabled for this domain.",
 };
 
 function googleIcon() {
@@ -61,16 +62,18 @@ export default function AuthModal({ isOpen, onClose, startOrder }: Props) {
 
   const dest = startOrder ? "/dashboard?newWorkspace=1" : "/dashboard";
 
-  const wrap = async (fn: () => Promise<void>) => {
+  const wrap = async (fn: () => Promise<void>, isRedirect = false) => {
     setError(""); setBusy(true);
     try {
+      if (isRedirect) sessionStorage.setItem("authDest", dest);
       await fn();
-      onClose();
-      router.push(dest);
+      if (!isRedirect) {
+        onClose();
+        router.push(dest);
+      }
     } catch (e: unknown) {
       const code = (e as { code?: string }).code ?? "";
       setError(FRIENDLY[code] ?? "Something went wrong. Please try again.");
-    } finally {
       setBusy(false);
     }
   };
@@ -139,7 +142,7 @@ export default function AuthModal({ isOpen, onClose, startOrder }: Props) {
             </div>
             <button
               disabled={busy}
-              onClick={() => wrap(signInGoogle)}
+              onClick={() => wrap(signInGoogle, true)}
               className="w-full bg-white hover:opacity-90 text-gray-900 font-semibold text-sm rounded-lg py-3 flex items-center justify-center gap-2.5 transition-opacity cursor-pointer border-0"
             >
               {googleIcon()} Continue with Google
@@ -178,7 +181,7 @@ export default function AuthModal({ isOpen, onClose, startOrder }: Props) {
             </div>
             <button
               disabled={busy}
-              onClick={() => wrap(signInGoogle)}
+              onClick={() => wrap(signInGoogle, true)}
               className="w-full bg-white hover:opacity-90 text-gray-900 font-semibold text-sm rounded-lg py-3 flex items-center justify-center gap-2.5 transition-opacity cursor-pointer border-0"
             >
               {googleIcon()} Continue with Google

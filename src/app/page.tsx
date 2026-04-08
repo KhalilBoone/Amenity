@@ -9,19 +9,19 @@ import { useRouter } from "next/navigation";
 
 // ── Capability data ──────────────────────────────────────────────────────────
 const CAPS_WASHED = [
-  { name: "Premium Garment Wash", subtitle: "Enzyme, bleach & sun-fade finishing", match: "98% match",
+  { name: "Premium Garment Wash", subtitle: "Enzyme, bleach & sun-fade finishing", match: "Top Pick",
     tags: ["Enzyme Wash","Garment Dye","Sun-Fade","Bleach Wash"], certs: ["Premium Finish","Luxury Grade"], moq: "200 units", lead: "10–14 wks" },
-  { name: "Fleece Cut & Sew", subtitle: "French terry, fleece & heavyweight cotton", match: "93% match",
+  { name: "Fleece Cut & Sew", subtitle: "French terry, fleece & heavyweight cotton", match: "Great Fit",
     tags: ["French Terry","Fleece","Heavyweight Cotton","Full Package"], certs: ["CMT","Full Package"], moq: "300 units", lead: "8–12 wks" },
-  { name: "Knitwear Production", subtitle: "Fine knit, rib & sweater-knit construction", match: "87% match",
+  { name: "Knitwear Production", subtitle: "Fine knit, rib & sweater-knit construction", match: "Available",
     tags: ["Knitwear","Rib Knit","Fine Knit","Premium Finishing"], certs: ["Luxury Grade"], moq: "500 units", lead: "10–14 wks" },
 ];
 const CAPS_DEFAULT = [
-  { name: "Domestic Cut & Sew", subtitle: "US-based production, fast turnaround", match: "94% match",
+  { name: "Domestic Cut & Sew", subtitle: "US-based production, fast turnaround", match: "Top Pick",
     tags: ["Cut & Sew","Screen Print","Embroidery","Private Label"], certs: ["Berry Compliant","USA-Made"], moq: "100 units", lead: "4–6 wks" },
-  { name: "Full Package Production", subtitle: "End-to-end domestic garment production", match: "89% match",
+  { name: "Full Package Production", subtitle: "End-to-end domestic garment production", match: "Great Fit",
     tags: ["Full Package","Fleece","Denim","Activewear"], certs: ["Full Package","ISO 9001"], moq: "500 units", lead: "6–10 wks" },
-  { name: "Screen Print & Embroidery", subtitle: "Decoration on cut & sew blanks", match: "85% match",
+  { name: "Screen Print & Embroidery", subtitle: "Decoration on cut & sew blanks", match: "Available",
     tags: ["Screen Print","Embroidery","Discharge","Puff Ink"], certs: ["USA-Made","Berry Compliant"], moq: "250 units", lead: "3–5 wks" },
 ];
 
@@ -57,7 +57,7 @@ function StudioPageInner() {
   const [quoteService, setQuoteService] = useState("");
   const [toast, setToast]               = useState("");
   const [messages, setMessages]         = useState<ChatMsg[]>([
-    { role: "ai", text: "Hi — tell me what you're making and I'll find the right production partners for you." }
+    { role: "ai", text: "Hi — tell me what you're making and I'll show you what we can build." }
   ]);
   const [inputVal, setInputVal]         = useState("");
   const chatRef                         = useRef<HTMLDivElement>(null);
@@ -86,7 +86,7 @@ function StudioPageInner() {
       const results = getCaps(text);
       setMessages(prev => [
         ...prev,
-        { role: "ai", text: "Here are your best-matched production capabilities:", results },
+        { role: "ai", text: "Here's what we can build for you:", results },
       ]);
     }, 800);
   }
@@ -115,7 +115,7 @@ function StudioPageInner() {
       <Nav variant="studio" />
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-[#0f0f0f] min-h-screen flex flex-col justify-end px-[60px] pb-20 pt-[120px] overflow-hidden hero-grid">
+      <section className="relative bg-[#0f0f0f] min-h-screen flex flex-col justify-end px-5 md:px-[60px] pb-16 md:pb-20 pt-[100px] md:pt-[120px] overflow-hidden hero-grid">
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse 70% 60% at 80% 40%, rgba(43,127,255,.08) 0%, transparent 65%)" }} />
         <div className="max-w-[1200px] mx-auto w-full relative z-10">
@@ -130,15 +130,15 @@ function StudioPageInner() {
             <p className="text-white/55 max-w-[480px]" style={{ fontSize: "clamp(15px,1.5vw,18px)" }}>
               Premium cut &amp; sew, screen printing, embroidery, and full-package production — built to your exact spec. Domestic lead times. No middlemen.
             </p>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <button
                 onClick={handleStartOrder}
-                className="px-7 py-4 rounded-md font-bold text-[15px] bg-white text-[#0f0f0f] hover:bg-[#e5e7eb] transition-colors cursor-pointer border-0"
+                className="w-full sm:w-auto px-7 py-4 rounded-md font-bold text-[15px] bg-white text-[#0f0f0f] hover:bg-[#e5e7eb] transition-colors cursor-pointer border-0 text-center"
               >
                 Start an Order
               </button>
               <a href="#catalog"
-                className="px-7 py-4 rounded-md font-bold text-[15px] border-2 border-white/25 text-white hover:border-white/55 transition-colors no-underline">
+                className="w-full sm:w-auto px-7 py-4 rounded-md font-bold text-[15px] border-2 border-white/25 text-white hover:border-white/55 transition-colors no-underline text-center">
                 View Catalog
               </a>
             </div>
@@ -158,7 +158,7 @@ function StudioPageInner() {
       </div>
 
       {/* ── CATALOG GRID ─────────────────────────────────────────────────── */}
-      <section id="catalog" className="bg-white pt-[100px] pb-[100px] px-[60px]">
+      <section id="catalog" className="bg-white pt-16 md:pt-[100px] pb-16 md:pb-[100px] px-5 md:px-[60px]">
         <div className="max-w-[1200px] mx-auto">
           <div className="flex items-end justify-between mb-12 gap-6 flex-wrap">
             <div>
@@ -171,7 +171,7 @@ function StudioPageInner() {
               From 100-unit sampling runs to 500K+ bulk orders. Tell us what you need.
             </p>
           </div>
-          <div className="grid grid-cols-4">
+          <div className="grid grid-cols-2 md:grid-cols-4">
             {CATALOG.map((c) => (
               <button
                 key={c.label}
@@ -182,9 +182,9 @@ function StudioPageInner() {
                 <div className="absolute inset-0 opacity-[.035]" style={{
                   backgroundImage: "repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(255,255,255,1) 18px,rgba(255,255,255,1) 19px)"
                 }} />
-                <div className="absolute inset-0 bg-[rgba(0,0,0,.38)] group-hover:bg-[rgba(0,0,0,.58)] transition-all flex flex-col justify-end p-[22px]">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="text-[21px] font-black tracking-[-0.5px] text-white leading-[1.05] whitespace-pre-line text-left">{c.label}</div>
+                <div className="absolute inset-0 bg-[rgba(0,0,0,.38)] group-hover:bg-[rgba(0,0,0,.58)] transition-all flex flex-col justify-end p-3 md:p-[22px]">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="text-[14px] md:text-[21px] font-black tracking-[-0.5px] text-white leading-[1.05] whitespace-pre-line text-left">{c.label}</div>
                     <div className="w-[30px] h-[30px] rounded-full border border-white/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#2b7fff] group-hover:border-[#2b7fff] transition-all">
                       <svg viewBox="0 0 24 24" className="w-[13px] h-[13px]" fill="none" stroke="rgba(255,255,255,.55)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
@@ -199,7 +199,24 @@ function StudioPageInner() {
       </section>
 
       {/* ── ORDER / CHAT ─────────────────────────────────────────────────── */}
-      <section id="order" className="bg-[#0f0f0f] py-24 px-[60px]">
+      {/* ── STATS ────────────────────────────────────────────────────────── */}
+      <section className="bg-[#0f0f0f] border-t border-white/[0.06]">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-4">
+          {[
+            { v: "300+",    l: "Products in Catalog" },
+            { v: "100%",    l: "Domestic Production" },
+            { v: "4–6 wk",  l: "Average Lead Time" },
+            { v: "24 hr",   l: "Quote Turnaround" },
+          ].map(s => (
+            <div key={s.l} className="text-center py-10 px-6 border-r border-white/[0.06] last:border-r-0 border-b md:border-b-0 [&:nth-child(2)]:border-r-0 md:[&:nth-child(2)]:border-r md:[&:nth-child(3)]:border-r">
+              <div className="text-[28px] font-black text-white tracking-[-1px]">{s.v}</div>
+              <div className="text-[11px] text-white/35 mt-1.5 uppercase tracking-[1.5px]">{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="order" className="bg-[#0f0f0f] py-16 md:py-24 px-5 md:px-[60px]">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
           <div>
             <div className="inline-flex items-center gap-2.5 text-[11px] font-bold tracking-[2px] uppercase text-[#2b7fff] mb-5">
@@ -209,7 +226,7 @@ function StudioPageInner() {
               Tell us what you&apos;re building.
             </h2>
             <p className="text-white/45 text-[15px] mb-8">
-              Describe your project and our AI matches you to the right production capabilities — cut &amp; sew, print, embroidery, or full package.
+              Describe your project and our AI shows you exactly what we can build — cut &amp; sew, print, embroidery, or full package.
             </p>
             <div className="flex flex-col gap-2.5">
               {["Cut & Sew + Screen Print","Embroidery on structured caps","Heavyweight fleece crewneck","Washed denim workwear"].map(tag => (
@@ -278,16 +295,16 @@ function StudioPageInner() {
       </section>
 
       {/* ── HOW IT WORKS ─────────────────────────────────────────────────── */}
-      <section id="how-it-works" className="bg-[#0f0f0f] py-24 px-[60px] border-t border-white/[0.06]">
+      <section id="how-it-works" className="bg-[#0f0f0f] py-16 md:py-24 px-5 md:px-[60px] border-t border-white/[0.06]">
         <div className="max-w-[1200px] mx-auto">
           <div className="inline-flex items-center gap-2.5 text-[11px] font-bold tracking-[2px] uppercase text-[#2b7fff] mb-5">
             <span className="w-5 h-px bg-[#2b7fff]" /> Process
           </div>
           <h2 className="text-white font-black text-[38px] leading-[1.05] tracking-[-1.5px] mb-16">How It Works</h2>
-          <div className="grid grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {[
-              { n:"01", title:"Submit Your Brief", body:"Tell us what you're making — garment type, quantity, timeline, references. Our AI pre-matches you to production capabilities." },
-              { n:"02", title:"We Match & Quote", body:"We source the right domestic partners for your project and return a full production quote within one business day." },
+              { n:"01", title:"Submit Your Brief", body:"Tell us what you're making — garment type, quantity, timeline, references. Our AI instantly shows you what we can build." },
+              { n:"02", title:"We Quote & Plan", body:"We review your brief and return a full production quote within one business day." },
               { n:"03", title:"We Produce & Deliver", body:"Your order moves into production under our oversight. We coordinate every step — from samples to final delivery." },
             ].map(s => (
               <div key={s.n}>
@@ -301,13 +318,13 @@ function StudioPageInner() {
       </section>
 
       {/* ── CTA BANNER ───────────────────────────────────────────────────── */}
-      <section className="bg-[#2b7fff] py-20 px-[60px] text-center">
+      <section className="bg-[#2b7fff] py-16 md:py-20 px-5 md:px-[60px] text-center">
         <div className="max-w-[700px] mx-auto">
           <h2 className="text-white font-black text-[42px] leading-[1.1] tracking-[-1.5px] mb-5">
             Ready to build your next drop?
           </h2>
           <p className="text-white/70 text-[17px] mb-9">
-            Start an order and our team will match you to the right production partner within 24 hours.
+            Start an order and our team will review your brief and send a full quote within 24 hours.
           </p>
           <button
             onClick={handleStartOrder}
@@ -319,8 +336,8 @@ function StudioPageInner() {
       </section>
 
       {/* ── FOOTER ───────────────────────────────────────────────────────── */}
-      <footer className="bg-[#0a0a0a] border-t border-white/[0.06] py-8 px-[60px]">
-        <div className="max-w-[1200px] mx-auto flex items-center justify-between">
+      <footer className="bg-[#0a0a0a] border-t border-white/[0.06] py-8 px-5 md:px-[60px]">
+        <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
           <span className="text-white font-bold text-[15px]">
             Amenity<span className="text-[#2b7fff]"> Studio</span>
           </span>
@@ -341,12 +358,12 @@ function StudioPageInner() {
               <button onClick={() => setQuoteModal(false)} className="text-white/40 hover:text-white text-xl bg-transparent border-0 cursor-pointer">✕</button>
             </div>
             <div className="p-6 flex flex-col gap-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <input className="bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors" placeholder="Your Name" />
                 <input className="bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors" placeholder="Brand / Company" />
               </div>
               <input type="email" className="bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors" placeholder="Email" />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <input type="number" className="bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors" placeholder="Quantity (e.g. 300)" />
                 <input type="date" className="bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors" />
               </div>

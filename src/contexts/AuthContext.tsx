@@ -6,7 +6,8 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut as firebaseSignOut,
   updateProfile,
 } from "firebase/auth";
@@ -33,6 +34,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(u);
       setLoading(false);
     });
+    // Handle result after Google redirect and navigate to stored destination
+    getRedirectResult(auth).then((result) => {
+      if (result?.user) {
+        const dest = sessionStorage.getItem("authDest") ?? "/dashboard";
+        sessionStorage.removeItem("authDest");
+        window.location.href = dest;
+      }
+    }).catch(() => {});
     return unsub;
   }, []);
 
@@ -49,7 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInGoogle = async () => {
     if (!auth) throw new Error("Firebase not configured");
-    await signInWithPopup(auth, googleProvider);
+    await signInWithRedirect(auth, googleProvider);
   };
 
   const signOut = async () => {

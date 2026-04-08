@@ -7,17 +7,16 @@ import AuthModal from "./AuthModal";
 
 interface NavProps {
   variant?: "studio" | "gov";
-  /** If true, open auth modal immediately (e.g. redirected from /dashboard) */
   autoOpenAuth?: boolean;
-  /** If true, redirect to dashboard with new workspace after auth */
   startOrder?: boolean;
 }
 
 export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: NavProps) {
   const { user, signOut, loading } = useAuth();
-  const [authOpen, setAuthOpen]   = useState(false);
-  const [menuOpen, setMenuOpen]   = useState(false);
-  const menuRef                   = useRef<HTMLDivElement>(null);
+  const [authOpen, setAuthOpen]     = useState(false);
+  const [menuOpen, setMenuOpen]     = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const menuRef                     = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (autoOpenAuth && !loading && !user) setAuthOpen(true);
@@ -38,13 +37,18 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
     ? user.displayName.split(" ").map((n) => n[0]).join("").substring(0, 2).toUpperCase()
     : user?.email?.[0]?.toUpperCase() ?? "?";
 
+  const navTop = isGov ? "top-0 md:top-9" : "top-0";
+  const navBg  = isGov
+    ? "bg-white border-b-2 border-black"
+    : "bg-[rgba(15,15,15,0.96)] backdrop-blur-xl border-b border-white/[0.07]";
+
+  const studioLink = "text-white/55 hover:text-white text-[13px] font-medium no-underline transition-colors";
+  const govLink    = "text-[#4b5563] hover:text-black text-[12px] font-bold uppercase tracking-[.8px] no-underline transition-colors border-b-2 border-transparent hover:border-[#2b7fff] pb-[2px]";
+
   return (
     <>
-      <nav className={`fixed w-full z-[100] flex items-center justify-between px-12 h-[60px] ${isGov ? "top-9" : "top-0"} ${
-        isGov
-          ? "bg-white border-b-2 border-black"
-          : "bg-[rgba(15,15,15,0.96)] backdrop-blur-xl border-b border-white/[0.07]"
-      }`}>
+      <nav className={`fixed w-full z-[100] flex items-center justify-between px-5 md:px-12 h-[60px] ${navTop} ${navBg}`}>
+
         {/* Logo */}
         <Link href={isGov ? "/gov" : "/"} className={`flex items-center gap-2.5 text-[16px] font-extrabold tracking-tight no-underline ${isGov ? "text-black" : "text-white"}`}>
           {isGov ? (
@@ -57,28 +61,28 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
           )}
         </Link>
 
-        {/* Links */}
-        <ul className="flex gap-7 list-none m-0 p-0">
+        {/* Desktop links */}
+        <ul className="hidden md:flex gap-7 list-none m-0 p-0">
           {isGov ? (
             <>
-              <li><a href="#catalog"       className="text-[#4b5563] hover:text-black text-[12px] font-bold uppercase tracking-[.8px] no-underline transition-colors border-b-2 border-transparent hover:border-[#2b7fff] pb-[2px]">Products</a></li>
-              <li><a href="#capabilities"  className="text-[#4b5563] hover:text-black text-[12px] font-bold uppercase tracking-[.8px] no-underline transition-colors border-b-2 border-transparent hover:border-[#2b7fff] pb-[2px]">Capabilities</a></li>
-              <li><a href="#codes"         className="text-[#4b5563] hover:text-black text-[12px] font-bold uppercase tracking-[.8px] no-underline transition-colors border-b-2 border-transparent hover:border-[#2b7fff] pb-[2px]">NAICS &amp; Codes</a></li>
-              <li><a href="#contact"       className="text-[#4b5563] hover:text-black text-[12px] font-bold uppercase tracking-[.8px] no-underline transition-colors border-b-2 border-transparent hover:border-[#2b7fff] pb-[2px]">Contact Us</a></li>
-              <li><Link href="/"           className="text-[#4b5563] hover:text-black text-[12px] font-bold uppercase tracking-[.8px] no-underline transition-colors border-b-2 border-transparent hover:border-[#2b7fff] pb-[2px]">Amenity Studio</Link></li>
-</>
+              <li><a href="#catalog"      className={govLink}>Products</a></li>
+              <li><a href="#capabilities" className={govLink}>Capabilities</a></li>
+              <li><a href="#codes"        className={govLink}>NAICS &amp; Codes</a></li>
+              <li><a href="#contact"      className={govLink}>Contact Us</a></li>
+              <li><Link href="/"          className={govLink}>Amenity Studio</Link></li>
+            </>
           ) : (
             <>
-              <li><a href="#catalog"       className="text-white/55 hover:text-white text-[13px] font-medium no-underline transition-colors">Catalog</a></li>
-              <li><a href="#order"         className="text-white/55 hover:text-white text-[13px] font-medium no-underline transition-colors">Get a Quote</a></li>
-              <li><a href="#how-it-works"  className="text-white/55 hover:text-white text-[13px] font-medium no-underline transition-colors">How It Works</a></li>
-              <li><Link href="/gov"        className="text-white/55 hover:text-white text-[13px] font-medium no-underline transition-colors">Amenity Supply Co.</Link></li>
+              <li><a href="#catalog"      className={studioLink}>Catalog</a></li>
+              <li><a href="#order"        className={studioLink}>Get a Quote</a></li>
+              <li><a href="#how-it-works" className={studioLink}>How It Works</a></li>
+              <li><Link href="/gov"       className={studioLink}>Amenity Supply Co.</Link></li>
             </>
           )}
         </ul>
 
-        {/* CTA / user */}
-        <div className="flex items-center gap-2.5">
+        {/* Desktop CTA / user */}
+        <div className="hidden md:flex items-center gap-2.5">
           {isGov ? (
             <>
               <a href="#capabilities"
@@ -94,17 +98,13 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
             <div className="w-8 h-8 rounded-full bg-white/10 animate-pulse" />
           ) : user ? (
             <>
-              <Link
-                href="/dashboard"
-                className="inline-flex items-center px-[18px] py-2 rounded-md text-[13px] font-semibold bg-[#2b7fff] text-white no-underline hover:bg-[#1a60d4] transition-colors"
-              >
+              <Link href="/dashboard"
+                className="inline-flex items-center px-[18px] py-2 rounded-md text-[13px] font-semibold bg-[#2b7fff] text-white no-underline hover:bg-[#1a60d4] transition-colors">
                 Dashboard
               </Link>
               <div className="relative" ref={menuRef}>
-                <button
-                  onClick={() => setMenuOpen((v) => !v)}
-                  className="w-8 h-8 rounded-full bg-[#2b7fff] flex items-center justify-center text-[12px] font-bold text-white cursor-pointer border-0"
-                >
+                <button onClick={() => setMenuOpen((v) => !v)}
+                  className="w-8 h-8 rounded-full bg-[#2b7fff] flex items-center justify-center text-[12px] font-bold text-white cursor-pointer border-0">
                   {initials}
                 </button>
                 {menuOpen && (
@@ -116,10 +116,8 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
                     <Link href="/dashboard" className="block px-3.5 py-2.5 text-[13px] text-white/70 hover:bg-white/5 hover:text-white no-underline transition-colors">
                       My Workspaces
                     </Link>
-                    <button
-                      onClick={() => { signOut(); setMenuOpen(false); }}
-                      className="w-full text-left px-3.5 py-2.5 text-[13px] text-red-400 hover:bg-red-400/[0.08] transition-colors bg-transparent border-0 cursor-pointer"
-                    >
+                    <button onClick={() => { signOut(); setMenuOpen(false); }}
+                      className="w-full text-left px-3.5 py-2.5 text-[13px] text-red-400 hover:bg-red-400/[0.08] transition-colors bg-transparent border-0 cursor-pointer">
                       Sign Out
                     </button>
                   </div>
@@ -128,34 +126,104 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
             </>
           ) : (
             <>
-              <button
-                onClick={() => setAuthOpen(true)}
-                className={`inline-flex items-center px-[18px] py-2 rounded-md text-[13px] font-semibold cursor-pointer border transition-colors ${
-                  isGov
-                    ? "bg-transparent text-gray-600 border-black/30 hover:border-black hover:text-black"
-                    : "bg-transparent text-white/65 border-white/20 hover:border-white/45 hover:text-white"
-                }`}
-              >
+              <button onClick={() => setAuthOpen(true)}
+                className="inline-flex items-center px-[18px] py-2 rounded-md text-[13px] font-semibold cursor-pointer border transition-colors bg-transparent text-white/65 border-white/20 hover:border-white/45 hover:text-white">
                 Sign In
               </button>
-              {!isGov && (
-                <button
-                  onClick={() => { setAuthOpen(true); }}
-                  className="inline-flex items-center px-[18px] py-2 rounded-md text-[13px] font-semibold bg-[#2b7fff] text-white hover:bg-[#1a60d4] cursor-pointer border-0 transition-colors"
-                >
-                  Start Order
+              <button onClick={() => setAuthOpen(true)}
+                className="inline-flex items-center px-[18px] py-2 rounded-md text-[13px] font-semibold bg-[#2b7fff] text-white hover:bg-[#1a60d4] cursor-pointer border-0 transition-colors">
+                Start Order
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Mobile: quick CTA + hamburger */}
+        <div className="flex md:hidden items-center gap-2">
+          {!isGov && !loading && !user && (
+            <button onClick={() => setAuthOpen(true)}
+              className="px-3.5 py-1.5 rounded-md text-[12px] font-semibold bg-[#2b7fff] text-white border-0 cursor-pointer">
+              Start Order
+            </button>
+          )}
+          {isGov && (
+            <a href="#contact"
+              className="px-3.5 py-1.5 rounded-md text-[12px] font-semibold bg-[#2b7fff] text-white no-underline">
+              Contact
+            </a>
+          )}
+          <button
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label="Toggle menu"
+            className={`w-9 h-9 flex flex-col justify-center items-center gap-[5px] bg-transparent border-0 cursor-pointer ${isGov ? "" : ""}`}>
+            <span className={`block h-[1.5px] w-[20px] transition-all origin-center ${isGov ? "bg-black" : "bg-white"} ${mobileOpen ? "rotate-45 translate-y-[6.5px]" : ""}`} />
+            <span className={`block h-[1.5px] w-[20px] transition-all ${isGov ? "bg-black" : "bg-white"} ${mobileOpen ? "opacity-0 scale-x-0" : ""}`} />
+            <span className={`block h-[1.5px] w-[20px] transition-all origin-center ${isGov ? "bg-black" : "bg-white"} ${mobileOpen ? "-rotate-45 -translate-y-[6.5px]" : ""}`} />
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile drawer */}
+      {mobileOpen && (
+        <div className={`fixed left-0 right-0 z-[99] md:hidden py-3 px-5 flex flex-col ${
+          isGov
+            ? "bg-white border-b-2 border-black top-[60px]"
+            : "bg-[#0f0f0f] border-b border-white/10 top-[60px]"
+        }`}>
+          {isGov ? (
+            <>
+              {[
+                { href: "#catalog",      label: "Products" },
+                { href: "#capabilities", label: "Capabilities" },
+                { href: "#codes",        label: "NAICS & Codes" },
+                { href: "#contact",      label: "Contact Us" },
+              ].map(({ href, label }) => (
+                <a key={href} href={href} onClick={() => setMobileOpen(false)}
+                  className="text-black text-[14px] font-bold uppercase tracking-[.8px] no-underline py-3 border-b border-black/10 last:border-b-0">
+                  {label}
+                </a>
+              ))}
+              <Link href="/" className="text-[#4b5563] text-[14px] font-bold uppercase tracking-[.8px] no-underline pt-3">
+                Amenity Studio →
+              </Link>
+            </>
+          ) : (
+            <>
+              {[
+                { href: "#catalog",      label: "Catalog" },
+                { href: "#order",        label: "Get a Quote" },
+                { href: "#how-it-works", label: "How It Works" },
+              ].map(({ href, label }) => (
+                <a key={href} href={href} onClick={() => setMobileOpen(false)}
+                  className="text-white/70 text-[15px] font-medium no-underline py-3 border-b border-white/[0.08]">
+                  {label}
+                </a>
+              ))}
+              <Link href="/gov" className="text-white/70 text-[15px] font-medium no-underline py-3 border-b border-white/[0.08]">
+                Amenity Supply Co.
+              </Link>
+              {user ? (
+                <>
+                  <Link href="/dashboard" className="text-white text-[15px] font-semibold no-underline py-3 border-b border-white/[0.08]">
+                    My Dashboard
+                  </Link>
+                  <button onClick={() => { signOut(); setMobileOpen(false); }}
+                    className="text-left text-red-400 text-[14px] font-medium py-3 bg-transparent border-0 cursor-pointer">
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <button onClick={() => { setMobileOpen(false); setAuthOpen(true); }}
+                  className="text-left text-white/55 text-[15px] font-medium py-3 bg-transparent border-0 cursor-pointer">
+                  Sign In
                 </button>
               )}
             </>
           )}
         </div>
-      </nav>
+      )}
 
-      <AuthModal
-        isOpen={authOpen}
-        onClose={() => setAuthOpen(false)}
-        startOrder={startOrder}
-      />
+      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} startOrder={startOrder} />
     </>
   );
 }

@@ -53,7 +53,7 @@ export default function GovPage() {
   return (
     <>
       {/* ── CREDENTIALS BAR ─────────────────────────────────────────────── */}
-      <div className="fixed top-0 left-0 right-0 z-[110] bg-[#0b1628] flex justify-center items-center h-9 overflow-hidden flex-wrap" style={{ paddingLeft: 48, paddingRight: 48 }}>
+      <div className="fixed top-0 left-0 right-0 z-[110] bg-[#0b1628] hidden md:flex justify-center items-center h-9 overflow-hidden flex-wrap" style={{ paddingLeft: 48, paddingRight: 48 }}>
         {[
           { label: "UEI",          value: "[YOUR UEI]" },
           { label: "CAGE",         value: "[CAGE CODE]" },
@@ -76,7 +76,7 @@ export default function GovPage() {
       <Nav variant="gov" />
 
       {/* ── HERO ────────────────────────────────────────────────────────── */}
-      <div className="relative bg-[#0b1628] min-h-screen flex flex-col justify-end px-[60px] pb-20 overflow-hidden" style={{ marginTop: 96 }}>
+      <div className="relative bg-[#0b1628] min-h-screen flex flex-col justify-end px-5 md:px-[60px] pb-16 md:pb-20 overflow-hidden mt-[60px] md:mt-[96px]">
         {/* Blueprint grid */}
         <div className="absolute inset-0 pointer-events-none opacity-[.04]" style={{
           backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.4) 1px,transparent 1px)",
@@ -103,13 +103,13 @@ export default function GovPage() {
                 ))}
               </div>
             </div>
-            <div className="flex gap-3 flex-shrink-0">
+            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
               <button onClick={scrollToContact}
-                className="bg-white text-[#0b1628] px-[30px] py-[14px] rounded-[5px] text-[13px] font-extrabold uppercase tracking-[.4px] hover:bg-[#2b7fff] hover:text-white transition-all cursor-pointer border-0">
+                className="w-full sm:w-auto text-center bg-white text-[#0b1628] px-[30px] py-[14px] rounded-[5px] text-[13px] font-extrabold uppercase tracking-[.4px] hover:bg-[#2b7fff] hover:text-white transition-all cursor-pointer border-0">
                 Contact Us
               </button>
               <a href="#capabilities"
-                className="border border-white/20 text-white/65 px-[30px] py-[14px] rounded-[5px] text-[13px] font-bold uppercase tracking-[.4px] hover:border-white/50 hover:text-white transition-all no-underline">
+                className="w-full sm:w-auto text-center border border-white/20 text-white/65 px-[30px] py-[14px] rounded-[5px] text-[13px] font-bold uppercase tracking-[.4px] hover:border-white/50 hover:text-white transition-all no-underline">
                 View Capabilities
               </a>
             </div>
@@ -130,22 +130,24 @@ export default function GovPage() {
       </div>
 
       {/* ── STATS BAR ───────────────────────────────────────────────────── */}
-      <div className="bg-[#0f2040] flex justify-center border-t border-white/[.05]">
+      <div className="bg-[#0f2040] border-t border-white/[.05]">
+        <div className="grid grid-cols-2 md:grid-cols-4">
         {[
           { v: "250K+", l: "Units / Month" },
           { v: "4–8 wk", l: "Standard Lead Time" },
           { v: "48 hr",  l: "Bid Turnaround" },
           { v: "100%",   l: "Spec Compliance" },
         ].map(s => (
-          <div key={s.l} className="text-center py-9 px-[52px] flex-1 border-r border-white/[.05] last:border-r-0">
+          <div key={s.l} className="text-center py-8 md:py-9 px-6 md:px-[52px] border-r border-white/[.05] [&:nth-child(2)]:border-r-0 md:[&:nth-child(2)]:border-r border-b md:border-b-0 [&:nth-child(3)]:border-b-0 [&:nth-child(4)]:border-b-0">
             <div className="text-[30px] font-black text-white tracking-[-1.5px]">{s.v}</div>
             <div className="text-[10px] text-white/32 mt-[5px] uppercase tracking-[1.8px]">{s.l}</div>
           </div>
         ))}
+        </div>
       </div>
 
       {/* ── SUPPLY CATALOG ──────────────────────────────────────────────── */}
-      <section id="catalog" className="bg-white pt-[100px] pb-[100px] px-[60px]">
+      <section id="catalog" className="bg-white pt-16 md:pt-[100px] pb-16 md:pb-[100px] px-5 md:px-[60px]">
         <div className="max-w-[1200px] mx-auto">
           <div className="flex items-end justify-between mb-12 gap-6 flex-wrap">
             <div>
@@ -158,7 +160,7 @@ export default function GovPage() {
               Berry Amendment and TAA compliant production across all major categories.
             </p>
           </div>
-          <div className="grid grid-cols-4">
+          <div className="grid grid-cols-2 md:grid-cols-4">
           {SUPPLY_CATALOG.map((c) => (
             <button
               key={c.label}
@@ -170,10 +172,10 @@ export default function GovPage() {
               <div className="absolute inset-0 opacity-[.035]" style={{
                 backgroundImage: "repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(255,255,255,1) 18px,rgba(255,255,255,1) 19px)"
               }} />
-              <div className="absolute inset-0 bg-[rgba(8,18,45,.48)] group-hover:bg-[rgba(8,20,50,.65)] transition-all flex flex-col justify-end p-[22px]">
-                <div className="text-[9px] font-extrabold tracking-[2.5px] uppercase text-white/35 mb-[7px] text-left">{c.psc}</div>
-                <div className="flex items-center justify-between gap-3">
-                  <div className="text-[21px] font-black tracking-[-0.5px] text-white leading-[1.05] whitespace-pre-line text-left">{c.label}</div>
+              <div className="absolute inset-0 bg-[rgba(8,18,45,.48)] group-hover:bg-[rgba(8,20,50,.65)] transition-all flex flex-col justify-end p-3 md:p-[22px]">
+                <div className="text-[8px] md:text-[9px] font-extrabold tracking-[2.5px] uppercase text-white/35 mb-[7px] text-left">{c.psc}</div>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-[14px] md:text-[21px] font-black tracking-[-0.5px] text-white leading-[1.05] whitespace-pre-line text-left">{c.label}</div>
                   <div className="w-[30px] h-[30px] rounded-full border border-white/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#2b7fff] group-hover:border-[#2b7fff] transition-all">
                     <svg viewBox="0 0 24 24" className="w-[13px] h-[13px]" fill="none" stroke="rgba(255,255,255,.55)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
@@ -188,8 +190,8 @@ export default function GovPage() {
       </section>
 
       {/* ── CAPABILITIES ────────────────────────────────────────────────── */}
-      <section id="capabilities" className="bg-[#f4f5f7] py-[100px] px-[60px]">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-2 gap-20 items-start">
+      <section id="capabilities" className="bg-[#f4f5f7] py-16 md:py-[100px] px-5 md:px-[60px]">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-start">
           {/* Left column */}
           <div>
             <div className="text-[11px] font-extrabold tracking-[1.5px] uppercase text-[#0f0f0f] mb-3.5 pb-2.5 border-b-2 border-[#0f0f0f] flex items-center gap-2">
@@ -265,8 +267,8 @@ export default function GovPage() {
       </section>
 
       {/* ── NAICS / PSC CODES ───────────────────────────────────────────── */}
-      <section id="codes" className="bg-white py-[100px] px-[60px]">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-2 gap-[60px]">
+      <section id="codes" className="bg-white py-16 md:py-[100px] px-5 md:px-[60px]">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[60px]">
           {/* NAICS */}
           <div>
             <div className="flex items-center gap-2.5 text-[10px] font-extrabold tracking-[2.5px] uppercase text-[#2b7fff] mb-4">
@@ -323,8 +325,8 @@ export default function GovPage() {
       </section>
 
       {/* ── HOW WE WORK ─────────────────────────────────────────────────── */}
-      <section id="how-it-works" className="bg-[#0b1628] py-[100px] px-[60px]">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-2 gap-[88px] items-center">
+      <section id="how-it-works" className="bg-[#0b1628] py-16 md:py-[100px] px-5 md:px-[60px]">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-[88px] items-center">
           <div>
             <div className="flex items-center gap-2.5 text-[10px] font-extrabold tracking-[2.5px] uppercase text-[#2b7fff] mb-4">
               <span className="w-5 h-px bg-[#2b7fff]" /> How We Work
@@ -365,7 +367,7 @@ export default function GovPage() {
           </div>
 
           {/* Visual panel */}
-          <div className="bg-[#162d52] border border-white/[.06] rounded-xl overflow-hidden aspect-square flex items-center justify-center relative">
+          <div className="hidden md:flex bg-[#162d52] border border-white/[.06] rounded-xl overflow-hidden aspect-square items-center justify-center relative">
             <div className="absolute inset-0" style={{
               backgroundImage: "linear-gradient(rgba(43,127,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(43,127,255,.07) 1px,transparent 1px),linear-gradient(rgba(43,127,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(43,127,255,.03) 1px,transparent 1px)",
               backgroundSize: "48px 48px,48px 48px,12px 12px,12px 12px"
@@ -383,8 +385,8 @@ export default function GovPage() {
       </section>
 
       {/* ── CONTACT ─────────────────────────────────────────────────────── */}
-      <section id="contact" className="bg-[#f4f5f7] py-[100px] px-[60px]">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-2 gap-[88px] items-start">
+      <section id="contact" className="bg-[#f4f5f7] py-16 md:py-[100px] px-5 md:px-[60px]">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[88px] items-start">
           {/* Left: copy + info cards */}
           <div>
             <div className="flex items-center gap-2.5 text-[10px] font-extrabold tracking-[2.5px] uppercase text-[#2b7fff] mb-4">
@@ -445,7 +447,7 @@ export default function GovPage() {
             </div>
             <form className="p-6 flex flex-col gap-4"
               onSubmit={e => { e.preventDefault(); alert("Message received — we'll respond within one business day."); }}>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] font-extrabold tracking-[1.5px] uppercase text-[#0f0f0f]">Your Name *</label>
                   <input required className="border border-[#e5e7eb] rounded-md px-3 py-[10px] text-[13px] text-[#0f0f0f] outline-none focus:border-[#2b7fff] transition-colors placeholder-[#9ca3af]" placeholder="Full name" />
@@ -484,7 +486,7 @@ export default function GovPage() {
       </section>
 
       {/* ── CTA BANNER ──────────────────────────────────────────────────── */}
-      <section className="bg-[#0b1628] py-24 px-[60px] text-center">
+      <section className="bg-[#0b1628] py-16 md:py-24 px-5 md:px-[60px] text-center">
         <div className="max-w-[1200px] mx-auto">
           <div className="flex items-center justify-center gap-2.5 text-[10px] font-extrabold tracking-[2.5px] uppercase text-white/50 mb-3.5">
             <span className="w-5 h-px bg-white/50" /> Get In Touch
@@ -506,7 +508,7 @@ export default function GovPage() {
       </section>
 
       {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="bg-[#0f0f0f] border-t border-white/[.05] py-12 px-[60px] flex items-center justify-between flex-wrap gap-5">
+      <footer className="bg-[#0f0f0f] border-t border-white/[.05] py-10 px-5 md:px-[60px] flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div>
           <div className="text-[16px] font-extrabold text-white no-underline">
             Amenity <span className="text-[#2b7fff]">Supply Co.</span>
