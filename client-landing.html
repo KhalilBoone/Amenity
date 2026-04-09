@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Amenity Studio — Production Partner</title>
+<link rel="stylesheet" href="next-app/src/app/studio.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="proto-nav">
+  <a class="nav-logo" href="#">Amenity<span> Studio</span></a>
+  <ul class="nav-links">
+    <li><a href="#catalog">Catalog</a></li>
+    <li><a href="#order">Get a Quote</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="/gov">Amenity Supply Co.</a></li>
+  </ul>
+  <div class="nav-cta" id="navCta">
+    <!-- Populated by auth state listener -->
+    <a class="btn btn-ghost" href="#" onclick="openAuthModal(event)">Sign In</a>
+    <a class="btn btn-primary" href="#order">Start Order</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-kicker">American-Made Production</div>
+    <h1 class="hero-headline">You design it.<br/><em>We build it.</em></h1>
+    <div class="hero-bottom">
+      <p class="hero-desc">Premium cut &amp; sew, screen printing, embroidery, and full-package production — built to your exact spec.</p>
+      <div class="hero-actions">
+        <a class="btn-hero-white" href="#order">Request a Quote</a>
+        <a class="btn-hero-outline" href="#catalog">View Catalog</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Cut &amp; Sew</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Screen Printing</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Embroidery</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Private Label</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Headwear</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Workwear</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Uniforms</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Sampling &amp; Prototypes</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Berry Compliant</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">USA-Made</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Full Package Production</span><span class="marquee-sep"> · </span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">Cut &amp; Sew</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Screen Printing</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Embroidery</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Private Label</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Headwear</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Workwear</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Uniforms</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Sampling &amp; Prototypes</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Berry Compliant</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">USA-Made</span><span class="marquee-sep"> · </span>
+    <span class="marquee-item">Full Package Production</span><span class="marquee-sep"> · </span>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">250K+</div>
+    <div class="stat-label">Units / Month</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">48 hr</div>
+    <div class="stat-label">Quote Response</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">4 wk</div>
+    <div class="stat-label">Domestic Lead Time</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Spec Compliance</div>
+  </div>
+</div>
+
+<!-- PRODUCT CATALOG -->
+<section class="catalog-section" id="catalog">
+  <div class="section-inner">
+    <div class="catalog-header">
+      <div>
+        <div class="section-kicker">What We Make</div>
+        <h2 class="section-title">Production catalog</h2>
+      </div>
+      <p class="section-sub" style="max-width:300px;font-size:14px;">From 100-unit sampling runs to 500K+ bulk orders. Tell us what you need.</p>
+    </div>
+    <div class="catalog-grid">
+
+      <div class="catalog-card cat-tees" onclick="openServiceModal('T-Shirts &amp; Tops')">
+        <div class="catalog-card-bg"></div>
+        <div class="catalog-card-pattern"></div>
+        <div class="catalog-card-overlay">
+          <div class="catalog-card-cat">Category 01</div>
+          <div class="catalog-card-name">T-Shirts<br/>&amp; Tops</div>
+          <div class="catalog-card-arrow">
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="catalog-card cat-hoodies" onclick="openServiceModal('Hoodies &amp; Fleece')">
+        <div class="catalog-card-bg"></div>
+        <div class="catalog-card-pattern"></div>
+        <div class="catalog-card-overlay">
+          <div class="catalog-card-cat">Category 02</div>
+          <div class="catalog-card-name">Hoodies<br/>&amp; Fleece</div>
+          <div class="catalog-card-arrow">
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="catalog-card cat-bottoms" onclick="openServiceModal('Pants &amp; Shorts')">
+        <div class="catalog-card-bg"></div>
+        <div class="catalog-card-pattern"></div>
+        <div class="catalog-card-overlay">
+          <div class="catalog-card-cat">Category 03</div>
+          <div class="catalog-card-name">Pants<br/>&amp; Shorts</div>
+          <div class="catalog-card-arrow">
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="catalog-card cat-headwear" onclick="openServiceModal('Headwear &amp; Caps')">
+        <div class="catalog-card-bg"></div>
+        <div class="catalog-card-pattern"></div>
+        <div class="catalog-card-overlay">
+          <div class="catalog-card-cat">Category 04</div>
+          <div class="catalog-card-name">Headwear<br/>&amp; Caps</div>
+          <div class="catalog-card-arrow">
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="catalog-card cat-jackets" onclick="openServiceModal('Jackets &amp; Outerwear')">
+        <div class="catalog-card-bg"></div>
+        <div class="catalog-card-pattern"></div>
+        <div class="catalog-card-overlay">
+          <div class="catalog-card-cat">Category 05</div>
+          <div class="catalog-card-name">Jackets<br/>&amp; Outerwear</div>
+          <div class="catalog-card-arrow">
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="catalog-card cat-scrubs" onclick="openServiceModal('Medical &amp; Scrubs')">
+        <div class="catalog-card-bg"></div>
+        <div class="catalog-card-pattern"></div>
+        <div class="catalog-card-overlay">
+          <div class="catalog-card-cat">Category 06</div>
+          <div class="catalog-card-name">Medical<br/>&amp; Scrubs</div>
+          <div class="catalog-card-arrow">
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="catalog-card cat-workwear" onclick="openServiceModal('Uniforms &amp; Workwear')">
+        <div class="catalog-card-bg"></div>
+        <div class="catalog-card-pattern"></div>
+        <div class="catalog-card-overlay">
+          <div class="catalog-card-cat">Category 07</div>
+          <div class="catalog-card-name">Uniforms<br/>&amp; Workwear</div>
+          <div class="catalog-card-arrow">
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="catalog-card cat-print" onclick="openServiceModal('Screen Print &amp; Embroidery')">
+        <div class="catalog-card-bg"></div>
+        <div class="catalog-card-pattern"></div>
+        <div class="catalog-card-overlay">
+          <div class="catalog-card-cat">Category 08</div>
+          <div class="catalog-card-name">Screen Print<br/>&amp; Embroidery</div>
+          <div class="catalog-card-arrow">
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- AI SEARCH / ORDER -->
+<!-- <section class="order-section" id="order">
+  <div class="order-inner">
+    <div class="order-copy">
+      <div class="section-kicker">AI-Powered Search</div>
+      <h2 class="section-title">Find your production match</h2>
+      <p class="section-sub">Describe your product — spec, style reference, quantity, or all three. We'll surface the right production capability instantly.</p>
+      <div class="order-badges">
+        <span class="order-badge">Domestic Cut &amp; Sew</span>
+        <span class="order-badge">Screen Print</span>
+        <span class="order-badge">Embroidery</span>
+        <span class="order-badge">Full Package</span>
+        <span class="order-badge">Garment Wash</span>
+        <span class="order-badge">Private Label</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="chat-window">
+        <div class="chat-header">
+          <div class="chat-header-dot"></div>
+          <div class="chat-header-label">Amenity Studio</div>
+          <div class="chat-header-sub">Responds in seconds</div>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-wrap">
+          <textarea class="chat-input" id="chatInput"
+            placeholder='Try: "500 sun-faded hoodies" or "300 screen-printed tees, domestic"'
+            rows="1"></textarea>
+          <button class="icon-btn" id="micBtn" title="Voice search">
+            <svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </button>
+          <button class="send-btn" id="sendBtn" title="Send">
+            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="chat-prompts">
+        <button class="prompt-chip" onclick="fillPrompt(this)">Domestic cut &amp; sew</button>
+        <button class="prompt-chip" onclick="fillPrompt(this)">Luxury knitwear like Gucci</button>
+        <button class="prompt-chip" onclick="fillPrompt(this)">1,000 french terry hoodies</button>
+        <button class="prompt-chip" onclick="fillPrompt(this)">Dad caps with embroidery</button>
+        <button class="prompt-chip" onclick="fillPrompt(this)">Sun faded hoodies</button>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<!-- HOW IT WORKS -->
+<section class="process-section" id="how-it-works">
+  <div class="process-inner">
+    <div>
+      <div class="section-kicker process-kicker">How It Works</div>
+      <h2 class="section-title process-title">Brief to production<br/>in 3 steps</h2>
+      <p class="section-sub process-sub">No sourcing headaches. No blind emails to factories. Tell us what you need — we handle the rest.</p>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="process-step-num">01</div>
+          <div class="process-step-content">
+            <div class="process-step-title">Tell Us What You Need</div>
+            <div class="process-step-desc">Describe your product — quantity, style, reference, or spec. Type it or speak it. No forms, no guesswork.</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="process-step-num">02</div>
+          <div class="process-step-content">
+            <div class="process-step-title">We Get to Work</div>
+            <div class="process-step-desc">Our team reviews your brief and begins coordinating production on your behalf — typically within one business day.</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="process-step-num">03</div>
+          <div class="process-step-content">
+            <div class="process-step-title">Receive Your Quote</div>
+            <div class="process-step-desc">We'll send you pricing, timeline, and next steps directly. Clear, simple, and ready to approve.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="process-visual">
+      <div class="process-visual-grid"></div>
+      <div class="process-visual-content">
+        <div class="process-visual-headline">You brief it.<br/><em>We build it.</em></div>
+        <div class="process-visual-sub">American-Made · Spec Compliant · Fast</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-kicker cta-kicker">Get Started Today</div>
+  <h2 class="cta-headline">Ready to produce?</h2>
+  <p class="cta-sub">Submit your brief and receive a production-ready quote within 48 hours.</p>
+  <a class="btn-cta" href="#order">Start Your Order</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <a class="footer-logo" href="#">Amenity<span> Studio</span></a>
+    <div class="footer-tagline">A product of Amenity</div>
+  </div>
+  <div class="footer-links">
+    <a href="#catalog">Catalog</a>
+    <a href="#order">Get a Quote</a>
+    <a href="/gov">Amenity Supply Co.</a>
+    <a href="mailto:hello@amenitystudio.com">hello@amenitystudio.com</a>
+  </div>
+  <p class="footer-copy">© 2026 Amenity. All rights reserved.</p>
+</footer>
+
+<!-- QUOTE REQUEST MODAL -->
+<div class="modal-overlay" id="serviceModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <div class="modal-service-icon">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        </div>
+        <div>
+          <div class="modal-suptitle">Request a Quote</div>
+          <div class="modal-title" id="modalServiceName">Screen Printing</div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input class="form-input" id="clientName" placeholder="Alex Rivera" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Brand / Company</label>
+          <input class="form-input" id="clientBrand" placeholder="Brand name" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" id="clientEmail" type="email" placeholder="alex@yourbrand.com" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Quantity Needed</label>
+          <input class="form-input" id="orderQty" type="number" placeholder="e.g. 300" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Target Delivery</label>
+          <input class="form-input" id="orderDeadline" type="date" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Describe Your Order</label>
+        <textarea class="form-textarea" id="orderDesc" placeholder='e.g. "300 dad caps with embroidery on front, left side, and back. Structured 6-panel, black, adjustable strap."'></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Reference / Inspiration (optional)</label>
+        <input class="form-input" id="orderRef" placeholder="e.g. like Palace caps, or paste an image link" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px;font-size:14px;" onclick="sendQuoteRequest()">Submit Request</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="auth-modal-overlay" id="authModal">
+  <div class="auth-modal">
+    <button class="auth-modal-close" onclick="closeAuthModal()">✕</button>
+    <div class="auth-modal-logo">Amenity<span> Studio</span></div>
+    <p class="auth-modal-sub">Sign in to manage your workspaces and orders.</p>
+
+    <div class="auth-tab-row">
+      <button class="auth-tab active" onclick="switchAuthTab('signin')">Sign In</button>
+      <button class="auth-tab" onclick="switchAuthTab('signup')">Create Account</button>
+    </div>
+
+    <!-- Sign In Panel -->
+    <div class="auth-panel active" id="authPanelSignin">
+      <div class="auth-error" id="signinError"></div>
+      <input class="auth-input" id="signinEmail" type="email" placeholder="Email address" />
+      <input class="auth-input" id="signinPassword" type="password" placeholder="Password" />
+      <button class="auth-btn-primary" onclick="signInWithEmail()">Sign In</button>
+      <div class="auth-divider">or</div>
+      <button class="auth-btn-google" onclick="signInWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+    </div>
+
+    <!-- Sign Up Panel -->
+    <div class="auth-panel" id="authPanelSignup">
+      <div class="auth-error" id="signupError"></div>
+      <input class="auth-input" id="signupName" type="text" placeholder="Your name" />
+      <input class="auth-input" id="signupEmail" type="email" placeholder="Email address" />
+      <input class="auth-input" id="signupPassword" type="password" placeholder="Password (min 8 chars)" />
+      <button class="auth-btn-primary" onclick="signUpWithEmail()">Create Account</button>
+      <div class="auth-divider">or</div>
+      <button class="auth-btn-google" onclick="signInWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+
+<script>
+// @ts-nocheck
+// ── FIREBASE CONFIG ────────────────────────────────────────────────────────
+// TODO: Replace with your project's config from Firebase Console → Project Settings
+const firebaseConfig = {
+  apiKey:            "[YOUR_API_KEY]",
+  authDomain:        "[YOUR_PROJECT_ID].firebaseapp.com",
+  projectId:         "[YOUR_PROJECT_ID]",
+  storageBucket:     "[YOUR_PROJECT_ID].appspot.com",
+  messagingSenderId: "[YOUR_SENDER_ID]",
+  appId:             "[YOUR_APP_ID]"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+// ── AUTH STATE LISTENER ────────────────────────────────────────────────────
+auth.onAuthStateChanged(user => {
+  const navCta = document.getElementById("navCta");
+  if (user) {
+    // Logged in — show avatar with dropdown
+    const initials = user.displayName
+      ? user.displayName.split(" ").map(n=>n[0]).join("").substring(0,2).toUpperCase()
+      : user.email[0].toUpperCase();
+    navCta.innerHTML = `
+      <a class="btn btn-primary" href="dashboard.html">Dashboard</a>
+      <div class="nav-user-menu">
+        <button class="nav-avatar" onclick="toggleUserMenu(event)">${initials}</button>
+        <div class="nav-user-dropdown" id="userDropdown">
+          <div class="nav-user-info">
+            <div class="nav-user-name">${user.displayName || "Studio Member"}</div>
+            <div class="nav-user-email">${user.email}</div>
+          </div>
+          <a href="dashboard.html">My Workspaces</a>
+          <button class="signout-btn" onclick="signOut()">Sign Out</button>
+        </div>
+      </div>`;
+  } else {
+    // Logged out — show Sign In + Start Order
+    navCta.innerHTML = `
+      <a class="btn btn-ghost" href="#" onclick="openAuthModal(event)">Sign In</a>
+      <a class="btn btn-primary" href="#order">Start Order</a>`;
+  }
+});
+
+// Close dropdown when clicking outside
+document.addEventListener("click", e => {
+  const dropdown = document.getElementById("userDropdown");
+  if (dropdown && !dropdown.closest(".nav-user-menu").contains(e.target)) {
+    dropdown.classList.remove("open");
+  }
+});
+
+// ── AUTH MODAL ─────────────────────────────────────────────────────────────
+function openAuthModal(e) {
+  if (e) e.preventDefault();
+  document.getElementById("authModal").classList.add("open");
+}
+function closeAuthModal() {
+  document.getElementById("authModal").classList.remove("open");
+  clearAuthErrors();
+}
+document.getElementById("authModal").addEventListener("click", e => {
+  if (e.target === document.getElementById("authModal")) closeAuthModal();
+});
+
+function switchAuthTab(tab) {
+  document.querySelectorAll(".auth-tab").forEach((t,i) => {
+    t.classList.toggle("active", (tab==="signin" && i===0) || (tab==="signup" && i===1));
+  });
+  document.getElementById("authPanelSignin").classList.toggle("active", tab==="signin");
+  document.getElementById("authPanelSignup").classList.toggle("active", tab==="signup");
+  clearAuthErrors();
+}
+
+function clearAuthErrors() {
+  document.querySelectorAll(".auth-error").forEach(el => {
+    el.style.display = "none"; el.textContent = "";
+  });
+}
+
+function showAuthError(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg; el.style.display = "block";
+}
+
+// ── SIGN IN (email/password) ───────────────────────────────────────────────
+async function signInWithEmail() {
+  const email = document.getElementById("signinEmail").value.trim();
+  const pass  = document.getElementById("signinPassword").value;
+  if (!email || !pass) { showAuthError("signinError","Please fill in all fields."); return; }
+  try {
+    await auth.signInWithEmailAndPassword(email, pass);
+    closeAuthModal();
+    window.location.href = "dashboard.html";
+  } catch(err) {
+    showAuthError("signinError", friendlyAuthError(err.code));
+  }
+}
+
+// ── SIGN UP (email/password) ───────────────────────────────────────────────
+async function signUpWithEmail() {
+  const name  = document.getElementById("signupName").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const pass  = document.getElementById("signupPassword").value;
+  if (!name || !email || !pass) { showAuthError("signupError","Please fill in all fields."); return; }
+  if (pass.length < 8) { showAuthError("signupError","Password must be at least 8 characters."); return; }
+  try {
+    const cred = await auth.createUserWithEmailAndPassword(email, pass);
+    await cred.user.updateProfile({ displayName: name });
+    closeAuthModal();
+    window.location.href = "dashboard.html";
+  } catch(err) {
+    showAuthError("signupError", friendlyAuthError(err.code));
+  }
+}
+
+// ── SIGN IN (Google) ──────────────────────────────────────────────────────
+async function signInWithGoogle() {
+  try {
+    await auth.signInWithPopup(googleProvider);
+    closeAuthModal();
+    window.location.href = "dashboard.html";
+  } catch(err) {
+    const activePanel = document.querySelector(".auth-panel.active");
+    const errorId = activePanel.id === "authPanelSignin" ? "signinError" : "signupError";
+    showAuthError(errorId, friendlyAuthError(err.code));
+  }
+}
+
+// ── SIGN OUT ──────────────────────────────────────────────────────────────
+async function signOut() {
+  await auth.signOut();
+  showToast("Signed out.");
+}
+
+function toggleUserMenu(e) {
+  e.stopPropagation();
+  document.getElementById("userDropdown").classList.toggle("open");
+}
+
+function friendlyAuthError(code) {
+  const map = {
+    "auth/user-not-found":      "No account found with that email.",
+    "auth/wrong-password":      "Incorrect password.",
+    "auth/email-already-in-use":"That email is already registered.",
+    "auth/invalid-email":       "Please enter a valid email address.",
+    "auth/weak-password":       "Password is too weak.",
+    "auth/popup-closed-by-user":"Sign-in was cancelled.",
+    "auth/network-request-failed": "Network error — check your connection.",
+  };
+  return map[code] || "Something went wrong. Please try again.";
+}
+</script>
+
+<script>
+// @ts-nocheck
+const CAPABILITIES = {
+  washed: [
+    { name:"Premium Garment Wash", subtitle:"Enzyme, bleach & sun-fade finishing",
+      icon:"wash", match:"98% match",
+      tags:["Enzyme Wash","Garment Dye","Sun-Fade","Bleach Wash"], certs:["Premium Finish","Luxury Grade"],
+      moq:"200 units", lead:"10–14 wks" },
+    { name:"Fleece Cut & Sew", subtitle:"French terry, fleece & heavyweight cotton",
+      icon:"scissors", match:"93% match",
+      tags:["French Terry","Fleece","Heavyweight Cotton","Full Package"], certs:["CMT","Full Package"],
+      moq:"300 units", lead:"8–12 wks" },
+    { name:"Knitwear Production", subtitle:"Fine knit, rib & sweater-knit construction",
+      icon:"knit", match:"87% match",
+      tags:["Knitwear","Rib Knit","Fine Knit","Premium Finishing"], certs:["Luxury Grade"],
+      moq:"500 units", lead:"10–14 wks" },
+  ],
+  default: [
+    { name:"Domestic Cut & Sew", subtitle:"US-based production, fast turnaround",
+      icon:"scissors", match:"94% match",
+      tags:["Cut & Sew","Screen Print","Embroidery","Private Label"], certs:["Berry Compliant","USA-Made"],
+      moq:"100 units", lead:"4–6 wks" },
+    { name:"Full Package Production", subtitle:"End-to-end domestic garment production",
+      icon:"package", match:"89% match",
+      tags:["Full Package","Fleece","Denim","Activewear"], certs:["Full Package","ISO 9001"],
+      moq:"500 units", lead:"6–10 wks" },
+    { name:"Screen Print & Embroidery", subtitle:"Decoration on cut & sew blanks",
+      icon:"print", match:"85% match",
+      tags:["Screen Print","Embroidery","Discharge","Puff Ink"], certs:["USA-Made","Berry Compliant"],
+      moq:"250 units", lead:"3–5 wks" },
+  ]
+};
+
+const ICONS = {
+  scissors:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>`,
+  print:   `<svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>`,
+  wash:    `<svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M12 22a8 8 0 0 1-8-8c0-4.03 1.4-7.78 4-10.7M12 22a8 8 0 0 0 8-8c0-4.03-1.4-7.78-4-10.7"/><path d="M12 22V10"/><path d="M12 10c0-4 4-6 4-6s-4 2-4 6"/><path d="M12 10c0-4-4-6-4-6s4 2 4 6"/></svg>`,
+  knit:    `<svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11m0 0H5m4 0h10m-10 0v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-4m0 0h4"/></svg>`,
+  package: `<svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`,
+};
+
+function getCapabilities(q) {
+  q = q.toLowerCase();
+  if (q.includes("gucci")||q.includes("luxury")||q.includes("sun fad")||q.includes("washed")||q.includes("fade")||q.includes("knit")) return CAPABILITIES.washed;
+  return CAPABILITIES.default;
+}
+
+const chatMessages = document.getElementById("chatMessages");
+const chatInput    = document.getElementById("chatInput");
+const sendBtn      = document.getElementById("sendBtn");
+function scrollChat() { chatMessages.scrollTop = chatMessages.scrollHeight; }
+
+function addUserMessage(text) {
+  const el = document.createElement("div");
+  el.className = "msg msg-user";
+  el.innerHTML = `<div class="msg-avatar">Y</div><div class="msg-bubble">${text}</div>`;
+  chatMessages.appendChild(el); scrollChat();
+}
+function addTypingIndicator() {
+  const el = document.createElement("div");
+  el.className = "msg msg-ai"; el.id = "typing";
+  el.innerHTML = `<div class="msg-avatar">AS</div><div class="msg-bubble"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
+  chatMessages.appendChild(el); scrollChat();
+}
+function removeTyping() { const e = document.getElementById("typing"); if(e) e.remove(); }
+
+function buildCard(c) {
+  const icon  = ICONS[c.icon] || ICONS.scissors;
+  const tags  = c.tags.map(t=>`<span class="tag">${t}</span>`).join("");
+  const certs = c.certs.map(t=>`<span class="tag tag-blue">${t}</span>`).join("");
+  return `<div class="prod-card">
+    <div class="prod-card-top">
+      <div class="prod-card-icon">${icon}</div>
+      <div class="prod-info"><div class="prod-name">${c.name}</div><div class="prod-subtitle">${c.subtitle}</div></div>
+      <div class="prod-match">${c.match}</div>
+    </div>
+    <div class="prod-tags">${tags}${certs}</div>
+    <div class="prod-meta">
+      <div class="prod-meta-item">MOQ <strong>${c.moq}</strong></div>
+      <div class="prod-meta-item">Lead time <strong>${c.lead}</strong></div>
+    </div>
+    <div class="prod-actions">
+      <button class="btn-card btn-save" onclick="showToast('Saved to your list')">Save</button>
+      <button class="btn-card btn-quote" onclick="showToast('Quote request sent')">Request Quote</button>
+    </div>
+  </div>`;
+}
+
+function addAIResponse(query, caps) {
+  const el = document.createElement("div");
+  el.className = "msg msg-ai";
+  el.innerHTML = `<div class="msg-avatar">AS</div><div class="msg-bubble">
+    <div class="msg-intro">Here is what we can produce for <strong>"${query}"</strong>:</div>
+    <div class="prod-cards">${caps.map(buildCard).join("")}</div>
+  </div>`;
+  chatMessages.appendChild(el); scrollChat();
+}
+
+async function handleSearch() {
+  const query = chatInput.value.trim();
+  if (!query) return;
+  chatInput.value = ""; autoResize(); sendBtn.disabled = true;
+  addUserMessage(query); addTypingIndicator();
+  await new Promise(r => setTimeout(r, 1500));
+  removeTyping(); addAIResponse(query, getCapabilities(query));
+  sendBtn.disabled = false;
+}
+sendBtn.addEventListener("click", handleSearch);
+chatInput.addEventListener("keydown", e => { if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();handleSearch();} });
+function autoResize() { chatInput.style.height="auto"; chatInput.style.height=Math.min(chatInput.scrollHeight,100)+"px"; }
+chatInput.addEventListener("input", autoResize);
+function fillPrompt(el) { chatInput.value=el.textContent.trim(); chatInput.focus(); autoResize(); }
+
+const micBtn = document.getElementById("micBtn");
+if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const rec = new SR(); rec.continuous=false; rec.interimResults=true; rec.lang="en-US";
+  rec.onresult = e => { chatInput.value=Array.from(e.results).map(r=>r[0].transcript).join(""); autoResize(); };
+  rec.onend = () => { micBtn.classList.remove("listening"); if(chatInput.value.trim()) handleSearch(); };
+  micBtn.addEventListener("click", () => {
+    if(micBtn.classList.contains("listening")){rec.stop();return;}
+    micBtn.classList.add("listening"); rec.start();
+  });
+} else { micBtn.style.opacity=".4"; }
+
+function openServiceModal(name) {
+  document.getElementById("modalServiceName").textContent = name;
+  document.getElementById("serviceModal").classList.add("open");
+}
+function closeModal() { document.getElementById("serviceModal").classList.remove("open"); }
+document.getElementById("serviceModal").addEventListener("click", e => {
+  if(e.target===document.getElementById("serviceModal")) closeModal();
+});
+
+function sendQuoteRequest() {
+  // TODO: POST form data to backend endpoint / Firebase function
+  // Backend agent handles manufacturer matching, outreach, and Gmail drafting
+  showToast("Request received — we'll be in touch within one business day");
+  setTimeout(closeModal, 1400);
+}
+function showToast(msg) {
+  const t=document.getElementById("toast"); t.textContent=msg;
+  t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3200);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+/* ── Amenity Supply Co. (Gov) — page-specific styles ─────────────────────── */
+/* Covers both the Next.js app (gov/page.tsx) and the gov-landing.html prototype */
+/* Base resets, variables, and shared keyframes live in globals.css              */
+
+/* ── CREDENTIALS BAR ─────────────────────────────────────────────────────── */
+.cred-bar           { background: #0b1628; color: #ffffff;
+                      display: flex; justify-content: center; align-items: center;
+                      padding: 0 48px; height: 36px; flex-wrap: wrap; overflow: hidden; }
+.cred-item          { display: flex; align-items: center; gap: 7px;
+                      padding: 0 20px; height: 100%;
+                      border-right: 1px solid rgba(255,255,255,.07); }
+.cred-item:first-child { padding-left: 0; }
+.cred-item:last-child  { border-right: none; }
+.cred-label         { font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
+                      text-transform: uppercase; color: rgba(255,255,255,.35); }
+.cred-value         { font-size: 11px; font-weight: 700; color: #ffffff; letter-spacing: .3px; }
+.cred-active        { display: flex; align-items: center; gap: 6px;
+                      font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
+                      text-transform: uppercase; color: #22c55e; }
+.cred-dot           { width: 5px; height: 5px; background: #22c55e; border-radius: 50%;
+                      animation: pulsedot 2s infinite; }
+@keyframes pulsedot { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+/* ── NAV ─────────────────────────────────────────────────────────────────── */
+/* Prototype-only nav styles (gov-landing.html). Next.js app uses Tailwind classes. */
+.proto-nav          { position: sticky; top: 0; width: 100%; z-index: 100;
+                      background: #ffffff; border-bottom: 2px solid #0f0f0f;
+                      display: flex; align-items: center; justify-content: space-between;
+                      padding: 0 48px; height: 60px; }
+.nav-logo-wrap      { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-gov-tag        { background: #0b1628; color: #ffffff;
+                      font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+                      padding: 3px 7px; border-radius: 3px; }
+.nav-logo           { font-size: 16px; font-weight: 800; letter-spacing: -.3px; color: #0f0f0f; }
+.nav-logo span      { color: #2b7fff; }
+.nav-links          { display: flex; gap: 24px; list-style: none; }
+.nav-links a        { text-decoration: none; color: #4b5563; font-size: 12px;
+                      font-weight: 700; text-transform: uppercase; letter-spacing: .8px;
+                      transition: color .2s; padding-bottom: 2px; border-bottom: 2px solid transparent; }
+.nav-links a:hover  { color: #0f0f0f; border-bottom-color: #2b7fff; }
+.nav-actions        { display: flex; gap: 10px; }
+.btn                { display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px;
+                      border-radius: 5px; font-size: 12px; font-weight: 700; cursor: pointer;
+                      transition: all .2s; border: none; text-decoration: none;
+                      text-transform: uppercase; letter-spacing: .6px; }
+.btn-outline        { background: transparent; color: #0f0f0f; border: 2px solid #0f0f0f; }
+.btn-outline:hover  { background: #0f0f0f; color: #ffffff; }
+.btn-primary        { background: #2b7fff; color: #ffffff; }
+.btn-primary:hover  { background: #1a60d4; }
+
+/* ── HERO ────────────────────────────────────────────────────────────────── */
+/* Navy (not black) — key visual distinction from Studio */
+.hero               { background: #0b1628; min-height: 100vh;
+                      display: flex; flex-direction: column; justify-content: flex-end;
+                      padding: 100px 60px 80px; position: relative; overflow: hidden; }
+/* Blueprint-grid texture — distinguishes from Studio's standard grid */
+.hero::after,
+.blueprint-grid::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(43,127,255,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43,127,255,.06) 1px, transparent 1px),
+    linear-gradient(rgba(43,127,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43,127,255,.03) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 20px 20px, 20px 20px;
+}
+.hero::before       { content: ""; position: absolute; inset: 0; pointer-events: none;
+                      background: radial-gradient(ellipse 55% 55% at 85% 35%, rgba(43,127,255,.1) 0%, transparent 65%); }
+.hero-inner         { max-width: 1200px; margin: 0 auto; width: 100%; position: relative; z-index: 1; }
+.hero-kicker        { display: inline-flex; align-items: center; gap: 10px;
+                      font-size: 10px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
+                      color: #2b7fff; margin-bottom: 28px; }
+.hero-kicker::before { content: ""; width: 28px; height: 1px; background: #2b7fff; }
+.hero-headline      { font-size: clamp(52px, 8.5vw, 106px); font-weight: 900;
+                      letter-spacing: -4px; line-height: .92;
+                      color: #ffffff; margin-bottom: 48px; max-width: 920px; }
+.hero-headline em   { font-style: normal; color: #2b7fff; }
+.hero-bottom        { display: flex; align-items: flex-end; justify-content: space-between;
+                      gap: 48px; flex-wrap: wrap; }
+.hero-desc          { font-size: 15px; color: rgba(255,255,255,.48); line-height: 1.85; max-width: 380px; }
+.hero-badges        { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.hero-badge         { font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+                      padding: 5px 10px; border-radius: 3px;
+                      border: 1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.55); }
+.hero-actions       { display: flex; gap: 12px; flex-shrink: 0; }
+.btn-hero-white     { background: #ffffff; color: #0b1628; padding: 14px 30px;
+                      border-radius: 5px; font-size: 13px; font-weight: 800;
+                      cursor: pointer; border: none; transition: all .2s; text-decoration: none;
+                      display: inline-flex; align-items: center; letter-spacing: .4px; text-transform: uppercase; }
+.btn-hero-white:hover { background: #2b7fff; color: #ffffff; }
+.btn-hero-outline   { border: 1px solid rgba(255,255,255,.2); color: rgba(255,255,255,.65);
+                      padding: 14px 30px; border-radius: 5px; font-size: 13px; font-weight: 700;
+                      cursor: pointer; background: transparent; transition: all .2s; text-decoration: none;
+                      display: inline-flex; align-items: center; text-transform: uppercase; letter-spacing: .4px; }
+.btn-hero-outline:hover { border-color: rgba(255,255,255,.5); color: #ffffff; }
+
+/* ── MARQUEE ─────────────────────────────────────────────────────────────── */
+/* INVERTED from Studio: black bg / white text vs Studio's blue bg */
+.marquee-wrap       { background: #0f0f0f; overflow: hidden; height: 42px;
+                      display: flex; align-items: center;
+                      border-top: 1px solid rgba(255,255,255,.06); }
+.marquee-track      { display: flex; white-space: nowrap; animation: marquee 36s linear infinite; }
+.marquee-item       { font-size: 10px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
+                      color: rgba(255,255,255,.7); padding: 0 22px; }
+.marquee-sep        { color: rgba(255,255,255,.2); font-size: 10px; }
+
+/* ── STATS BAR ───────────────────────────────────────────────────────────── */
+/* Navy-mid (not pure black) — matches hero palette */
+.stats-bar          { background: #0f2040; display: flex; justify-content: center;
+                      border-top: 1px solid rgba(255,255,255,.05); }
+.stat               { text-align: center; padding: 36px 52px;
+                      border-right: 1px solid rgba(255,255,255,.05); flex: 1; }
+.stat:last-child    { border-right: none; }
+.stat-num           { font-size: 30px; font-weight: 900; color: #ffffff; letter-spacing: -1.5px; }
+.stat-label         { font-size: 10px; color: rgba(255,255,255,.32); margin-top: 5px;
+                      text-transform: uppercase; letter-spacing: 1.8px; }
+
+/* ── SECTION COMMONS ─────────────────────────────────────────────────────── */
+section             { padding: 100px 60px; }
+.section-inner      { max-width: 1200px; margin: 0 auto; }
+.section-kicker     { font-size: 10px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
+                      color: #2b7fff; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.section-kicker::before { content: ""; width: 20px; height: 1px; background: #2b7fff; }
+.section-title      { font-size: clamp(30px, 4vw, 50px); font-weight: 900;
+                      letter-spacing: -2px; line-height: 1.02; margin-bottom: 14px; }
+.section-sub        { font-size: 15px; color: #4b5563; line-height: 1.75; }
+
+/* ── SUPPLY CATALOG ──────────────────────────────────────────────────────── */
+.catalog-section    { background: #ffffff; padding-top: 100px; padding-bottom: 0; }
+.catalog-header     { display: flex; align-items: flex-end; justify-content: space-between;
+                      margin-bottom: 48px; gap: 24px; flex-wrap: wrap; }
+.catalog-grid       { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+.catalog-card       { position: relative; cursor: pointer; overflow: hidden;
+                      aspect-ratio: 3/4; background: #0b1628; }
+.catalog-card:hover .catalog-card-overlay { background: rgba(8,20,50,.65); }
+.catalog-card:hover .catalog-card-arrow   { background: #2b7fff; border-color: #2b7fff; }
+.catalog-card:hover .catalog-card-arrow svg { stroke: #fff; }
+.catalog-card-bg    { position: absolute; inset: 0; }
+/* Government-appropriate palette: muted navy/slate tones */
+.cat-uniforms  .catalog-card-bg { background: linear-gradient(150deg, #0b1628 0%, #0f2040 55%, #162d52 100%); }
+.cat-bdu       .catalog-card-bg { background: linear-gradient(150deg, #141a10 0%, #1a2210 55%, #1e2a12 100%); }
+.cat-ppe       .catalog-card-bg { background: linear-gradient(150deg, #1a1010 0%, #280f0f 55%, #2a0d0d 100%); }
+.cat-headwear  .catalog-card-bg { background: linear-gradient(150deg, #101018 0%, #18182a 55%, #141422 100%); }
+.cat-outerwear .catalog-card-bg { background: linear-gradient(150deg, #101422 0%, #0d1a30 55%, #0b1830 100%); }
+.cat-workwear  .catalog-card-bg { background: linear-gradient(150deg, #1a160a 0%, #221c08 55%, #1e1800 100%); }
+.cat-scrubs    .catalog-card-bg { background: linear-gradient(150deg, #081520 0%, #0c2030 55%, #102840 100%); }
+.cat-bags      .catalog-card-bg { background: linear-gradient(150deg, #120f20 0%, #1a1430 55%, #1c1235 100%); }
+.catalog-card-pattern { position: absolute; inset: 0; opacity: .035;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 18px,
+    rgba(255,255,255,1) 18px, rgba(255,255,255,1) 19px); }
+.catalog-card-overlay { position: absolute; inset: 0; background: rgba(8,18,45,.48);
+                        transition: background .3s; display: flex; flex-direction: column;
+                        justify-content: flex-end; padding: 22px; }
+.catalog-card-cat   { font-size: 9px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
+                      color: rgba(255,255,255,.35); margin-bottom: 7px; }
+.catalog-card-name  { font-size: 21px; font-weight: 900; letter-spacing: -.5px;
+                      color: #ffffff; line-height: 1.05; }
+.catalog-card-arrow { width: 30px; height: 30px; border: 1px solid rgba(255,255,255,.2);
+                      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                      margin-top: 14px; transition: all .25s; }
+.catalog-card-arrow svg { width: 13px; height: 13px; stroke: rgba(255,255,255,.55); fill: none;
+                          stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ── CAPABILITIES ────────────────────────────────────────────────────────── */
+.cap-section        { background: #f4f5f7; }
+.cap-inner          { max-width: 1200px; margin: 0 auto;
+                      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.cap-group-title    { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;
+                      color: #0f0f0f; margin-bottom: 14px; padding-bottom: 10px;
+                      border-bottom: 2px solid #0f0f0f; display: flex; align-items: center; gap: 8px; }
+.cap-group-title svg { width: 13px; height: 13px; stroke: #2b7fff; fill: none;
+                       stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.cap-row            { display: flex; justify-content: space-between; align-items: center;
+                      padding: 11px 0; border-bottom: 1px solid #e5e7eb; }
+.cap-row:last-child { border-bottom: none; }
+.cap-key            { font-size: 13px; color: #4b5563; }
+.cap-val            { font-size: 13px; font-weight: 700; color: #0f0f0f; text-align: right; }
+.cap-check          { display: flex; align-items: center; gap: 5px;
+                      font-size: 12px; font-weight: 800; color: #2b7fff; letter-spacing: .3px; }
+.cap-check svg      { width: 13px; height: 13px; stroke: #2b7fff; fill: none;
+                      stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ── NAICS / PSC TABLE ───────────────────────────────────────────────────── */
+.codes-section      { background: #ffffff; }
+.codes-inner        { max-width: 1200px; margin: 0 auto;
+                      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+.codes-table        { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 24px; }
+.codes-table th     { background: #0b1628; color: #ffffff; padding: 11px 14px;
+                      text-align: left; font-size: 10px; font-weight: 800;
+                      text-transform: uppercase; letter-spacing: 1.2px; }
+.codes-table td     { padding: 10px 14px; border-bottom: 1px solid #e5e7eb; }
+.codes-table tr:last-child td { border-bottom: none; }
+.codes-table tr:hover td      { background: #eff6ff; }
+.codes-table .primary-row td  { background: #eef4ff; font-weight: 600; }
+.primary-badge      { font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 3px;
+                      background: #2b7fff; color: #ffffff; letter-spacing: .5px;
+                      text-transform: uppercase; margin-left: 6px; }
+
+/* ── WHY AMENITY (PROCESS) ───────────────────────────────────────────────── */
+.why-section        { background: #0b1628; }
+.why-inner          { max-width: 1200px; margin: 0 auto;
+                      display: grid; grid-template-columns: 1fr 1fr; gap: 88px; align-items: center; }
+.why-kicker         { color: #2b7fff; }
+.why-kicker::before { background: #2b7fff; }
+.why-title          { color: #ffffff; }
+.why-sub            { color: rgba(255,255,255,.42); }
+.why-steps          { margin-top: 48px; display: flex; flex-direction: column; gap: 34px; }
+.why-step           { display: flex; gap: 22px; align-items: flex-start; }
+.why-step-num       { font-size: 10px; font-weight: 800; letter-spacing: 1px; color: #2b7fff;
+                      min-width: 24px; padding-top: 3px; text-transform: uppercase; }
+.why-step-title     { font-size: 16px; font-weight: 700; color: #ffffff; margin-bottom: 6px; }
+.why-step-desc      { font-size: 13px; color: rgba(255,255,255,.38); line-height: 1.75; }
+.why-visual         { background: #162d52; border: 1px solid rgba(255,255,255,.06);
+                      border-radius: 12px; overflow: hidden; aspect-ratio: 1;
+                      display: flex; align-items: center; justify-content: center; position: relative; }
+/* Blueprint grid — double-density */
+.why-visual-grid    { position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(43,127,255,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43,127,255,.07) 1px, transparent 1px),
+    linear-gradient(rgba(43,127,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43,127,255,.03) 1px, transparent 1px);
+  background-size: 48px 48px, 48px 48px, 12px 12px, 12px 12px; }
+.why-visual-content  { position: relative; text-align: center; padding: 48px; }
+.why-visual-headline { font-size: clamp(30px, 4vw, 48px); font-weight: 900;
+                       letter-spacing: -2px; color: #ffffff; line-height: 1.05; }
+.why-visual-headline em { font-style: normal; color: #2b7fff; }
+.why-visual-sub     { font-size: 9px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
+                      color: rgba(255,255,255,.22); margin-top: 20px; }
+
+/* ── CONTACT / RFQ FORM ──────────────────────────────────────────────────── */
+.rfq-section        { background: #f4f5f7; }
+.rfq-inner          { max-width: 1200px; margin: 0 auto;
+                      display: grid; grid-template-columns: 1fr 1fr; gap: 88px; align-items: start; }
+.rfq-info-cards     { display: flex; flex-direction: column; gap: 16px; margin-top: 36px; }
+.rfq-info-card      { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 20px; }
+.rfq-info-card-title { font-size: 12px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase;
+                       color: #0f0f0f; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.rfq-info-card-title svg { width: 14px; height: 14px; stroke: #2b7fff; fill: none;
+                            stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.rfq-info-row       { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+.rfq-info-row:last-child { margin-bottom: 0; }
+.rfq-info-row-dot   { width: 5px; height: 5px; background: #2b7fff; border-radius: 50%;
+                      flex-shrink: 0; margin-top: 6px; }
+.rfq-info-row-text  { font-size: 13px; color: #4b5563; line-height: 1.5; }
+.rfq-info-row-text strong { color: #0f0f0f; font-weight: 700; }
+.rfq-form-wrap      { background: #ffffff; border: 1px solid #e5e7eb;
+                      border-radius: 14px; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,.06); }
+.rfq-form-header    { background: #0b1628; padding: 20px 24px;
+                      display: flex; align-items: center; justify-content: space-between; }
+.rfq-form-header-title { font-size: 14px; font-weight: 700; color: #ffffff; }
+.rfq-form-header-sub   { font-size: 11px; color: rgba(255,255,255,.45); margin-top: 2px; }
+.rfq-response-badge { font-size: 9px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+                      background: rgba(34,197,94,.15); color: #22c55e;
+                      border: 1px solid rgba(34,197,94,.25); padding: 4px 10px; border-radius: 3px; }
+.rfq-form-body      { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.form-group         { display: flex; flex-direction: column; gap: 6px; }
+.form-label         { font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
+                      text-transform: uppercase; color: #0f0f0f; }
+.form-input,
+.form-textarea,
+.form-select        { border: 1px solid #e5e7eb; border-radius: 6px; padding: 10px 12px;
+                      font-size: 13px; font-family: inherit; outline: none;
+                      transition: border-color .2s; background: #ffffff; color: #0f0f0f; }
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus  { border-color: #2b7fff; }
+.form-textarea      { resize: vertical; min-height: 90px; line-height: 1.6; }
+.form-select        { appearance: none; cursor: pointer; }
+.form-row           { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.rfq-form-footer    { padding: 0 24px 24px; }
+
+/* ── CTA BANNER ──────────────────────────────────────────────────────────── */
+/* Navy CTA (Studio uses blue) */
+.cta-section        { background: #0b1628; padding: 96px 60px; text-align: center; }
+.cta-kicker         { color: rgba(255,255,255,.5); justify-content: center; }
+.cta-kicker::before { background: rgba(255,255,255,.5); }
+.cta-headline       { font-size: clamp(34px, 5vw, 60px); font-weight: 900; letter-spacing: -2.5px;
+                      color: #ffffff; margin: 14px 0 12px; line-height: 1.0; }
+.cta-headline em    { font-style: normal; color: #2b7fff; }
+.cta-sub            { font-size: 15px; color: rgba(255,255,255,.5);
+                      max-width: 380px; margin: 0 auto 40px; line-height: 1.75; }
+.btn-cta-blue       { background: #2b7fff; color: #ffffff; padding: 16px 40px;
+                      border-radius: 5px; font-size: 14px; font-weight: 800;
+                      cursor: pointer; border: none; transition: all .2s; text-decoration: none;
+                      display: inline-flex; align-items: center; gap: 10px;
+                      text-transform: uppercase; letter-spacing: .5px; }
+.btn-cta-blue:hover { background: #1a60d4; }
+.cta-meta           { font-size: 11px; color: rgba(255,255,255,.28);
+                      margin-top: 20px; letter-spacing: 1.5px; text-transform: uppercase; }
+
+/* ── FOOTER ──────────────────────────────────────────────────────────────── */
+footer              { background: #0f0f0f; color: #ffffff; padding: 48px 60px;
+                      display: flex; justify-content: space-between; align-items: center;
+                      flex-wrap: wrap; gap: 20px; border-top: 1px solid rgba(255,255,255,.05); }
+.footer-logo        { font-size: 16px; font-weight: 800; color: #ffffff; text-decoration: none; }
+.footer-logo span   { color: #2b7fff; }
+.footer-tagline     { font-size: 10px; color: rgba(255,255,255,.25); margin-top: 5px;
+                      text-transform: uppercase; letter-spacing: 1.8px; }
+.footer-ids         { font-size: 10px; color: rgba(255,255,255,.18); margin-top: 4px; letter-spacing: .5px; }
+.footer-links       { display: flex; gap: 24px; flex-wrap: wrap; }
+footer a            { color: rgba(255,255,255,.36); text-decoration: none; font-size: 13px; transition: color .2s; }
+footer a:hover      { color: #ffffff; }
+.footer-copy        { font-size: 11px; color: rgba(255,255,255,.2); }
+
+/* ── SUCCESS MODAL ───────────────────────────────────────────────────────── */
+.modal-overlay      { position: fixed; inset: 0; background: rgba(0,0,0,.65); z-index: 200;
+                      display: none; align-items: center; justify-content: center; padding: 20px;
+                      backdrop-filter: blur(4px); }
+.modal-overlay.open { display: flex; }
+.modal              { background: #ffffff; border-radius: 14px; padding: 48px 40px;
+                      max-width: 420px; width: 100%; text-align: center;
+                      box-shadow: 0 32px 80px rgba(0,0,0,.3); }
+.modal-icon         { width: 56px; height: 56px; background: #dcfce7; border-radius: 50%;
+                      display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; }
+.modal-icon svg     { width: 28px; height: 28px; stroke: #15803d; fill: none;
+                      stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.modal-title        { font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #0f0f0f;
+                      letter-spacing: -.5px; }
+.modal-body         { font-size: 14px; color: #4b5563; line-height: 1.7; margin-bottom: 28px; }
+.modal-close-btn    { background: #0b1628; color: #ffffff; padding: 12px 32px;
+                      border-radius: 5px; font-size: 13px; font-weight: 700;
+                      cursor: pointer; border: none; text-transform: uppercase; letter-spacing: .5px; }
+
+/* ── Nav positioning (Next.js app) ──────────────────────────────────────── */
+/* Sits flush below the 36px eyebrow credentials bar on desktop */
+.gov-nav-top { top: 0; }
+@media (min-width: 768px) { .gov-nav-top { top: 36px; } }
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .cred-bar                           { padding: 8px 16px; height: auto; flex-wrap: wrap; gap: 4px 16px; }
+  .cred-item                          { border-right: none; padding: 2px 8px; }
+  nav                                 { padding: 0 20px; }
+  .nav-links                          { display: none; }
+  .hero                               { padding: 80px 24px 60px; }
+  section                             { padding: 72px 24px; }
+  .catalog-grid                       { grid-template-columns: repeat(2, 1fr); }
+  .cap-inner, .codes-inner,
+  .why-inner, .rfq-inner              { grid-template-columns: 1fr; gap: 48px; }
+  .stats-bar                          { flex-wrap: wrap; }
+  .stat                               { min-width: 50%; border-bottom: 1px solid rgba(255,255,255,.05); }
+  .form-row                           { grid-template-columns: 1fr; }
+  footer                              { flex-direction: column; text-align: center; }
+  .footer-links                       { justify-content: center; }
+  .catalog-section                    { padding-top: 72px; }
+}
