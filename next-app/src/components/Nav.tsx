@@ -39,8 +39,8 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
 
   // Gov nav: always navy glassmorphism; Studio nav: always dark glassmorphism
   const navBg = !isGov
-    ? "bg-[rgba(15,15,15,0.96)] backdrop-blur-xl border-b border-white/[0.07]"
-    : "bg-[#0b1628]/80 backdrop-blur-xl border-b border-white/[0.1]";
+    ? "bg-[rgba(15,15,15,0.96)] backdrop-blur-xl border-b border-white/7"
+    : "bg-[#0b1628]/80 backdrop-blur-xl border-b border-white/10";
 
   // eyebrow is h-9 = 36px; .gov-nav-top positions nav at 48px on desktop (36px eyebrow + 12px gap)
   const navTop = isGov ? "gov-nav-top" : "top-0";
@@ -52,18 +52,18 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
     : "text-white/55 hover:text-white";
   const hamColor   = "bg-white";
 
-  const govLinkBase = "text-[12px] font-bold uppercase tracking-[.8px] no-underline transition-colors border-b-2 pb-[2px]";
-  const studioLink  = `text-[13px] font-medium no-underline transition-colors ${linkColor}`;
+  const govLinkBase = "text-3 font-bold uppercase tracking-[.8px] no-underline transition-colors border-b-2 pb-0.5";
+  const studioLink  = `text-3.25 font-medium no-underline transition-colors ${linkColor}`;
 
   return (
     <>
-      <nav className={`fixed w-full z-[100] flex items-center justify-between px-5 md:px-12 h-[60px] transition-all duration-300 ${navTop} ${navBg}`}>
+      <nav className={`fixed w-full z-100 flex items-center justify-between px-5 md:px-12 h-15 transition-all duration-300 ${navTop} ${navBg}`}>
 
         {/* Logo */}
-        <Link href={isGov ? "/gov" : "/"} className={`flex items-center gap-2.5 text-[16px] font-extrabold tracking-tight no-underline transition-colors duration-300 ${logoColor}`}>
+        <Link href={isGov ? "/gov" : "/"} className={`flex items-center gap-2.5 text-4 font-extrabold tracking-tight no-underline transition-colors duration-300 ${logoColor}`}>
           {isGov ? (
             <>
-              <span className={`${govBadgeBg} text-white text-[9px] font-extrabold tracking-[2px] uppercase px-[7px] py-[3px] rounded-[3px] transition-colors duration-300`}>Gov</span>
+              <span className={`${govBadgeBg} text-white text-2.25 font-extrabold tracking-0.5 uppercase px-1.75 py-0.75 rounded-0.75 transition-colors duration-300`}>Gov</span>
               Amenity <span className="text-[#2b7fff]">Supply Co.</span>
             </>
           ) : (
@@ -96,11 +96,11 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
           {isGov ? (
             <>
               <a href="#capabilities"
-                className="inline-flex items-center px-4 py-[9px] rounded-[5px] text-[12px] font-bold uppercase tracking-[.6px] cursor-pointer border-2 border-white/40 bg-transparent text-white hover:bg-white hover:text-[#0b1628] transition-all no-underline">
+                className="inline-flex items-center px-4 py-2.25 rounded-1.25 text-3 font-bold uppercase tracking-[.6px] cursor-pointer border-2 border-white/40 bg-transparent text-white hover:bg-white hover:text-[#0b1628] transition-all no-underline">
                 Capability Statement
               </a>
               <a href="#contact"
-                className="inline-flex items-center px-4 py-[9px] rounded-[5px] text-[12px] font-bold uppercase tracking-[.6px] cursor-pointer border-0 bg-[#2b7fff] text-white hover:bg-[#1a60d4] transition-all no-underline">
+                className="inline-flex items-center px-4 py-2.25 rounded-1.25 text-3 font-bold uppercase tracking-[.6px] cursor-pointer border-0 bg-[#2b7fff] text-white hover:bg-[#1a60d4] transition-all no-underline">
                 Contact Us
               </a>
             </>
@@ -109,25 +109,25 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
           ) : user ? (
             <>
               <Link href="/dashboard"
-                className="inline-flex items-center px-[18px] py-2 rounded-md text-[13px] font-semibold bg-[#2b7fff] text-white no-underline hover:bg-[#1a60d4] transition-colors">
+                className="inline-flex items-center px-4.5 py-2 rounded-md text-3.25 font-semibold bg-[#2b7fff] text-white no-underline hover:bg-[#1a60d4] transition-colors">
                 Dashboard
               </Link>
               <div className="relative" ref={menuRef}>
                 <button onClick={() => setMenuOpen((v) => !v)}
-                  className="w-8 h-8 rounded-full bg-[#2b7fff] flex items-center justify-center text-[12px] font-bold text-white cursor-pointer border-0">
+                  className="w-8 h-8 rounded-full bg-[#2b7fff] flex items-center justify-center text-3 font-bold text-white cursor-pointer border-0">
                   {initials}
                 </button>
                 {menuOpen && (
-                  <div className="absolute top-[calc(100%+10px)] right-0 bg-[#1a1a1a] border border-white/10 rounded-xl min-w-[180px] overflow-hidden shadow-2xl">
-                    <div className="px-3.5 py-3 border-b border-white/[0.08]">
-                      <p className="text-[13px] font-semibold text-white">{user.displayName ?? "Studio Member"}</p>
-                      <p className="text-[11px] text-white/40 mt-0.5">{user.email}</p>
+                  <div className="absolute top-[calc(100%+10px)] right-0 bg-[#1a1a1a] border border-white/10 rounded-xl min-w-45 overflow-hidden shadow-2xl">
+                    <div className="px-3.5 py-3 border-b border-white/8">
+                      <p className="text-3.25 font-semibold text-white">{user.displayName ?? "Studio Member"}</p>
+                      <p className="text-2.75 text-white/40 mt-0.5">{user.email}</p>
                     </div>
-                    <Link href="/dashboard" className="block px-3.5 py-2.5 text-[13px] text-white/70 hover:bg-white/5 hover:text-white no-underline transition-colors">
+                    <Link href="/dashboard" className="block px-3.5 py-2.5 text-3.25 text-white/70 hover:bg-white/5 hover:text-white no-underline transition-colors">
                       My Workspaces
                     </Link>
                     <button onClick={() => { signOut(); setMenuOpen(false); }}
-                      className="w-full text-left px-3.5 py-2.5 text-[13px] text-red-400 hover:bg-red-400/[0.08] transition-colors bg-transparent border-0 cursor-pointer">
+                      className="w-full text-left px-3.5 py-2.5 text-3.25 text-red-400 hover:bg-red-400/8 transition-colors bg-transparent border-0 cursor-pointer">
                       Sign Out
                     </button>
                   </div>
@@ -137,11 +137,11 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
           ) : (
             <>
               <button onClick={() => setAuthOpen(true)}
-                className="inline-flex items-center px-[18px] py-2 rounded-md text-[13px] font-semibold cursor-pointer border transition-colors bg-transparent text-white/65 border-white/20 hover:border-white/45 hover:text-white">
+                className="inline-flex items-center px-4.5 py-2 rounded-md text-3.25 font-semibold cursor-pointer border transition-colors bg-transparent text-white/65 border-white/20 hover:border-white/45 hover:text-white">
                 Sign In
               </button>
               <button onClick={() => setAuthOpen(true)}
-                className="inline-flex items-center px-[18px] py-2 rounded-md text-[13px] font-semibold bg-[#2b7fff] text-white hover:bg-[#1a60d4] cursor-pointer border-0 transition-colors">
+                className="inline-flex items-center px-4.5 py-2 rounded-md text-3.25 font-semibold bg-[#2b7fff] text-white hover:bg-[#1a60d4] cursor-pointer border-0 transition-colors">
                 Start Order
               </button>
             </>
@@ -152,31 +152,31 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
         <div className="flex md:hidden items-center gap-2">
           {!isGov && !loading && !user && (
             <button onClick={() => setAuthOpen(true)}
-              className="px-3.5 py-1.5 rounded-md text-[12px] font-semibold bg-[#2b7fff] text-white border-0 cursor-pointer">
+              className="px-3.5 py-1.5 rounded-md text-3 font-semibold bg-[#2b7fff] text-white border-0 cursor-pointer">
               Start Order
             </button>
           )}
           {isGov && (
-            <a href="#contact" className="px-3.5 py-1.5 rounded-md text-[12px] font-semibold bg-[#2b7fff] text-white no-underline">
+            <a href="#contact" className="px-3.5 py-1.5 rounded-md text-3 font-semibold bg-[#2b7fff] text-white no-underline">
               Contact
             </a>
           )}
           <button
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Toggle menu"
-            className="w-9 h-9 flex flex-col justify-center items-center gap-[5px] bg-transparent border-0 cursor-pointer outline-none">
-            <span className={`block h-[1.5px] w-[20px] transition-all origin-center ${hamColor} ${mobileOpen ? "rotate-45 translate-y-[6.5px]" : ""}`} />
-            <span className={`block h-[1.5px] w-[20px] transition-all ${hamColor} ${mobileOpen ? "opacity-0 scale-x-0" : ""}`} />
-            <span className={`block h-[1.5px] w-[20px] transition-all origin-center ${hamColor} ${mobileOpen ? "-rotate-45 -translate-y-[6.5px]" : ""}`} />
+            className="w-9 h-9 flex flex-col justify-center items-center gap-1.25 bg-transparent border-0 cursor-pointer outline-none">
+            <span className={`block h-[1.5px] w-5 transition-all origin-center ${hamColor} ${mobileOpen ? "rotate-45 translate-y-[6.5px]" : ""}`} />
+            <span className={`block h-[1.5px] w-5 transition-all ${hamColor} ${mobileOpen ? "opacity-0 scale-x-0" : ""}`} />
+            <span className={`block h-[1.5px] w-5 transition-all origin-center ${hamColor} ${mobileOpen ? "-rotate-45 -translate-y-[6.5px]" : ""}`} />
           </button>
         </div>
       </nav>
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div className={`fixed left-0 right-0 z-[99] md:hidden py-3 px-5 flex flex-col top-[60px] ${
+        <div className={`fixed left-0 right-0 z-99 md:hidden py-3 px-5 flex flex-col top-15 ${
           isGov
-            ? "bg-[#0b1628]/85 backdrop-blur-2xl border-b border-white/[0.1]"
+            ? "bg-[#0b1628]/85 backdrop-blur-2xl border-b border-white/10"
             : "bg-[#0f0f0f]/95 backdrop-blur-xl border-b border-white/10"
         }`}>
           {isGov ? (
@@ -188,11 +188,11 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
                 { href: "#contact",      label: "Contact Us" },
               ].map(({ href, label }) => (
                 <a key={href} href={href} onClick={() => setMobileOpen(false)}
-                  className="text-white/80 text-[14px] font-bold uppercase tracking-[.8px] no-underline py-3 border-b border-white/[0.1] last:border-b-0">
+                  className="text-white/80 text-3.5 font-bold uppercase tracking-[.8px] no-underline py-3 border-b border-white/10 last:border-b-0">
                   {label}
                 </a>
               ))}
-              <Link href="/" className="text-white/45 text-[14px] font-bold uppercase tracking-[.8px] no-underline pt-3">
+              <Link href="/" className="text-white/45 text-3.5 font-bold uppercase tracking-[.8px] no-underline pt-3">
                 Amenity Studio →
               </Link>
             </>
@@ -204,26 +204,26 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
                 { href: "#how-it-works", label: "How It Works" },
               ].map(({ href, label }) => (
                 <a key={href} href={href} onClick={() => setMobileOpen(false)}
-                  className="text-white/70 text-[15px] font-medium no-underline py-3 border-b border-white/[0.08]">
+                  className="text-white/70 text-3.75 font-medium no-underline py-3 border-b border-white/8">
                   {label}
                 </a>
               ))}
-              <Link href="/gov" className="text-white/70 text-[15px] font-medium no-underline py-3 border-b border-white/[0.08]">
+              <Link href="/gov" className="text-white/70 text-3.75 font-medium no-underline py-3 border-b border-white/8">
                 Amenity Supply Co.
               </Link>
               {user ? (
                 <>
-                  <Link href="/dashboard" className="text-white text-[15px] font-semibold no-underline py-3 border-b border-white/[0.08]">
+                  <Link href="/dashboard" className="text-white text-3.75 font-semibold no-underline py-3 border-b border-white/8">
                     My Dashboard
                   </Link>
                   <button onClick={() => { signOut(); setMobileOpen(false); }}
-                    className="text-left text-red-400 text-[14px] font-medium py-3 bg-transparent border-0 cursor-pointer">
+                    className="text-left text-red-400 text-3.5 font-medium py-3 bg-transparent border-0 cursor-pointer">
                     Sign Out
                   </button>
                 </>
               ) : (
                 <button onClick={() => { setMobileOpen(false); setAuthOpen(true); }}
-                  className="text-left text-white/55 text-[15px] font-medium py-3 bg-transparent border-0 cursor-pointer">
+                  className="text-left text-white/55 text-3.75 font-medium py-3 bg-transparent border-0 cursor-pointer">
                   Sign In
                 </button>
               )}

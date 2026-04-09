@@ -80,7 +80,7 @@ export default function AuthModal({ isOpen, onClose, startOrder }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[300] flex items-center justify-center bg-black/65 backdrop-blur-sm"
+      className="fixed inset-0 z-300 flex items-center justify-center bg-black/65 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="relative w-full max-w-sm mx-4 bg-[#141414] border border-white/10 rounded-2xl p-10">
@@ -119,13 +119,13 @@ export default function AuthModal({ isOpen, onClose, startOrder }: Props) {
         {tab === "signin" && (
           <div className="flex flex-col gap-3">
             <input
-              className="w-full bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors"
+              className="w-full bg-white/6 border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors"
               type="email" placeholder="Email address" value={siEmail}
               onChange={e => setSiEmail(e.target.value)}
               onKeyDown={e => e.key === "Enter" && wrap(() => signInEmail(siEmail, siPass))}
             />
             <input
-              className="w-full bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors"
+              className="w-full bg-white/6 border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors"
               type="password" placeholder="Password" value={siPass}
               onChange={e => setSiPass(e.target.value)}
               onKeyDown={e => e.key === "Enter" && wrap(() => signInEmail(siEmail, siPass))}
@@ -154,17 +154,17 @@ export default function AuthModal({ isOpen, onClose, startOrder }: Props) {
         {tab === "signup" && (
           <div className="flex flex-col gap-3">
             <input
-              className="w-full bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors"
+              className="w-full bg-white/6 border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors"
               type="text" placeholder="Your name" value={suName}
               onChange={e => setSuName(e.target.value)}
             />
             <input
-              className="w-full bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors"
+              className="w-full bg-white/6 border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors"
               type="email" placeholder="Email address" value={suEmail}
               onChange={e => setSuEmail(e.target.value)}
             />
             <input
-              className="w-full bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors"
+              className="w-full bg-white/6 border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors"
               type="password" placeholder="Password (min 8 chars)" value={suPass}
               onChange={e => setSuPass(e.target.value)}
               onKeyDown={e => e.key === "Enter" && wrap(() => signUpEmail(suName, suEmail, suPass))}

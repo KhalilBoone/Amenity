@@ -21,7 +21,7 @@ const STATUS_CLASSES: Record<WorkspaceStatus, string> = {
 
 function Badge({ status }: { status: WorkspaceStatus }) {
   return (
-    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold ${STATUS_CLASSES[status]}`}>
+    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-2.75 font-semibold ${STATUS_CLASSES[status]}`}>
       {status}
     </span>
   );
@@ -212,23 +212,23 @@ function DashboardInner() {
     <div className="min-h-screen bg-[#0f0f0f] flex">
 
       {/* SIDEBAR */}
-      <aside className="w-[240px] flex-shrink-0 bg-[#0a0a0a] border-r border-white/[0.07] flex flex-col">
+      <aside className="w-60 shrink-0 bg-[#0a0a0a] border-r border-white/7 flex flex-col">
         {/* Logo */}
-        <div className="px-5 h-[60px] flex items-center border-b border-white/[0.07]">
-          <Link href="/" className="text-[15px] font-extrabold text-white no-underline tracking-tight">
+        <div className="px-5 h-15 flex items-center border-b border-white/7">
+          <Link href="/" className="text-3.75 font-extrabold text-white no-underline tracking-tight">
             Amenity<span className="text-[#2b7fff]"> Studio</span>
           </Link>
         </div>
         {/* Nav */}
         <nav className="flex-1 p-3 flex flex-col gap-1 pt-4">
-          <a className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-white/[0.08] text-white font-semibold text-[13px] no-underline">
+          <a className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-white/8 text-white font-semibold text-3.25 no-underline">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
               <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
             </svg>
             Workspaces
           </a>
-          <Link href="/studio#catalog" className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-white/45 hover:text-white hover:bg-white/[0.05] text-[13px] no-underline transition-colors">
+          <Link href="/studio#catalog" className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-white/45 hover:text-white hover:bg-white/5 text-3.25 no-underline transition-colors">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="2" y="3" width="6" height="6"/><rect x="9" y="3" width="6" height="6"/><rect x="16" y="3" width="6" height="6"/>
               <rect x="2" y="10" width="6" height="6"/><rect x="9" y="10" width="6" height="6"/><rect x="16" y="10" width="6" height="6"/>
@@ -237,18 +237,18 @@ function DashboardInner() {
           </Link>
         </nav>
         {/* User */}
-        <div className="p-4 border-t border-white/[0.07]">
+        <div className="p-4 border-t border-white/7">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#2b7fff] flex items-center justify-center text-[12px] font-bold text-white flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-[#2b7fff] flex items-center justify-center text-3 font-bold text-white shrink-0">
               {initials(user)}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white text-[13px] font-semibold truncate">{user.displayName ?? "Studio Member"}</p>
-              <p className="text-white/35 text-[11px] truncate">{user.email}</p>
+              <p className="text-white text-3.25 font-semibold truncate">{user.displayName ?? "Studio Member"}</p>
+              <p className="text-white/35 text-2.75 truncate">{user.email}</p>
             </div>
           </div>
           <button onClick={signOut}
-            className="mt-3 w-full text-left text-white/35 text-[12px] hover:text-red-400 transition-colors bg-transparent border-0 cursor-pointer">
+            className="mt-3 w-full text-left text-white/35 text-3 hover:text-red-400 transition-colors bg-transparent border-0 cursor-pointer">
             Sign Out
           </button>
         </div>
@@ -257,18 +257,18 @@ function DashboardInner() {
       {/* MAIN */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
-        <header className="h-[60px] border-b border-white/[0.07] flex items-center justify-between px-8 flex-shrink-0">
-          <h1 className="text-white font-bold text-[18px]">Workspaces</h1>
+        <header className="h-15 border-b border-white/7 flex items-center justify-between px-8 shrink-0">
+          <h1 className="text-white font-bold text-4.5">Workspaces</h1>
           <button onClick={openCreate}
-            className="flex items-center gap-2 px-4 py-2 bg-[#2b7fff] text-white font-semibold text-[13px] rounded-lg hover:bg-[#1a60d4] transition-colors cursor-pointer border-0">
-            <span className="text-[16px] leading-none">+</span> New Workspace
+            className="flex items-center gap-2 px-4 py-2 bg-[#2b7fff] text-white font-semibold text-3.25 rounded-lg hover:bg-[#1a60d4] transition-colors cursor-pointer border-0">
+            <span className="text-4 leading-none">+</span> New Workspace
           </button>
         </header>
 
         {/* Body */}
         <div className="flex flex-1 min-h-0">
           {/* Workspace list */}
-          <div className={`flex flex-col ${selected ? "w-[420px] flex-shrink-0" : "flex-1"} border-r border-white/[0.07] overflow-y-auto`}>
+          <div className={`flex flex-col ${selected ? "w-105 shrink-0" : "flex-1"} border-r border-white/7 overflow-y-auto`}>
             {wsLoading ? (
               <div className="flex items-center justify-center py-20">
                 <div className="w-6 h-6 border-2 border-[#2b7fff] border-t-transparent rounded-full animate-spin" />
@@ -283,14 +283,14 @@ function DashboardInner() {
                     onClick={() => { setSelected(ws); setActiveTab("brief"); }}
                     className={`group relative p-4 rounded-xl border cursor-pointer transition-all
                       ${selected?.id === ws.id
-                        ? "bg-white/[0.08] border-white/20"
-                        : "bg-white/[0.03] border-white/[0.07] hover:bg-white/[0.06] hover:border-white/15"
+                        ? "bg-white/8 border-white/20"
+                        : "bg-white/3 border-white/7 hover:bg-white/6 hover:border-white/15"
                       }`}
                   >
                     <div className="flex items-start justify-between mb-2">
                       <div>
-                        <p className="text-white font-semibold text-[14px]">{ws.name}</p>
-                        <p className="text-white/40 text-[12px] mt-0.5">{ws.brand}</p>
+                        <p className="text-white font-semibold text-3.5">{ws.name}</p>
+                        <p className="text-white/40 text-3 mt-0.5">{ws.brand}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         <Badge status={ws.status} />
@@ -318,8 +318,8 @@ function DashboardInner() {
                         </button>
                       </div>
                     </div>
-                    {ws.desc && <p className="text-white/30 text-[12px] line-clamp-1 mt-1">{ws.desc}</p>}
-                    <p className="text-white/25 text-[11px] mt-2">Updated {fmtDate(ws.updatedAt)}</p>
+                    {ws.desc && <p className="text-white/30 text-3 line-clamp-1 mt-1">{ws.desc}</p>}
+                    <p className="text-white/25 text-2.75 mt-2">Updated {fmtDate(ws.updatedAt)}</p>
                   </div>
                 ))}
               </div>
@@ -330,11 +330,11 @@ function DashboardInner() {
           {selected && (
             <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
               {/* Panel header */}
-              <div className="px-8 py-5 border-b border-white/[0.07] flex items-start justify-between flex-shrink-0">
+              <div className="px-8 py-5 border-b border-white/7 flex items-start justify-between shrink-0">
                 <div>
-                  <h2 className="text-white font-bold text-[18px]">{selected.name}</h2>
+                  <h2 className="text-white font-bold text-4.5">{selected.name}</h2>
                   <div className="flex items-center gap-3 mt-1">
-                    <span className="text-white/40 text-[13px]">{selected.brand}</span>
+                    <span className="text-white/40 text-3.25">{selected.brand}</span>
                     <Badge status={selected.status} />
                   </div>
                 </div>
@@ -342,10 +342,10 @@ function DashboardInner() {
                   className="text-white/30 hover:text-white text-xl bg-transparent border-0 cursor-pointer mt-1">✕</button>
               </div>
               {/* Tabs */}
-              <div className="flex border-b border-white/[0.07] px-8 flex-shrink-0">
+              <div className="flex border-b border-white/7 px-8 shrink-0">
                 {(["brief","quote","notes"] as const).map(t => (
                   <button key={t} onClick={() => setActiveTab(t)}
-                    className={`mr-6 py-3 text-[13px] font-semibold border-b-2 transition-colors cursor-pointer bg-transparent capitalize
+                    className={`mr-6 py-3 text-3.25 font-semibold border-b-2 transition-colors cursor-pointer bg-transparent capitalize
                       ${activeTab === t ? "text-white border-[#2b7fff]" : "text-white/35 border-transparent hover:text-white/60"}`}>
                     {t === "brief" ? "Production Brief" : t === "quote" ? "Quote Details" : "Notes & References"}
                   </button>
@@ -356,22 +356,22 @@ function DashboardInner() {
                 {activeTab === "brief" && (
                   <div className="flex flex-col gap-6">
                     <div>
-                      <p className="text-white/40 text-[11px] font-semibold tracking-[1px] uppercase mb-2">Description</p>
-                      <p className="text-white/70 text-[14px]">{selected.desc || <span className="text-white/25">No description added yet.</span>}</p>
+                      <p className="text-white/40 text-2.75 font-semibold tracking-[1px] uppercase mb-2">Description</p>
+                      <p className="text-white/70 text-3.5">{selected.desc || <span className="text-white/25">No description added yet.</span>}</p>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-white/[0.04] rounded-xl p-4">
-                        <p className="text-white/40 text-[11px] uppercase tracking-[1px] mb-1">Status</p>
+                      <div className="bg-white/4 rounded-xl p-4">
+                        <p className="text-white/40 text-2.75 uppercase tracking-[1px] mb-1">Status</p>
                         <Badge status={selected.status} />
                       </div>
-                      <div className="bg-white/[0.04] rounded-xl p-4">
-                        <p className="text-white/40 text-[11px] uppercase tracking-[1px] mb-1">Created</p>
-                        <p className="text-white text-[14px] font-medium">{fmtDate(selected.createdAt)}</p>
+                      <div className="bg-white/4 rounded-xl p-4">
+                        <p className="text-white/40 text-2.75 uppercase tracking-[1px] mb-1">Created</p>
+                        <p className="text-white text-3.5 font-medium">{fmtDate(selected.createdAt)}</p>
                       </div>
                     </div>
                     <div className="pt-2">
                       <button onClick={() => openEdit(selected, { stopPropagation: () => {} } as React.MouseEvent)}
-                        className="px-4 py-2 border border-white/15 text-white/60 text-[13px] font-medium rounded-lg hover:border-white/35 hover:text-white transition-colors cursor-pointer bg-transparent">
+                        className="px-4 py-2 border border-white/15 text-white/60 text-3.25 font-medium rounded-lg hover:border-white/35 hover:text-white transition-colors cursor-pointer bg-transparent">
                         Edit Brief
                       </button>
                     </div>
@@ -388,9 +388,9 @@ function DashboardInner() {
                           ["Description", selected.quote.desc],
                           ["Reference", selected.quote.reference],
                         ].map(([label, value]) => value ? (
-                          <div key={String(label)} className="bg-white/[0.04] rounded-xl p-4">
-                            <p className="text-white/40 text-[11px] uppercase tracking-[1px] mb-1">{String(label)}</p>
-                            <p className="text-white text-[14px]">{String(value)}</p>
+                          <div key={String(label)} className="bg-white/4 rounded-xl p-4">
+                            <p className="text-white/40 text-2.75 uppercase tracking-[1px] mb-1">{String(label)}</p>
+                            <p className="text-white text-3.5">{String(value)}</p>
                           </div>
                         ) : null)}
                       </div>
@@ -406,27 +406,27 @@ function DashboardInner() {
                 {activeTab === "notes" && (
                   <div className="flex flex-col gap-5">
                     <div>
-                      <label className="text-white/40 text-[11px] uppercase tracking-[1px] font-semibold block mb-2">Notes</label>
+                      <label className="text-white/40 text-2.75 uppercase tracking-[1px] font-semibold block mb-2">Notes</label>
                       <textarea
                         value={notesVal}
                         onChange={e => setNotesVal(e.target.value)}
                         rows={6}
                         placeholder="Add production notes, reminders, or context…"
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 text-white text-[14px] resize-none outline-none focus:border-[#2b7fff] transition-colors placeholder-white/20"
+                        className="w-full bg-white/4 border border-white/10 rounded-xl p-4 text-white text-3.5 resize-none outline-none focus:border-[#2b7fff] transition-colors placeholder-white/20"
                       />
                     </div>
                     <div>
-                      <label className="text-white/40 text-[11px] uppercase tracking-[1px] font-semibold block mb-2">References</label>
+                      <label className="text-white/40 text-2.75 uppercase tracking-[1px] font-semibold block mb-2">References</label>
                       <textarea
                         value={refVal}
                         onChange={e => setRefVal(e.target.value)}
                         rows={3}
                         placeholder="Links, image references, or inspiration notes…"
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl p-4 text-white text-[14px] resize-none outline-none focus:border-[#2b7fff] transition-colors placeholder-white/20"
+                        className="w-full bg-white/4 border border-white/10 rounded-xl p-4 text-white text-3.5 resize-none outline-none focus:border-[#2b7fff] transition-colors placeholder-white/20"
                       />
                     </div>
                     <button onClick={saveNotes}
-                      className="self-start px-5 py-2.5 bg-[#2b7fff] text-white font-semibold text-[13px] rounded-lg hover:bg-[#1a60d4] transition-colors cursor-pointer border-0">
+                      className="self-start px-5 py-2.5 bg-[#2b7fff] text-white font-semibold text-3.25 rounded-lg hover:bg-[#1a60d4] transition-colors cursor-pointer border-0">
                       Save Notes
                     </button>
                   </div>
@@ -439,40 +439,40 @@ function DashboardInner() {
 
       {/* ── CREATE / EDIT MODAL ──────────────────────────────────────────────── */}
       {modalOpen && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 backdrop-blur-sm"
+        <div className="fixed inset-0 z-200 flex items-center justify-center bg-black/70 backdrop-blur-sm"
           onClick={e => { if (e.target === e.currentTarget) setModalOpen(false); }}>
-          <div className="bg-[#141414] border border-white/10 rounded-2xl w-full max-w-[460px] mx-4 overflow-hidden">
-            <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.08]">
-              <h3 className="text-white font-bold text-[16px]">{editTarget ? "Edit Workspace" : "New Workspace"}</h3>
+          <div className="bg-[#141414] border border-white/10 rounded-2xl w-full max-w-115 mx-4 overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/8">
+              <h3 className="text-white font-bold text-4">{editTarget ? "Edit Workspace" : "New Workspace"}</h3>
               <button onClick={() => setModalOpen(false)} className="text-white/40 hover:text-white text-xl bg-transparent border-0 cursor-pointer">✕</button>
             </div>
             <div className="p-6 flex flex-col gap-4">
               <div>
-                <label className="text-white/50 text-[12px] uppercase tracking-[1px] font-semibold block mb-1.5">Workspace Name *</label>
+                <label className="text-white/50 text-3 uppercase tracking-[1px] font-semibold block mb-1.5">Workspace Name *</label>
                 <input value={formName} onChange={e => setFormName(e.target.value)}
                   placeholder="e.g. Summer Drop 2026"
-                  className="w-full bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors" />
+                  className="w-full bg-white/6 border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors" />
               </div>
               <div>
-                <label className="text-white/50 text-[12px] uppercase tracking-[1px] font-semibold block mb-1.5">Brand / Company *</label>
+                <label className="text-white/50 text-3 uppercase tracking-[1px] font-semibold block mb-1.5">Brand / Company *</label>
                 <input value={formBrand} onChange={e => setFormBrand(e.target.value)}
                   placeholder="e.g. Palace"
-                  className="w-full bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors" />
+                  className="w-full bg-white/6 border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors" />
               </div>
               <div>
-                <label className="text-white/50 text-[12px] uppercase tracking-[1px] font-semibold block mb-1.5">Status</label>
+                <label className="text-white/50 text-3 uppercase tracking-[1px] font-semibold block mb-1.5">Status</label>
                 <select value={formStatus} onChange={e => setFormStatus(e.target.value as WorkspaceStatus)}
-                  className="w-full bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none focus:border-[#2b7fff] transition-colors">
+                  className="w-full bg-white/6 border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none focus:border-[#2b7fff] transition-colors">
                   {(["Draft","Quoted","In Production","Delivered"] as WorkspaceStatus[]).map(s => (
                     <option key={s} value={s}>{s}</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="text-white/50 text-[12px] uppercase tracking-[1px] font-semibold block mb-1.5">Description</label>
+                <label className="text-white/50 text-3 uppercase tracking-[1px] font-semibold block mb-1.5">Description</label>
                 <textarea value={formDesc} onChange={e => setFormDesc(e.target.value)}
                   rows={3} placeholder="Brief description of this order…"
-                  className="w-full bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors resize-none" />
+                  className="w-full bg-white/6 border border-white/10 rounded-lg text-white text-sm px-3.5 py-3 outline-none placeholder-white/25 focus:border-[#2b7fff] transition-colors resize-none" />
               </div>
             </div>
             <div className="px-6 pb-6 flex gap-3">
@@ -491,11 +491,11 @@ function DashboardInner() {
 
       {/* ── DELETE CONFIRM MODAL ─────────────────────────────────────────────── */}
       {deleteTarget && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 backdrop-blur-sm"
+        <div className="fixed inset-0 z-200 flex items-center justify-center bg-black/70 backdrop-blur-sm"
           onClick={e => { if (e.target === e.currentTarget) setDeleteTarget(null); }}>
-          <div className="bg-[#141414] border border-white/10 rounded-2xl w-full max-w-[380px] mx-4 p-6">
-            <h3 className="text-white font-bold text-[16px] mb-2">Delete workspace?</h3>
-            <p className="text-white/50 text-[13px] mb-6">
+          <div className="bg-[#141414] border border-white/10 rounded-2xl w-full max-w-95 mx-4 p-6">
+            <h3 className="text-white font-bold text-4 mb-2">Delete workspace?</h3>
+            <p className="text-white/50 text-3.25 mb-6">
               &ldquo;{deleteTarget.name}&rdquo; will be permanently deleted. This cannot be undone.
             </p>
             <div className="flex gap-3">
