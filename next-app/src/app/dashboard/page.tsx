@@ -370,7 +370,7 @@ function DashboardInner() {
                       </div>
                     </div>
                     <div className="pt-2">
-                      <button onClick={() => openEdit(selected, { stopPropagation: () => {} } as React.MouseEvent)}
+                      <button onClick={() => openEdit(selected, { stopPropagation: () => {} } as unknown as React.MouseEvent)}
                         className="px-4 py-2 border border-white/15 text-white/60 text-3.25 font-medium rounded-lg hover:border-white/35 hover:text-white transition-colors cursor-pointer bg-transparent">
                         Edit Brief
                       </button>

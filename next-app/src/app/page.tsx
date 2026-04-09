@@ -21,7 +21,7 @@ const CATALOG = [
 ];
 
 const MARQUEE_ITEMS = [
-  "Cut & Sew","Screen Printing","Embroidery","Full Package Production",
+  "Cut & Sew","Screen Printing","Embroidery",
   "Private Label","Knitwear","Fleece","Activewear","Denim","Headwear",
 ];
 
@@ -72,8 +72,8 @@ function StudioPageInner() {
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse 70% 60% at 80% 40%, rgba(43,127,255,.08) 0%, transparent 65%)" }} />
         <div className="max-w-300 mx-auto w-full relative z-10">
-          <div className="inline-flex items-center gap-2.5 text-2.75 font-bold tracking-[2.5px] uppercase text-[#2b7fff] mb-7">
-            <span className="w-7 h-px bg-[#2b7fff]" /> American-Made Production
+          <div className="inline-flex items-center gap-2.5 text-2.75 font-bold tracking-[2.5px] uppercase text-blue-500 mb-7">
+            <span className="w-7 h-px bg-blue-500" /> American-Made Production
           </div>
           <h1 className="text-white font-black leading-[.92] tracking-[-4px] mb-10"
               style={{ fontSize: "clamp(56px,9vw,112px)" }}>
@@ -81,17 +81,17 @@ function StudioPageInner() {
           </h1>
           <div className="flex flex-col md:flex-row gap-8 md:items-end md:justify-between">
             <p className="text-white/55 max-w-120" style={{ fontSize: "clamp(15px,1.5vw,18px)" }}>
-              Premium cut &amp; sew, screen printing, embroidery, and full-package production — built to your exact spec. Domestic lead times. No middlemen.
+              Premium cut &amp; sew, screen printing and embroidery — built to your exact spec.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <button
                 onClick={handleStartOrder}
-                className="w-full sm:w-auto px-7 py-4 rounded-md font-bold text-3.75 bg-white text-[#0f0f0f] hover:bg-[#e5e7eb] transition-colors cursor-pointer border-0 text-center"
+                className="w-full sm:w-auto px-6 py-3 rounded-md font-bold text-3.75 bg-white text-[#0f0f0f] hover:bg-[#e5e7eb] transition-colors cursor-pointer border-0 text-center"
               >
                 Start an Order
               </button>
               <a href="#catalog"
-                className="w-full sm:w-auto px-7 py-4 rounded-md font-bold text-3.75 border-2 border-white/25 text-white hover:border-white/55 transition-colors no-underline text-center">
+                className="w-full sm:w-auto px-6 py-3 rounded-md font-bold text-3.75 border-2 border-white/25 text-white hover:border-white/55 transition-colors no-underline text-center">
                 View Catalog
               </a>
             </div>
@@ -100,11 +100,11 @@ function StudioPageInner() {
       </section>
 
       {/* ── MARQUEE ──────────────────────────────────────────────────────── */}
-      <div className="bg-[#2b7fff] py-3 overflow-hidden whitespace-nowrap">
+      <div className="bg-blue-500 text-white py-3 overflow-hidden whitespace-nowrap">
         <div className="marquee-track inline-flex">
           {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
             <span key={i} className="inline-flex items-center gap-4 mx-6 text-white font-semibold text-3.25 tracking-[.5px] uppercase">
-              {item} <span className="opacity-50">✦</span>
+              {item} <span className="opacity-50">•</span>
             </span>
           ))}
         </div>
@@ -116,7 +116,7 @@ function StudioPageInner() {
           <div className="flex items-end justify-between mb-12 gap-6 flex-wrap">
             <div>
               <div className="flex items-center gap-2.5 text-2.5 font-extrabold tracking-[2.5px] uppercase text-[#2b7fff] mb-4">
-                <span className="w-5 h-px bg-[#2b7fff]" /> What We Make
+                <span className="w-5 h-px bg-blue-500" /> What We Make
               </div>
               <h2 className="text-[clamp(30px,4vw,50px)] font-black tracking-[-2px] leading-[1.02] text-[#0f0f0f]">Production catalog</h2>
             </div>
@@ -137,7 +137,7 @@ function StudioPageInner() {
                 <div className="absolute inset-0 bg-[rgba(0,0,0,.48)] group-hover:bg-[rgba(0,0,0,.6)] transition-all flex flex-col justify-end p-3 md:p-5.5">
                   <div className="flex items-center justify-between gap-2">
                     <div className="text-3.5 md:text-5.25 font-black tracking-[-0.5px] text-white leading-[1.05] whitespace-pre-line text-left">{c.label}</div>
-                    <div className="w-7.5 h-7.5 rounded-full border border-white/20 flex items-center justify-center shrink-0 group-hover:bg-[#2b7fff] group-hover:border-[#2b7fff] transition-all">
+                    <div className="w-7.5 h-7.5 rounded-full border border-white/20 flex items-center justify-center shrink-0 group-hover:bg-blue-500 group-hover:border-blue-500 transition-all">
                       <svg viewBox="0 0 24 24" className="w-3.25 h-3.25" fill="none" stroke="rgba(255,255,255,.55)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
                       </svg>
@@ -174,7 +174,7 @@ function StudioPageInner() {
           <div className="flex items-end justify-between mb-14 gap-6 flex-wrap">
             <div>
               <div className="flex items-center gap-2.5 text-2.5 font-extrabold tracking-[2.5px] uppercase text-[#2b7fff] mb-4">
-                <span className="w-5 h-px bg-[#2b7fff]" /> What We Do
+                <span className="w-5 h-px bg-blue-500" /> What We Do
               </div>
               <h2 className="text-[clamp(30px,4vw,50px)] font-black tracking-[-2px] leading-[1.02] text-[#0f0f0f]">Production services</h2>
             </div>
@@ -189,7 +189,7 @@ function StudioPageInner() {
               { title: "Embroidery",            body: "Flat, 3D puff, and appliqué embroidery on structured caps, garments, and accessories. Any stitch count.",                     tags: ["Flat Embroidery", "3D Puff", "Appliqué", "Caps", "Patches"] },
               { title: "Garment Washing",       body: "Enzyme, bleach, sun-fade, garment dye, and stone-wash finishing for premium aged or vintage aesthetics.",                      tags: ["Enzyme Wash", "Bleach Wash", "Garment Dye", "Sun-Fade", "Stone Wash"] },
               { title: "Private Label",         body: "Custom labels, hang tags, poly-bagging, and retail-ready packaging. We handle every finish detail.",                           tags: ["Woven Labels", "Hang Tags", "Poly-Bag", "Retail Ready", "Size Runs"] },
-              { title: "Tech Packs & Sampling", body: "We work from your sketches, references, or rough ideas and develop production-ready tech packs and samples.",                  tags: ["Tech Pack Dev", "Proto Samples", "Fit Samples", "Spec Sheets"] },
+              { title: "Tech Packs & Samples", body: "We work from your sketches, references, or rough ideas and develop production-ready tech packs and samples.",                  tags: ["Tech Pack Dev", "Proto Samples", "Fit Samples", "Spec Sheets"] },
             ].map(s => (
               <div key={s.title} className="bg-[#f9fafb] rounded-xl p-8 flex flex-col gap-5">
                 <div>
