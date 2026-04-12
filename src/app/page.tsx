@@ -115,7 +115,7 @@ function StudioPageInner() {
       <Nav variant="studio" />
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-[#0f0f0f] min-h-screen flex flex-col justify-end px-5 md:px-[60px] pb-16 md:pb-20 pt-[100px] md:pt-[120px] overflow-hidden hero-grid">
+      <section className="relative bg-[#0f0f0f] flex flex-col justify-start px-5 md:px-[60px] pb-16 md:pb-20 pt-[100px] md:pt-[120px] overflow-hidden hero-grid">
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse 70% 60% at 80% 40%, rgba(43,127,255,.08) 0%, transparent 65%)" }} />
         <div className="max-w-[1200px] mx-auto w-full relative z-10">
