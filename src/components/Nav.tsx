@@ -37,20 +37,20 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
     ? user.displayName.split(" ").map((n) => n[0]).join("").substring(0, 2).toUpperCase()
     : user?.email?.[0]?.toUpperCase() ?? "?";
 
-  const navTop = isGov ? "top-0 md:top-9" : "top-0";
+  const navTop = isGov ? "top-0" : "top-0";
   const navBg  = isGov
-    ? "bg-white border-b-2 border-black"
+    ? "bg-[#0b1628]/80 backdrop-blur-xl border-b border-white/10"
     : "bg-[rgba(15,15,15,0.96)] backdrop-blur-xl border-b border-white/[0.07]";
 
   const studioLink = "text-white/55 hover:text-white text-[13px] font-medium no-underline transition-colors";
-  const govLink    = "text-[#4b5563] hover:text-black text-[12px] font-bold uppercase tracking-[.8px] no-underline transition-colors border-b-2 border-transparent hover:border-[#2b7fff] pb-[2px]";
+  const govLink    = "text-white/70 hover:text-white text-[12px] font-bold uppercase tracking-[.8px] no-underline transition-colors border-b-2 border-transparent hover:border-white pb-[2px]";
 
   return (
     <>
       <nav className={`fixed w-full z-[100] flex items-center justify-between px-5 md:px-12 h-[60px] ${navTop} ${navBg}`}>
 
         {/* Logo */}
-        <Link href={isGov ? "/gov" : "/"} className={`flex items-center gap-2.5 text-[16px] font-extrabold tracking-tight no-underline ${isGov ? "text-black" : "text-white"}`}>
+        <Link href={isGov ? "/gov" : "/"} className={`flex items-center gap-2.5 text-[16px] font-extrabold tracking-tight no-underline text-white`}>
           {isGov ? (
             <>
               <span className="bg-[#0b1628] text-white text-[9px] font-extrabold tracking-[2px] uppercase px-[7px] py-[3px] rounded-[3px]">Gov</span>
@@ -86,7 +86,7 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
           {isGov ? (
             <>
               <a href="#capabilities"
-                className="inline-flex items-center px-4 py-[9px] rounded-[5px] text-[12px] font-bold uppercase tracking-[.6px] cursor-pointer border-2 border-black bg-transparent text-black hover:bg-black hover:text-white transition-all no-underline">
+                className="inline-flex items-center px-4 py-[9px] rounded-[5px] text-[12px] font-bold uppercase tracking-[.6px] cursor-pointer border-2 border-white/40 bg-transparent text-white hover:bg-white hover:text-[#0b1628] transition-all no-underline">
                 Capability Statement
               </a>
               <a href="#contact"
@@ -156,9 +156,9 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Toggle menu"
             className={`w-9 h-9 flex flex-col justify-center items-center gap-[5px] bg-transparent border-0 cursor-pointer ${isGov ? "" : ""}`}>
-            <span className={`block h-[1.5px] w-[20px] transition-all origin-center ${isGov ? "bg-black" : "bg-white"} ${mobileOpen ? "rotate-45 translate-y-[6.5px]" : ""}`} />
-            <span className={`block h-[1.5px] w-[20px] transition-all ${isGov ? "bg-black" : "bg-white"} ${mobileOpen ? "opacity-0 scale-x-0" : ""}`} />
-            <span className={`block h-[1.5px] w-[20px] transition-all origin-center ${isGov ? "bg-black" : "bg-white"} ${mobileOpen ? "-rotate-45 -translate-y-[6.5px]" : ""}`} />
+            <span className={`block h-[1.5px] w-[20px] transition-all origin-center bg-white ${mobileOpen ? "rotate-45 translate-y-[6.5px]" : ""}`} />
+            <span className={`block h-[1.5px] w-[20px] transition-all bg-white ${mobileOpen ? "opacity-0 scale-x-0" : ""}`} />
+            <span className={`block h-[1.5px] w-[20px] transition-all origin-center bg-white ${mobileOpen ? "-rotate-45 -translate-y-[6.5px]" : ""}`} />
           </button>
         </div>
       </nav>
@@ -167,7 +167,7 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
       {mobileOpen && (
         <div className={`fixed left-0 right-0 z-[99] md:hidden py-3 px-5 flex flex-col ${
           isGov
-            ? "bg-white border-b-2 border-black top-[60px]"
+            ? "bg-[#0b1628]/85 backdrop-blur-2xl border-b border-white/10 top-[60px]"
             : "bg-[#0f0f0f] border-b border-white/10 top-[60px]"
         }`}>
           {isGov ? (
@@ -179,11 +179,11 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
                 { href: "#contact",      label: "Contact Us" },
               ].map(({ href, label }) => (
                 <a key={href} href={href} onClick={() => setMobileOpen(false)}
-                  className="text-black text-[14px] font-bold uppercase tracking-[.8px] no-underline py-3 border-b border-black/10 last:border-b-0">
+                  className="text-white/80 text-[14px] font-bold uppercase tracking-[.8px] no-underline py-3 border-b border-white/10 last:border-b-0">
                   {label}
                 </a>
               ))}
-              <Link href="/" className="text-[#4b5563] text-[14px] font-bold uppercase tracking-[.8px] no-underline pt-3">
+              <Link href="/" className="text-white/45 text-[14px] font-bold uppercase tracking-[.8px] no-underline pt-3">
                 Amenity Studio →
               </Link>
             </>
