@@ -76,7 +76,7 @@ export default function GovPage() {
       <Nav variant="gov" />
 
       {/* ── HERO ────────────────────────────────────────────────────────── */}
-      <div className="relative bg-[#0b1628] flex flex-col justify-start px-5 md:px-[60px] pb-16 md:pb-20 overflow-hidden mt-[60px] md:mt-[96px] pt-1">
+      <div className="relative bg-[#0b1628] flex flex-col justify-start px-5 md:px-[60px] pb-16 md:pb-20 overflow-hidden mt-[60px] md:mt-[96px] pt-3">
         {/* Blueprint grid */}
         <div className="absolute inset-0 pointer-events-none opacity-[.04]" style={{
           backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.4) 1px,transparent 1px)",
