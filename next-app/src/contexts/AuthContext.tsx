@@ -6,8 +6,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signInWithRedirect,
-  getRedirectResult,
+  signInWithPopup,
   signOut as firebaseSignOut,
   updateProfile,
 } from "firebase/auth";
@@ -34,14 +33,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(u);
       setLoading(false);
     });
-    // Handle result after Google redirect and navigate to stored destination
-    getRedirectResult(auth).then((result) => {
-      if (result?.user) {
-        const dest = sessionStorage.getItem("authDest") ?? "/dashboard";
-        sessionStorage.removeItem("authDest");
-        window.location.href = dest;
-      }
-    }).catch(() => {});
     return unsub;
   }, []);
 
@@ -53,12 +44,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signUpEmail = async (name: string, email: string, password: string) => {
     if (!auth) throw new Error("Firebase not configured");
     const cred = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(cred.user, { displayName: name });
+    // Fire-and-forget — account is created and user is signed in;
+    // don't block on updateProfile so onAuthStateChanged fires immediately.
+    updateProfile(cred.user, { displayName: name }).catch(() => {});
   };
 
   const signInGoogle = async () => {
     if (!auth) throw new Error("Firebase not configured");
-    await signInWithRedirect(auth, googleProvider);
+    // signInWithPopup resolves directly — no redirect/reload needed.
+    // signInWithRedirect is unreliable in Next.js App Router.
+    await signInWithPopup(auth, googleProvider);
   };
 
   const signOut = async () => {

@@ -13,9 +13,10 @@ interface NavProps {
 
 export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: NavProps) {
   const { user, signOut, loading } = useAuth();
-  const [authOpen, setAuthOpen]     = useState(false);
-  const [menuOpen, setMenuOpen]     = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [authOpen, setAuthOpen]       = useState(false);
+  const [navStartOrder, setNavStartOrder] = useState(false);
+  const [menuOpen, setMenuOpen]       = useState(false);
+  const [mobileOpen, setMobileOpen]   = useState(false);
   const menuRef                     = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -110,7 +111,7 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
             <>
               <Link href="/dashboard"
                 className="inline-flex items-center px-4.5 py-2 rounded-md text-3.25 font-semibold bg-[#2b7fff] text-white no-underline hover:bg-[#1a60d4] transition-colors">
-                Dashboard
+                My Orders
               </Link>
               <div className="relative" ref={menuRef}>
                 <button onClick={() => setMenuOpen((v) => !v)}
@@ -124,7 +125,7 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
                       <p className="text-2.75 text-white/40 mt-0.5">{user.email}</p>
                     </div>
                     <Link href="/dashboard" className="block px-3.5 py-2.5 text-3.25 text-white/70 hover:bg-white/5 hover:text-white no-underline transition-colors">
-                      My Workspaces
+                      My Orders
                     </Link>
                     <button onClick={() => { signOut(); setMenuOpen(false); }}
                       className="w-full text-left px-3.5 py-2.5 text-3.25 text-red-400 hover:bg-red-400/8 transition-colors bg-transparent border-0 cursor-pointer">
@@ -136,12 +137,12 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
             </>
           ) : (
             <>
-              <button onClick={() => setAuthOpen(true)}
-                className="inline-flex items-center px-4.5 py-2 rounded-md text-3.25 font-semibold cursor-pointer border transition-colors bg-transparent text-white/65 border-white/20 hover:border-white/45 hover:text-white">
+              <button onClick={() => { setNavStartOrder(false); setAuthOpen(true); }}
+                className="inline-flex items-center px-4.5 py-2 rounded-md text-3.25 font-medium cursor-pointer border transition-colors bg-transparent text-white/65 border-white/20 hover:border-white/45 hover:text-white">
                 Sign In
               </button>
-              <button onClick={() => setAuthOpen(true)}
-                className="inline-flex items-center px-4.5 py-2 rounded-md text-3.25 font-semibold bg-[#2b7fff] text-white hover:bg-[#1a60d4] cursor-pointer border-0 transition-colors">
+              <button onClick={() => { setNavStartOrder(true); setAuthOpen(true); }}
+                className="inline-flex items-center px-4.5 py-2 rounded-md text-3.25 font-medium bg-[#2b7fff] text-white hover:bg-[#1a60d4] cursor-pointer border-0 transition-colors">
                 Start Order
               </button>
             </>
@@ -151,13 +152,13 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
         {/* Mobile: quick CTA + hamburger */}
         <div className="flex md:hidden items-center gap-2">
           {!isGov && !loading && !user && (
-            <button onClick={() => setAuthOpen(true)}
-              className="px-3.5 py-1.5 rounded-md text-3 font-semibold bg-[#2b7fff] text-white border-0 cursor-pointer">
+            <button onClick={() => { setNavStartOrder(true); setAuthOpen(true); }}
+              className="px-3.5 py-1.5 rounded-md text-3 font-medium bg-[#2b7fff] text-white border-0 cursor-pointer">
               Start Order
             </button>
           )}
           {isGov && (
-            <a href="#contact" className="px-3.5 py-1.5 rounded-md text-3 font-semibold bg-[#2b7fff] text-white no-underline">
+            <a href="#contact" className="px-3.5 py-1.5 rounded-md text-3 font-medium bg-[#2b7fff] text-white no-underline">
               Contact
             </a>
           )}
@@ -214,7 +215,7 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
               {user ? (
                 <>
                   <Link href="/dashboard" className="text-white text-3.75 font-semibold no-underline py-3 border-b border-white/8">
-                    My Dashboard
+                    My Orders
                   </Link>
                   <button onClick={() => { signOut(); setMobileOpen(false); }}
                     className="text-left text-red-400 text-3.5 font-medium py-3 bg-transparent border-0 cursor-pointer">
@@ -222,7 +223,7 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
                   </button>
                 </>
               ) : (
-                <button onClick={() => { setMobileOpen(false); setAuthOpen(true); }}
+                <button onClick={() => { setMobileOpen(false); setNavStartOrder(false); setAuthOpen(true); }}
                   className="text-left text-white/55 text-3.75 font-medium py-3 bg-transparent border-0 cursor-pointer">
                   Sign In
                 </button>
@@ -232,7 +233,7 @@ export default function Nav({ variant = "studio", autoOpenAuth, startOrder }: Na
         </div>
       )}
 
-      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} startOrder={startOrder} />
+      <AuthModal isOpen={authOpen} onClose={() => { setAuthOpen(false); setNavStartOrder(false); }} startOrder={navStartOrder} />
     </>
   );
 }

@@ -51,7 +51,7 @@ function StudioPageInner() {
 
   function handleStartOrder() {
     if (user) {
-      router.push("/dashboard?newWorkspace=1");
+      router.push("/studio");
     } else {
       setStartOrder(true);
       setAuthOpen(true);
@@ -72,12 +72,12 @@ function StudioPageInner() {
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse 70% 60% at 80% 40%, rgba(43,127,255,.08) 0%, transparent 65%)" }} />
         <div className="max-w-300 mx-auto w-full relative z-10">
-          <div className="inline-flex items-center gap-2.5 text-2.75 font-bold tracking-[2.5px] uppercase text-blue-500 mb-7">
+          <div className="inline-flex items-center gap-2.5 text-2.75 font-medium tracking-[2px] uppercase text-blue-500 mb-7">
             <span className="w-7 h-px bg-blue-500" /> American-Made Production
           </div>
           <h1 className="text-white font-black leading-[.92] tracking-[-4px] mb-10"
               style={{ fontSize: "clamp(56px,9vw,112px)" }}>
-            You design it.<br /><em>We build it.</em>
+            You design it.<br /><em className="text-blue-500"> We build it.</em>
           </h1>
           <div className="flex flex-col md:flex-row gap-8 md:items-end md:justify-between">
             <p className="text-white/55 max-w-120" style={{ fontSize: "clamp(15px,1.5vw,18px)" }}>
@@ -86,12 +86,12 @@ function StudioPageInner() {
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <button
                 onClick={handleStartOrder}
-                className="w-full sm:w-auto px-6 py-3 rounded-md font-bold text-3.75 bg-white text-[#0f0f0f] hover:bg-[#e5e7eb] transition-colors cursor-pointer border-0 text-center"
+                className="w-full sm:w-auto px-5 py-2 rounded-md font-medium text-3.75 bg-white text-[#0f0f0f] hover:bg-[#e5e7eb] transition-colors cursor-pointer border-0 text-center"
               >
                 Start an Order
               </button>
               <a href="#catalog"
-                className="w-full sm:w-auto px-6 py-3 rounded-md font-bold text-3.75 border-2 border-white/25 text-white hover:border-white/55 transition-colors no-underline text-center">
+                className="w-full sm:w-auto px-5 py-2 rounded-md font-medium text-3.75 border-2 border-white/25 text-white hover:border-white/55 transition-colors no-underline text-center">
                 View Catalog
               </a>
             </div>
@@ -115,7 +115,7 @@ function StudioPageInner() {
         <div className="max-w-300 mx-auto">
           <div className="flex items-end justify-between mb-12 gap-6 flex-wrap">
             <div>
-              <div className="flex items-center gap-2.5 text-2.5 font-extrabold tracking-[2.5px] uppercase text-[#2b7fff] mb-4">
+              <div className="flex items-center gap-2 text-2.5 font-medium tracking-[2px] uppercase text-[#2b7fff] mb-4">
                 <span className="w-5 h-px bg-blue-500" /> What We Make
               </div>
               <h2 className="text-[clamp(30px,4vw,50px)] font-black tracking-[-2px] leading-[1.02] text-[#0f0f0f]">Production catalog</h2>
@@ -160,9 +160,9 @@ function StudioPageInner() {
             { v: "4–6 wk",  l: "Average Lead Time" },
             { v: "24 hr",   l: "Quote Turnaround" },
           ].map(s => (
-            <div key={s.l} className="text-center py-8 md:py-9 px-6 md:px-13 border-r border-white/6 [&:nth-child(2)]:border-r-0 md:[&:nth-child(2)]:border-r border-b md:border-b-0 [&:nth-child(3)]:border-b-0 [&:nth-child(4)]:border-b-0">
-              <div className="text-7.5 font-black text-white tracking-[-1.5px]">{s.v}</div>
-              <div className="text-2.5 text-white/35 mt-1.25 uppercase tracking-[1.8px]">{s.l}</div>
+            <div key={s.l} className="text-center py-10 md:py-12 px-6 md:px-13 border-r border-white/6 [&:nth-child(2)]:border-r-0 md:[&:nth-child(2)]:border-r border-b md:border-b-0 [&:nth-child(3)]:border-b-0 [&:nth-child(4)]:border-b-0">
+              <div className="font-black text-white" style={{ fontSize: "clamp(24px,6vw,32px)", letterSpacing: "-2px" }}>{s.v}</div>
+              <div className="text-white/35 mt-2 uppercase" style={{ fontSize: 12, letterSpacing: "1.6px" }}>{s.l}</div>
             </div>
           ))}
         </div>
@@ -173,7 +173,7 @@ function StudioPageInner() {
         <div className="max-w-300 mx-auto">
           <div className="flex items-end justify-between mb-14 gap-6 flex-wrap">
             <div>
-              <div className="flex items-center gap-2.5 text-2.5 font-extrabold tracking-[2.5px] uppercase text-[#2b7fff] mb-4">
+              <div className="flex items-center gap-2 text-2.5 font-medium tracking-[2px] uppercase text-[#2b7fff] mb-4">
                 <span className="w-5 h-px bg-blue-500" /> What We Do
               </div>
               <h2 className="text-[clamp(30px,4vw,50px)] font-black tracking-[-2px] leading-[1.02] text-[#0f0f0f]">Production services</h2>
@@ -198,7 +198,7 @@ function StudioPageInner() {
                 </div>
                 <div className="flex flex-wrap gap-1.5 mt-auto">
                   {s.tags.map(t => (
-                    <span key={t} className="px-2.5 py-1 bg-white text-[#374151] text-2.75 font-semibold rounded-1">{t}</span>
+                    <span key={t} className="px-2.5 py-1 bg-white text-[#374151] text-2.75 font-normal rounded-[0.5px]">{t}</span>
                   ))}
                 </div>
               </div>
@@ -210,10 +210,10 @@ function StudioPageInner() {
       {/* ── HOW IT WORKS ─────────────────────────────────────────────────── */}
       <section id="how-it-works" className="bg-[#0f0f0f] py-16 md:py-24 px-5 md:px-15 border-t border-white/6">
         <div className="max-w-300 mx-auto">
-          <div className="inline-flex items-center gap-2.5 text-2.75 font-bold tracking-0.5 uppercase text-[#2b7fff] mb-5">
+          <div className="inline-flex items-center gap-2.5 text-2.5 font-medium tracking-0.5 uppercase text-[#2b7fff] mb-5">
             <span className="w-5 h-px bg-[#2b7fff]" /> Process
           </div>
-          <h2 className="text-white font-black text-9.5 leading-[1.05] tracking-[-1.5px] mb-16">How It Works</h2>
+          <h2 className="text-white font-black text-9.5 leading-[1.05] tracking-[.25px] mb-16">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {[
               { n:"01", title:"Submit Your Brief", body:"Tell us what you're making — garment type, quantity, timeline, and any references. We review every brief personally." },
@@ -233,7 +233,7 @@ function StudioPageInner() {
       {/* ── CTA BANNER ───────────────────────────────────────────────────── */}
       <section className="bg-[#2b7fff] py-16 md:py-20 px-5 md:px-15 text-center">
         <div className="max-w-175 mx-auto">
-          <h2 className="text-white font-black text-10.5 leading-[1.1] tracking-[-1.5px] mb-5">
+          <h2 className="text-white font-black text-10.5 leading-[1.1] tracking-[.25px] mb-5">
             Ready to build your next drop?
           </h2>
           <p className="text-white/70 text-4.25 mb-9">
@@ -241,7 +241,7 @@ function StudioPageInner() {
           </p>
           <button
             onClick={handleStartOrder}
-            className="px-9 py-4 bg-white text-[#2b7fff] font-bold text-4 rounded-md hover:bg-[#f3f4f6] transition-colors cursor-pointer border-0"
+            className="px-9 py-4 bg-white text-black font-bold text-4 rounded-md hover:bg-[#f3f4f6] transition-colors cursor-pointer border-0"
           >
             Start an Order
           </button>
@@ -250,14 +250,8 @@ function StudioPageInner() {
 
       {/* ── FOOTER ───────────────────────────────────────────────────────── */}
       <footer className="bg-[#0a0a0a] border-t border-white/6 py-8 px-5 md:px-15">
-        <div className="max-w-300 mx-auto flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
-          <span className="text-white font-bold text-3.75">
-            Amenity<span className="text-[#2b7fff]"> Studio</span>
-          </span>
-          <div className="flex gap-6 items-center">
-            <a href="/gov" className="text-white/35 text-3.25 hover:text-white/60 no-underline transition-colors">Amenity Supply Co.</a>
-            <span className="text-white/20 text-3.25">© 2025 Amenity. All rights reserved.</span>
-          </div>
+        <div className="max-w-300 mx-auto flex items-center justify-center">
+          <span className="text-white/20 text-3.25">© 2026 Amenity. All rights reserved.</span>
         </div>
       </footer>
 

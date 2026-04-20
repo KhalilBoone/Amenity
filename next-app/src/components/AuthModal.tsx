@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface Props {
@@ -21,8 +20,11 @@ const FRIENDLY: Record<string, string> = {
   "auth/invalid-email":         "Please enter a valid email address.",
   "auth/weak-password":         "Password is too weak.",
   "auth/popup-closed-by-user":  "Sign-in was cancelled.",
+  "auth/popup-blocked":         "Pop-up was blocked by your browser. Allow pop-ups for this site.",
   "auth/network-request-failed":"Network error — check your connection.",
   "auth/unauthorized-domain":   "Sign-in is not enabled for this domain.",
+  "auth/operation-not-allowed": "This sign-in method is not enabled.",
+  "auth/too-many-requests":     "Too many attempts — try again later.",
 };
 
 function googleIcon() {
@@ -51,7 +53,8 @@ export default function AuthModal({ isOpen, onClose, startOrder }: Props) {
   const [suPass, setSuPass]     = useState("");
 
   const { signInEmail, signUpEmail, signInGoogle } = useAuth();
-  const router = useRouter();
+
+  const dest = startOrder ? "/studio" : "/dashboard";
 
   // Reset form on open
   useEffect(() => {
@@ -60,17 +63,12 @@ export default function AuthModal({ isOpen, onClose, startOrder }: Props) {
 
   if (!isOpen) return null;
 
-  const dest = startOrder ? "/dashboard?newWorkspace=1" : "/dashboard";
-
-  const wrap = async (fn: () => Promise<void>, isRedirect = false) => {
+  const wrap = async (fn: () => Promise<void>) => {
     setError(""); setBusy(true);
     try {
-      if (isRedirect) sessionStorage.setItem("authDest", dest);
       await fn();
-      if (!isRedirect) {
-        onClose();
-        router.push(dest);
-      }
+      onClose();
+      window.location.href = dest;
     } catch (e: unknown) {
       const code = (e as { code?: string }).code ?? "";
       setError(FRIENDLY[code] ?? "Something went wrong. Please try again.");
@@ -81,7 +79,7 @@ export default function AuthModal({ isOpen, onClose, startOrder }: Props) {
   return (
     <div
       className="fixed inset-0 z-300 flex items-center justify-center bg-black/65 backdrop-blur-sm"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      onClick={(e) => { if (e.target === e.currentTarget && !busy) onClose(); }}
     >
       <div className="relative w-full max-w-sm mx-4 bg-[#141414] border border-white/10 rounded-2xl p-10">
         {/* Close */}
@@ -142,7 +140,7 @@ export default function AuthModal({ isOpen, onClose, startOrder }: Props) {
             </div>
             <button
               disabled={busy}
-              onClick={() => wrap(signInGoogle, true)}
+              onClick={() => wrap(signInGoogle)}
               className="w-full bg-white hover:opacity-90 text-gray-900 font-semibold text-sm rounded-lg py-3 flex items-center justify-center gap-2.5 transition-opacity cursor-pointer border-0"
             >
               {googleIcon()} Continue with Google
@@ -181,7 +179,7 @@ export default function AuthModal({ isOpen, onClose, startOrder }: Props) {
             </div>
             <button
               disabled={busy}
-              onClick={() => wrap(signInGoogle, true)}
+              onClick={() => wrap(signInGoogle)}
               className="w-full bg-white hover:opacity-90 text-gray-900 font-semibold text-sm rounded-lg py-3 flex items-center justify-center gap-2.5 transition-opacity cursor-pointer border-0"
             >
               {googleIcon()} Continue with Google

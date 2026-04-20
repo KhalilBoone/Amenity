@@ -7,7 +7,7 @@ import {
   collection, query, where, orderBy, onSnapshot,
   addDoc, updateDoc, deleteDoc, doc, serverTimestamp,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db, auth } from "@/lib/firebase";
 import { useAuth } from "@/contexts/AuthContext";
 import type { Workspace, WorkspaceStatus } from "@/lib/types";
 
@@ -88,13 +88,6 @@ function DashboardInner() {
   const [notesVal, setNotesVal]       = useState("");
   const [refVal, setRefVal]           = useState("");
 
-  // Auth guard
-  useEffect(() => {
-    if (!loading && !user) {
-      router.replace("/?auth=1");
-    }
-  }, [loading, user, router]);
-
   // Open create modal if ?newWorkspace=1
   useEffect(() => {
     if (searchParams.get("newWorkspace") === "1" && !loading && user) {
@@ -141,10 +134,26 @@ function DashboardInner() {
     }
   }, [selected?.id]);  // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (loading || !user) {
+  // Show spinner while:
+  // (a) Firebase is still resolving auth state, OR
+  // (b) context user is null but auth.currentUser is set — this is a transient
+  //     concurrent-render race right after sign-in + client-side navigation.
+  if (loading || (!user && auth?.currentUser)) {
     return (
       <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-[#2b7fff] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-[#0f0f0f] flex flex-col items-center justify-center gap-4">
+        <p className="text-white font-semibold text-lg">Sign in to view your dashboard</p>
+        <Link href="/"
+          className="px-5 py-2.5 bg-[#2b7fff] text-white text-sm font-semibold rounded-lg hover:bg-[#1a60d4] transition-colors no-underline">
+          Go to Studio
+        </Link>
       </div>
     );
   }
