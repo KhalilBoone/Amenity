@@ -191,14 +191,14 @@ function StudioPageInner() {
               { title: "Private Label",         body: "Custom labels, hang tags, poly-bagging, and retail-ready packaging. We handle every finish detail.",                           tags: ["Woven Labels", "Hang Tags", "Poly-Bag", "Retail Ready", "Size Runs"] },
               { title: "Tech Packs & Samples", body: "We work from your sketches, references, or rough ideas and develop production-ready tech packs and samples.",                  tags: ["Tech Pack Dev", "Proto Samples", "Fit Samples", "Spec Sheets"] },
             ].map(s => (
-              <div key={s.title} className="bg-[#f9fafb] rounded-xl p-8 flex flex-col gap-5">
+              <div key={s.title} className="bg-[#eff4ff] rounded-xl p-8 flex flex-col gap-5">
                 <div>
                   <h3 className="text-[#0f0f0f] font-black text-5 tracking-[-0.5px] mb-2">{s.title}</h3>
                   <p className="text-[#4b5563] text-3.5 leading-[1.75]">{s.body}</p>
                 </div>
                 <div className="flex flex-wrap gap-1.5 mt-auto">
                   {s.tags.map(t => (
-                    <span key={t} className="px-2.5 py-1 bg-white text-[#374151] text-2.75 font-normal rounded-[0.5px]">{t}</span>
+                    <span key={t} className="px-2.5 py-1 bg-white text-[#374151] text-2.75 font-normal rounded-[4px]">{t}</span>
                   ))}
                 </div>
               </div>
