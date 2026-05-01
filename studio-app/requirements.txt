@@ -1,0 +1,32 @@
+# Amenity Studio — Python dependencies
+# ----------------------------------------------------------------
+# Install:  pip install -r requirements.txt
+# Lock policy: minor-pinned (~=) so security patches roll in but
+# breaking majors don't. Bump intentionally.
+
+# --- API ---
+fastapi~=0.115
+uvicorn[standard]~=0.32
+pydantic~=2.9
+python-multipart~=0.0.20
+
+# --- Auth ---
+pyjwt~=2.10
+
+# --- Supabase ---
+supabase~=2.10
+postgrest~=0.18
+
+# --- Stripe ---
+stripe~=11.4
+
+# --- LangGraph + Anthropic ---
+langgraph~=0.2
+anthropic~=0.40
+
+# --- HTTP / utils ---
+httpx~=0.28
+python-dotenv~=1.0
+
+# --- Dev / validation ---
+pglast~=6.4

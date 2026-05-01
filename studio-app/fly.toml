@@ -1,0 +1,60 @@
+# Amenity API — Fly.io app config.
+# ----------------------------------------------------------------
+# Deploy:
+#   fly auth login
+#   fly launch --no-deploy --copy-config --name amenity-api
+#   fly secrets set --stage \
+#     SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... SUPABASE_ANON_KEY=... \
+#     SUPABASE_JWT_SECRET=... ANTHROPIC_API_KEY=... \
+#     STRIPE_SECRET_KEY=... STRIPE_WEBHOOK_SECRET=... \
+#     SAM_API_KEY=... PARTNER_MONITOR_TOKEN=... \
+#     API_CORS_ORIGINS=https://amenity.studio,https://amenity-studio.vercel.app
+#   fly deploy
+#
+# Logs:    fly logs
+# Status:  fly status
+# Open:    fly open
+# Console: fly ssh console
+
+app          = "amenity-api"
+primary_region = "iad"          # Washington DC — close to Supabase US-East.
+kill_signal    = "SIGINT"
+kill_timeout   = "5s"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT             = "8000"
+  PYTHONUNBUFFERED = "1"
+
+# ---- HTTP service ----
+[http_service]
+  internal_port  = 8000
+  force_https    = true
+  # Auto-stop machines when there's no traffic, restart on first request.
+  # Cuts cost ~80% for a low-traffic API. Cold start is ~1s for Python.
+  auto_stop_machines  = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [http_service.concurrency]
+    type       = "requests"
+    soft_limit = 20
+    hard_limit = 25
+
+  [[http_service.checks]]
+    interval     = "30s"
+    timeout      = "5s"
+    grace_period = "10s"
+    method       = "GET"
+    path         = "/health"
+
+# ---- VM size ----
+# 256MB is fine for FastAPI + LangGraph at single-tenant scale. Bump
+# to 512MB if Anthropic SDK + LangGraph push memory near the ceiling
+# (you'll see OOM kills in `fly logs`).
+[[vm]]
+  cpu_kind = "shared"
+  cpus     = 1
+  memory   = "512mb"

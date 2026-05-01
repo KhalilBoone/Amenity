@@ -1,0 +1,66 @@
+name: partner-monitor-cron
+
+# Daily SAM.gov sweep + scoring. Posts to /webhooks/sam, which runs the
+# bid graph (partner_monitor → compliance → comms).
+#
+# Required repo secrets (Settings → Secrets → Actions → New secret):
+#   AMENITY_API_URL         e.g. https://api.amenity.studio
+#   PARTNER_MONITOR_TOKEN   shared secret the API checks
+#
+# Manual run: Actions tab → partner-monitor-cron → "Run workflow".
+
+on:
+  schedule:
+    # 13:00 UTC daily (08:00 ET / 06:00 PT). Adjust if needed.
+    - cron: "0 13 * * *"
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Lookback window in days"
+        required: false
+        default: "1"
+
+permissions:
+  contents: read
+
+jobs:
+  trigger:
+    name: Trigger partner_monitor
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: POST /webhooks/sam
+        env:
+          AMENITY_API_URL: ${{ secrets.AMENITY_API_URL }}
+          PARTNER_MONITOR_TOKEN: ${{ secrets.PARTNER_MONITOR_TOKEN }}
+          DAYS: ${{ github.event.inputs.days || '1' }}
+        run: |
+          set -euo pipefail
+          if [ -z "${AMENITY_API_URL:-}" ]; then
+            echo "AMENITY_API_URL secret is not set." >&2
+            exit 1
+          fi
+
+          payload=$(printf '{"source":"github-actions","days":%s}' "${DAYS}")
+
+          # Capture status + body separately so we can fail loud on non-2xx.
+          response=$(mktemp)
+          status=$(curl --fail-with-body \
+            --silent --show-error \
+            --output "${response}" \
+            --write-out "%{http_code}" \
+            --max-time 60 \
+            -X POST "${AMENITY_API_URL}/webhooks/sam" \
+            -H "Content-Type: application/json" \
+            ${PARTNER_MONITOR_TOKEN:+-H "X-Cron-Token: ${PARTNER_MONITOR_TOKEN}"} \
+            -d "${payload}" \
+            || true)
+
+          echo "HTTP ${status}"
+          cat "${response}" || true
+          echo
+
+          case "${status}" in
+            2*) ;;
+            *) echo "::error::partner_monitor request failed (status ${status})"; exit 1 ;;
+          esac

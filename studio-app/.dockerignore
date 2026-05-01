@@ -1,0 +1,47 @@
+# Things that should never end up in the image.
+
+# Frontend lives on Vercel — don't ship it.
+frontend/
+
+# Supabase migrations, seeds, and edge functions are deployed via the
+# Supabase CLI, not via the API image.
+supabase/
+
+# Deploy + CI metadata.
+.github/
+
+# Docs that don't affect runtime.
+*.md
+DEPLOY.md
+CLAUDE.md
+
+# Python detritus.
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local env + secrets — should never enter an image.
+.env
+.env.local
+.env.*.local
+
+# Editor / OS.
+.DS_Store
+.idea/
+.vscode/
+
+# Git.
+.git/
+.gitignore
+.gitattributes
+
+# Tests.
+tests/
+**/tests/
+
+# Anything else we don't need at runtime.
+*.log
