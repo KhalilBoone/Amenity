@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-export default function SignInPage() {
+function SignInContent() {
   const router = useRouter();
   const params = useSearchParams();
   const next = params.get("next") || "/cart";
@@ -78,6 +78,14 @@ export default function SignInPage() {
         Policy.
       </p>
     </main>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense>
+      <SignInContent />
+    </Suspense>
   );
 }
 
