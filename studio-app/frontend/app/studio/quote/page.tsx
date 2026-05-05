@@ -152,7 +152,7 @@ export default function StudioQuotePage() {
           </Field>
           <Field label="Contact email">
             <input
-              type="email"
+              type="text"
               value={form.contact_email}
               onChange={(e) => set("contact_email", e.target.value)}
               className="rounded-md border border-neutral-300 px-3 py-2"

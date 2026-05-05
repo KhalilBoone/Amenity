@@ -142,7 +142,9 @@ def _format_partner_po_email(
             f"  • Required certifications: {', '.join(spec['required_certifications'])}"
         )
     if spec.get("notes"):
-        lines += ["", "Client notes:", f"  {spec['notes']}"]
+        # Notes are passed through as Amenity's own brief — never reference
+        # the client or use language that reveals a third party placed this order.
+        lines += ["", "Additional specs:", f"  {spec['notes']}"]
     lines += [
         "",
         "Please confirm acceptance and propose a sample timeline.",

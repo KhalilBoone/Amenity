@@ -162,8 +162,8 @@ export default function CartPage() {
                     )}
                     <div className="mt-3 flex items-center gap-3">
                       <label className="text-xs uppercase tracking-wider text-neutral-500">Qty</label>
-                      <input type="number" min={1} value={item.quantity}
-                        onChange={(e) => setQuantity(item.id, Math.max(1, parseInt(e.target.value || "1", 10)))}
+                      <input type="text" inputMode="numeric" value={item.quantity}
+                        onChange={(e) => { const n = parseInt(e.target.value.replace(/\D/g, "") || "1", 10); setQuantity(item.id, Math.max(1, n)); }}
                         className="w-20 rounded-md border border-neutral-300 px-2 py-1 text-sm"/>
                       <button type="button" onClick={() => removeItem(item.id)}
                         className="text-xs text-neutral-500 underline-offset-4 hover:underline">Remove</button>
@@ -294,15 +294,13 @@ export default function CartPage() {
                         Qty
                       </label>
                       <input
-                        type="number"
-                        min={1}
+                        type="text"
+                        inputMode="numeric"
                         value={line.quantity}
-                        onChange={(e) =>
-                          setQuantity(
-                            line.id,
-                            Math.max(1, parseInt(e.target.value || "1", 10))
-                          )
-                        }
+                        onChange={(e) => {
+                          const n = parseInt(e.target.value.replace(/\D/g, "") || "1", 10);
+                          setQuantity(line.id, Math.max(1, n));
+                        }}
                         className="w-20 rounded-md border border-neutral-300 px-2 py-1 text-sm"
                       />
                       <button
