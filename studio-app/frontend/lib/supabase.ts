@@ -20,8 +20,8 @@ if (!url || !anonKey) {
 }
 
 export const supabase: SupabaseClient = createClient(
-  url ?? "http://localhost",
-  anonKey ?? "missing-anon-key",
+  url!,
+  anonKey!,
   {
     auth: {
       persistSession: true,

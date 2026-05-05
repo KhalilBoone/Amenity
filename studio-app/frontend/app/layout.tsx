@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Handbag, Scissors, UserCircle } from "@phosphor-icons/react/ssr";
 import { SiteHeader } from "@/components/SiteHeader";
+import NewsletterSignup from "@/components/NewsletterSignup";
 import "./globals.css";
 
 /* ── SEO metadata ──────────────────────────────────────────────────────────── */
@@ -70,17 +71,20 @@ export default function RootLayout({
         <SiteHeader />
         <div className="min-h-[calc(100vh-72px)]">{children}</div>
 
+        {/* ── Newsletter ─────────────────────────────────────────────────── */}
+        <NewsletterSignup />
+
         <footer className="border-t border-neutral-200 px-6 py-10 text-sm text-neutral-500">
           <div className="mx-auto flex max-w-[1200px] flex-col items-start justify-between gap-4 px-4 sm:px-0 md:flex-row md:items-center">
             <p className="font-display text-base text-ink">Amenity</p>
             <div className="flex flex-wrap gap-6 text-xs">
-              <a href="/blanks" className="inline-flex items-center gap-1 hover:text-ink transition-colors">
-                <Handbag size={13} aria-hidden /> Blanks
+              <a href="/blanks" className="inline-flex items-center gap-1 transition-colors hover:text-ink hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor]">
+                <Handbag size={13} aria-hidden /> Wholesale
               </a>
-              <a href="/studio" className="inline-flex items-center gap-1 hover:text-ink transition-colors">
-                <Scissors size={13} aria-hidden /> Studio
+              <a href="/studio" className="inline-flex items-center gap-1 transition-colors hover:text-ink hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor]">
+                <Scissors size={13} aria-hidden /> Production
               </a>
-              <a href="/sign-in" className="inline-flex items-center gap-1 hover:text-ink transition-colors">
+              <a href="/sign-in" className="inline-flex items-center gap-1 transition-colors hover:text-ink hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor]">
                 <UserCircle size={13} aria-hidden /> Sign in
               </a>
             </div>

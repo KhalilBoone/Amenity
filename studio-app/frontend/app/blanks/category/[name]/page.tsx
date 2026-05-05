@@ -53,7 +53,7 @@ export default async function CategoryPage({
       {/* breadcrumb */}
       <nav className="mb-6 text-sm text-neutral-500">
         <Link href="/blanks" className="hover:underline">
-          Blanks
+          Wholesale
         </Link>
         <span className="mx-2">/</span>
         <span className="text-neutral-900">{copy.title}</span>

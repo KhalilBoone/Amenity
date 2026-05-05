@@ -29,7 +29,7 @@ function SignInContent() {
     try {
       const redirect =
         typeof window !== "undefined"
-          ? `${window.location.origin}${next}`
+          ? `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`
           : undefined;
       const { error: err } = await supabase.auth.signInWithOAuth({
         provider: "google",
@@ -53,7 +53,7 @@ function SignInContent() {
           Sign in or create an account
         </h1>
         <p className="mt-2 text-sm text-neutral-600">
-          Continue with the account you already use. We never see your password.
+          Use the same account you already have. Sign in and sign up are the same step.
         </p>
       </header>
 
@@ -61,21 +61,20 @@ function SignInContent() {
         type="button"
         onClick={startGoogle}
         disabled={busy}
-        className="flex w-full items-center justify-center gap-3 rounded-md border border-neutral-300 bg-white px-6 py-3 text-base font-medium text-neutral-900 transition hover:bg-neutral-50 disabled:opacity-40"
+        className="group flex w-full items-center justify-center gap-3 rounded-lg border border-neutral-300 bg-white px-6 py-3 text-base font-medium text-neutral-900 transition-all duration-200 hover:border-neutral-400 hover:bg-neutral-50 hover:shadow-sm active:scale-[0.99] disabled:opacity-40"
       >
         <GoogleIcon />
         {busy ? "Redirecting…" : "Continue with Google"}
       </button>
 
       {error && (
-        <p className="rounded-md bg-red-50 p-3 text-sm text-red-700">
+        <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
           Couldn&apos;t start sign-in: {error}
         </p>
       )}
 
       <p className="text-xs text-neutral-500">
-        By continuing you agree to Amenity&apos;s Terms of Service and Privacy
-        Policy.
+        By continuing you agree to Amenity&apos;s Terms of Service and Privacy Policy.
       </p>
     </main>
   );

@@ -14,6 +14,7 @@ import {
   Tag,
   Package,
 } from "@phosphor-icons/react";
+import InquiryModal, { type InquiryMode } from "@/components/InquiryModal";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    HERO
@@ -121,8 +122,8 @@ function FeaturedBrands() {
           href="/blanks"
           className="group inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-ink transition-colors"
         >
-          All blanks
-          <span className="flex h-6 w-6 items-center justify-center rounded-full border border-neutral-300 transition-all duration-200 group-hover:border-ink group-hover:text-ink">
+          All wholesale
+          <span className="flex h-6 w-6 items-center justify-center rounded-full border border-neutral-300 transition-all duration-200 group-hover:bg-ink group-hover:border-ink group-hover:text-paper">
             <ArrowUpRight size={11} weight="bold" aria-hidden />
           </span>
         </Link>
@@ -184,7 +185,7 @@ function ServicesGrid() {
     { icon: <GearSix size={20} weight="regular" aria-hidden />, title: "Production runs",
       body: "Small-batch to volume. Full-package cut-and-sew across knitwear, wovens, outerwear, and accessories." },
     { icon: <PaintBrush size={20} weight="regular" aria-hidden />, title: "Decoration",
-      body: "Screen print, embroidery, DTG, and label work. Add your logo to any blanks SKU, or specify it in your Studio brief." },
+      body: "Screen print, embroidery, DTG, and label work. Add your logo to any wholesale SKU, or specify it in your Production brief." },
     { icon: <SealCheck size={20} weight="regular" aria-hidden />, title: "Quality assurance",
       body: "Inline inspection, AQL sampling, and photo QA at every milestone. Defects caught at the factory, not your warehouse." },
     { icon: <Truck size={20} weight="regular" aria-hidden />, title: "Logistics & fulfillment",
@@ -222,6 +223,14 @@ function ServicesGrid() {
 ───────────────────────────────────────────────────────────────────────────── */
 
 export default function HomePage() {
+  const [inquiryOpen, setInquiryOpen] = useState(false);
+  const [inquiryMode, setInquiryMode] = useState<InquiryMode>("production");
+
+  function openInquiry(mode: InquiryMode) {
+    setInquiryMode(mode);
+    setInquiryOpen(true);
+  }
+
   return (
     <main>
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
@@ -247,28 +256,33 @@ export default function HomePage() {
             <div className="mt-8 flex flex-col gap-3 sm:max-w-[280px]">
               <Link
                 href="/blanks"
-                className="flex items-center justify-between rounded-md bg-ink px-6 py-3.5
-                           text-base font-medium text-paper transition-colors
-                           hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2
+                className="group flex items-center justify-between rounded-md bg-ink px-6 py-3.5
+                           text-base font-medium text-paper transition-all duration-200
+                           hover:bg-neutral-800 hover:scale-[1.01] active:scale-[0.99]
+                           focus-visible:outline focus-visible:outline-2
                            focus-visible:outline-offset-2 focus-visible:outline-ink"
               >
-                Shop Blanks Catalog
-                <span className="flex h-6 w-6 items-center justify-center rounded-full border border-paper/40">
+                Shop Wholesale
+                <span className="flex h-6 w-6 items-center justify-center rounded-full border border-paper/40
+                                 transition-all duration-200 group-hover:bg-paper group-hover:border-paper group-hover:text-ink">
                   <ArrowRight size={12} weight="bold" aria-hidden />
                 </span>
               </Link>
-              <Link
-                href="/sign-in"
-                className="flex items-center justify-between rounded-md border border-ink
-                           px-6 py-3.5 text-base font-medium text-ink transition-colors
-                           hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2
+              <button
+                type="button"
+                onClick={() => openInquiry("production")}
+                className="group flex items-center justify-between rounded-md border border-ink
+                           px-6 py-3.5 text-base font-medium text-ink transition-all duration-200
+                           hover:bg-neutral-100 hover:scale-[1.01] active:scale-[0.99]
+                           focus-visible:outline focus-visible:outline-2
                            focus-visible:outline-offset-2 focus-visible:outline-ink"
               >
-                Sign Up to Customize
-                <span className="flex h-6 w-6 items-center justify-center rounded-full border border-ink/30">
+                Start Custom Order
+                <span className="flex h-6 w-6 items-center justify-center rounded-full border border-ink/30
+                                 transition-all duration-200 group-hover:bg-ink group-hover:border-ink group-hover:text-paper">
                   <ArrowRight size={12} weight="bold" aria-hidden />
                 </span>
-              </Link>
+              </button>
             </div>
           </div>
 
@@ -295,61 +309,96 @@ export default function HomePage() {
         <hr className="border-neutral-100" />
       </div>
 
-      {/* ── SHOP / STUDIO CTAs ───────────────────────────────────────────── */}
+      {/* ── WHOLESALE / PRODUCTION / SOURCING CTAs ──────────────────────── */}
       <div className="mx-auto max-w-[1200px] px-4 sm:px-0 pb-16">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
 
-          {/* Blanks — image card */}
+          {/* Wholesale — image card */}
           <Link
             href="/blanks"
             className="group relative overflow-hidden rounded-2xl bg-stone-200"
-            style={{ minHeight: "420px" }}
+            style={{ minHeight: "380px" }}
           >
-            {/* Swap this div for <Image src="..." fill className="object-cover" /> */}
             <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.03]" />
-            {/* Gradient scrim */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-            {/* Text overlay */}
-            <div className="absolute bottom-0 left-0 p-8 text-paper">
-              <p className="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">Blanks</p>
-              <p className="font-display text-3xl tracking-tight leading-tight">
+            <div className="absolute bottom-0 left-0 p-7 text-paper">
+              <p className="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">Wholesale</p>
+              <p className="font-display text-2xl tracking-tight leading-tight">
                 Shop the catalog.
               </p>
               <p className="mt-2 text-sm text-white/70 max-w-xs leading-relaxed">
                 Heavyweight basics — tees, hoodies, sweats, and more. B2B pricing, ships in 5–7 days.
               </p>
-              <span className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-ink transition-all duration-200 group-hover:bg-neutral-100">
+              <span className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-ink transition-all duration-200 group-hover:bg-neutral-100 group-hover:-translate-y-0.5 group-hover:shadow-md">
                 Shop Now
-                <ArrowRight size={14} weight="bold" aria-hidden />
+                <span className="flex h-5 w-5 items-center justify-center rounded-full border border-ink/20 transition-all duration-200 group-hover:bg-ink group-hover:border-ink group-hover:text-paper">
+                  <ArrowRight size={10} weight="bold" aria-hidden />
+                </span>
               </span>
             </div>
           </Link>
 
-          {/* Studio — image card */}
-          <Link
-            href="/studio"
-            className="group relative overflow-hidden rounded-2xl bg-zinc-700"
-            style={{ minHeight: "420px" }}
+          {/* Production — button card (auth-gated inquiry modal) */}
+          <button
+            type="button"
+            onClick={() => openInquiry("production")}
+            className="group relative overflow-hidden rounded-2xl bg-zinc-700 text-left"
+            style={{ minHeight: "380px" }}
           >
             <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.03]" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
-            <div className="absolute bottom-0 left-0 p-8 text-paper">
-              <p className="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">Studio</p>
-              <p className="font-display text-3xl tracking-tight leading-tight">
+            <div className="absolute bottom-0 left-0 p-7 text-paper">
+              <p className="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">Production</p>
+              <p className="font-display text-2xl tracking-tight leading-tight">
                 Build your own line.
               </p>
               <p className="mt-2 text-sm text-white/70 max-w-xs leading-relaxed">
-                Full-package production with our vetted partner network. Sourcing, sampling, QA, and delivery.
+                Full-package manufacturing with our vetted partner network. Describe what you need.
               </p>
-              <span className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-ink transition-all duration-200 group-hover:bg-neutral-100">
-                Learn More
-                <ArrowRight size={14} weight="bold" aria-hidden />
+              <span className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-ink transition-all duration-200 group-hover:bg-neutral-100 group-hover:-translate-y-0.5 group-hover:shadow-md">
+                Start Production
+                <span className="flex h-5 w-5 items-center justify-center rounded-full border border-ink/20 transition-all duration-200 group-hover:bg-ink group-hover:border-ink group-hover:text-paper">
+                  <ArrowRight size={10} weight="bold" aria-hidden />
+                </span>
               </span>
             </div>
-          </Link>
+          </button>
+
+          {/* Sourcing — button card (auth-gated inquiry modal) */}
+          <button
+            type="button"
+            onClick={() => openInquiry("sourcing")}
+            className="group relative overflow-hidden rounded-2xl bg-amber-100 text-left"
+            style={{ minHeight: "380px" }}
+          >
+            <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.03]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+            <div className="absolute bottom-0 left-0 p-7 text-paper">
+              <p className="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">Sourcing</p>
+              <p className="font-display text-2xl tracking-tight leading-tight">
+                Find the right materials.
+              </p>
+              <p className="mt-2 text-sm text-white/70 max-w-xs leading-relaxed">
+                Premium fabrics from vetted mills — heavyweight knits, French terry, fleece, twill, and more.
+              </p>
+              <span className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-ink transition-all duration-200 group-hover:bg-neutral-100 group-hover:-translate-y-0.5 group-hover:shadow-md">
+                Start Sourcing
+                <span className="flex h-5 w-5 items-center justify-center rounded-full border border-ink/20 transition-all duration-200 group-hover:bg-ink group-hover:border-ink group-hover:text-paper">
+                  <ArrowRight size={10} weight="bold" aria-hidden />
+                </span>
+              </span>
+            </div>
+          </button>
 
         </div>
       </div>
+
+      {/* Unified inquiry modal (production + sourcing, auth-gated) */}
+      <InquiryModal
+        open={inquiryOpen}
+        mode={inquiryMode}
+        onClose={() => setInquiryOpen(false)}
+      />
 
     </main>
   );

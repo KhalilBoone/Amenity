@@ -161,6 +161,33 @@ class CheckoutRequest(BaseModel):
     cancel_url: str
 
 
+class ProductionInquireRequest(BaseModel):
+    """Free-text production request submitted from the homepage modal.
+    All fields are strings — the backend parses them."""
+    description: str                      # main free-text field (required)
+    brand_name: str = ""
+    quantity: str = ""                    # e.g. "24", "100 pieces"
+    budget: str = ""                      # e.g. "$25 per unit"
+    timeline: str = ""                    # e.g. "6 months", "Q3 2025"
+    notes: str = ""
+    image_urls: list[str] = []
+    contact_email: str | None = None
+
+
+class SourcingInquireRequest(BaseModel):
+    """Free-text sourcing / materials request from the homepage modal.
+    All fields are strings — the backend parses them."""
+    description: str                      # main free-text field (required)
+    brand_name: str = ""
+    material_type: str = ""               # e.g. "French terry, 400gsm"
+    quantity: str = ""                    # e.g. "500 metres"
+    budget: str = ""                      # e.g. "$4,000"
+    timeline: str = ""                    # e.g. "Q3 2025"
+    certifications: str = ""             # e.g. "GOTS, OEKO-TEX"
+    notes: str = ""
+    contact_email: str | None = None
+
+
 class QaCheckpointRequest(BaseModel):
     """Ops-only: mark a single checkpoint passed/failed on a Studio order."""
     name: str                          # e.g. "Pre-production sample"
@@ -450,6 +477,236 @@ if app is not None:
             pass
 
         return {"order_id": order["id"], "status": order["status"]}
+
+    # ---------------- Production: free-text inquire ------------------
+    @app.post("/production/inquire")
+    def production_inquire(
+        body: "ProductionInquireRequest",
+        user: CurrentUser = Depends(require_user),
+    ) -> dict[str, Any]:
+        """
+        Accept a free-text production request from the homepage modal.
+
+        Steps:
+          1. Extract capabilities + quantity from the description string.
+          2. Find-or-create the user's brand.
+          3. Persist an order row (order_type='studio', status='intake').
+          4. Fire the agent graph in a best-effort background call.
+          5. Return order_id + matched_capabilities so the UI can show
+             what we detected.
+        """
+        from agents.nodes.intake.keyword_extraction import extract_spec_from_description
+
+        spec = extract_spec_from_description(body.description)
+        # Honour an explicit quantity string if provided and parseable.
+        if body.quantity:
+            try:
+                spec["quantity"] = int(body.quantity.replace(",", "").strip())
+            except ValueError:
+                pass  # keep whatever was extracted from description
+
+        admin = service_client()
+
+        # Find or create brand for this user.
+        brand_rows = (
+            admin.table("brands")
+            .select("id, name")
+            .eq("owner_uid", user.user_id)
+            .limit(1)
+            .execute()
+            .data
+            or []
+        )
+        if brand_rows:
+            brand_id = brand_rows[0]["id"]
+            if body.brand_name and body.brand_name != brand_rows[0].get("name"):
+                admin.table("brands").update({"name": body.brand_name}).eq(
+                    "id", brand_id
+                ).execute()
+        else:
+            created = (
+                admin.table("brands")
+                .insert(
+                    {
+                        "owner_uid": user.user_id,
+                        "name": body.brand_name or "My Brand",
+                        "contact_email": body.contact_email or user.email,
+                    }
+                )
+                .execute()
+                .data[0]
+            )
+            brand_id = created["id"]
+
+        order_row = (
+            admin.table("orders")
+            .insert(
+                {
+                    "brand_id":   brand_id,
+                    "user_id":    user.user_id,
+                    "order_type": "studio",
+                    "status":     "intake",
+                    # Store everything in spec so the graph can use it.
+                    "spec": {
+                        **spec,
+                        "raw_description": body.description,
+                        "budget":          body.budget,
+                        "timeline":        body.timeline,
+                        "notes":           body.notes,
+                        "image_urls":      body.image_urls,
+                    },
+                }
+            )
+            .execute()
+            .data[0]
+        )
+
+        # Fire the graph best-effort (won't block the HTTP response).
+        try:
+            run_order(  # type: ignore[arg-type]
+                {
+                    "order_id":  order_row["id"],
+                    "raw_input": {
+                        "capabilities": spec["capabilities"],
+                        "quantity":     spec.get("quantity"),
+                        "notes":        body.description,
+                    },
+                    "status": "intake",
+                }
+            )
+        except Exception:
+            pass
+
+        return {
+            "order_id":             order_row["id"],
+            "status":               "intake",
+            "matched_capabilities": spec["capabilities"],
+            "detected_quantity":    spec.get("quantity"),
+            "detected_colors":      spec.get("colors", []),
+        }
+
+    # ---------------- Sourcing: free-text inquire --------------------
+    @app.post("/sourcing/inquire")
+    def sourcing_inquire(
+        body: "SourcingInquireRequest",
+        user: CurrentUser = Depends(require_user),
+    ) -> dict[str, Any]:
+        """
+        Accept a free-text sourcing / materials inquiry from the homepage modal.
+
+        Steps:
+          1. Combine description + explicit fields into a single text blob for
+             keyword extraction.
+          2. Extract material tags, certifications, weight hints, and volume.
+          3. Find-or-create the user's brand.
+          4. Persist an order row (order_type='sourcing', status='intake').
+          5. Fire the agent graph best-effort.
+          6. Return order_id + matched_materials + certifications so the UI
+             can reflect what we detected.
+        """
+        from agents.nodes.intake.sourcing_keyword_extraction import (
+            extract_spec_from_inquiry,
+        )
+
+        # Build a combined text blob so extractors see all context.
+        combined = " ".join(
+            filter(
+                None,
+                [
+                    body.description,
+                    body.material_type,
+                    body.certifications,
+                    body.quantity,
+                ],
+            )
+        )
+        spec = extract_spec_from_inquiry(combined)
+
+        # Honour an explicit volume string if provided and parseable.
+        if body.quantity:
+            try:
+                spec["volume"] = int(body.quantity.replace(",", "").strip())
+            except ValueError:
+                pass
+
+        admin = service_client()
+
+        # Find or create brand for this user.
+        brand_rows = (
+            admin.table("brands")
+            .select("id, name")
+            .eq("owner_uid", user.user_id)
+            .limit(1)
+            .execute()
+            .data
+            or []
+        )
+        if brand_rows:
+            brand_id = brand_rows[0]["id"]
+            if body.brand_name and body.brand_name != brand_rows[0].get("name"):
+                admin.table("brands").update({"name": body.brand_name}).eq(
+                    "id", brand_id
+                ).execute()
+        else:
+            created = (
+                admin.table("brands")
+                .insert(
+                    {
+                        "owner_uid": user.user_id,
+                        "name": body.brand_name or "My Brand",
+                        "contact_email": body.contact_email or user.email,
+                    }
+                )
+                .execute()
+                .data[0]
+            )
+            brand_id = created["id"]
+
+        order_row = (
+            admin.table("orders")
+            .insert(
+                {
+                    "brand_id":   brand_id,
+                    "user_id":    user.user_id,
+                    "order_type": "sourcing",
+                    "status":     "intake",
+                    "spec": {
+                        **spec,
+                        "raw_description": body.description,
+                        "material_type":   body.material_type,
+                        "budget":          body.budget,
+                        "timeline":        body.timeline,
+                        "notes":           body.notes,
+                    },
+                }
+            )
+            .execute()
+            .data[0]
+        )
+
+        # Fire graph best-effort.
+        try:
+            run_order(  # type: ignore[arg-type]
+                {
+                    "order_id":  order_row["id"],
+                    "raw_input": {
+                        "capabilities": spec["materials"],
+                        "notes":        body.description,
+                    },
+                    "status": "intake",
+                }
+            )
+        except Exception:
+            pass
+
+        return {
+            "order_id":          order_row["id"],
+            "status":            "intake",
+            "matched_materials": spec["materials"],
+            "certifications":    spec["certifications"],
+            "weight_hints":      spec["weight_hints"],
+            "detected_volume":   spec.get("volume"),
+        }
 
     # ---------------- Blanks: products -------------------------------
     @app.get("/products")

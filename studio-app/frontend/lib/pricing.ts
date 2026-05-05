@@ -5,6 +5,63 @@ import type {
   DecorationTechnique,
 } from "@/types";
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   VOLUME / WHOLESALE TIERED PRICING
+   These tiers apply to all blanks SKUs regardless of decoration.
+   Tiers:  1–11 → 0%  (full price)
+           12–35 → 10% off
+           36–63 → 20% off
+           64–95 → 30% off
+           96+   → 40% off
+─────────────────────────────────────────────────────────────────────────────── */
+
+export interface VolumeTier {
+  min: number;
+  max: number | null; // null = unlimited
+  discountPct: number; // 0–100
+  label: string;
+}
+
+export const VOLUME_TIERS: VolumeTier[] = [
+  { min: 1,  max: 11,  discountPct: 0,  label: "1–11"   },
+  { min: 12, max: 35,  discountPct: 10, label: "12–35"  },
+  { min: 36, max: 63,  discountPct: 20, label: "36–63"  },
+  { min: 64, max: 95,  discountPct: 30, label: "64–95"  },
+  { min: 96, max: null, discountPct: 40, label: "96+"   },
+];
+
+/** Return the tier that applies for a given quantity. */
+export function volumeTierFor(qty: number): VolumeTier {
+  for (const tier of VOLUME_TIERS) {
+    const max = tier.max ?? Infinity;
+    if (qty >= tier.min && qty <= max) return tier;
+  }
+  // Fallback — should never happen for qty ≥ 1
+  return VOLUME_TIERS[VOLUME_TIERS.length - 1];
+}
+
+/** Discount multiplier for a given quantity (e.g. 0.80 for 20% off). */
+export function volumeMultiplier(qty: number): number {
+  return 1 - volumeTierFor(qty).discountPct / 100;
+}
+
+/**
+ * Tiered unit price after volume discount.
+ * @param basePrice  full list price per unit
+ * @param qty        total quantity ordered
+ */
+export function tieredUnitPrice(basePrice: number, qty: number): number {
+  return round2(basePrice * volumeMultiplier(qty));
+}
+
+/**
+ * The lowest possible unit price for a SKU (at 96+ tier = 40% off).
+ * Useful for showing "from $X" on catalog tiles.
+ */
+export function lowestTieredPrice(basePrice: number): number {
+  return tieredUnitPrice(basePrice, 96);
+}
+
 /** Pick the band that covers ``quantity`` for a given technique. */
 export function pricingBandFor(
   rules: CustomizationPricing[],

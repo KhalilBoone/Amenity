@@ -45,9 +45,9 @@ export default function StudioQuotePage() {
     brand_name: "",
     contact_email: "",
     product_type: "Tee",
-    quantity: 250,
-    target_price: "" as string | "",
-    due_date: "" as string | "",
+    quantity: "250",
+    target_price: "",
+    due_date: "",
     similar_brands: "",
     notes: "",
   });
@@ -95,8 +95,8 @@ export default function StudioQuotePage() {
         brand_name: form.brand_name,
         contact_email: form.contact_email || null,
         product_type: form.product_type,
-        quantity: Number(form.quantity),
-        target_price: form.target_price ? Number(form.target_price) : null,
+        quantity: form.quantity ? Math.max(1, parseInt(form.quantity.replace(/[^0-9]/g, "") || "1", 10)) : 1,
+        target_price: form.target_price ? parseFloat(form.target_price.replace(/[^0-9.]/g, "")) || null : null,
         due_date: form.due_date || null,
         capabilities: Array.from(capabilities),
         required_certifications: [],
@@ -128,7 +128,7 @@ export default function StudioQuotePage() {
     <main className="mx-auto max-w-3xl px-4 sm:px-0 py-12 md:py-16">
       <header className="mb-10">
         <p className="text-sm uppercase tracking-[0.2em] text-neutral-500">
-          Studio
+          Production
         </p>
         <h1 className="mt-2 font-display text-4xl tracking-tight md:text-5xl">
           Start a quote
@@ -177,32 +177,30 @@ export default function StudioQuotePage() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <Field label="Quantity" required>
               <input
-                type="number"
-                min={1}
+                type="text"
+                required
                 value={form.quantity}
-                onChange={(e) =>
-                  set("quantity", Math.max(1, parseInt(e.target.value || "1", 10)))
-                }
+                onChange={(e) => set("quantity", e.target.value)}
+                placeholder="e.g. 250"
                 className="rounded-md border border-neutral-300 px-3 py-2"
               />
             </Field>
             <Field label="Target price / unit (USD)">
               <input
-                type="number"
-                step="0.01"
-                min={0}
+                type="text"
                 value={form.target_price}
                 onChange={(e) => set("target_price", e.target.value)}
                 className="rounded-md border border-neutral-300 px-3 py-2"
-                placeholder="Optional"
+                placeholder="e.g. $25"
               />
             </Field>
             <Field label="Need by">
               <input
-                type="date"
+                type="text"
                 value={form.due_date}
                 onChange={(e) => set("due_date", e.target.value)}
                 className="rounded-md border border-neutral-300 px-3 py-2"
+                placeholder="e.g. Q3 2025, 6 months"
               />
             </Field>
           </div>
