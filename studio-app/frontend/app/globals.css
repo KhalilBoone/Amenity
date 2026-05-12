@@ -26,6 +26,25 @@ html, body {
 .animate-delay-300 { animation-delay: 0.30s; }
 .animate-delay-400 { animation-delay: 0.40s; }
 
+/* ── Marquee (vertical scroll for hero product columns) ──────────────────── */
+@keyframes marquee-up {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+@keyframes marquee-down {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0); }
+}
+.animate-marquee-up {
+  animation: marquee-up 28s linear infinite;
+}
+.animate-marquee-down {
+  animation: marquee-down 32s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-up, .animate-marquee-down { animation: none; }
+}
+
 /* ── Category pill ──────────────────────────────────────────────────────── */
 .pill {
   display: inline-flex;

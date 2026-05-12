@@ -173,7 +173,7 @@ export default function ProductDetailPage() {
           customization: null,
         });
       }
-      router.push("/cart");
+      router.push("/shop/cart");
     } catch (e) { setError(String(e)); }
     finally { setAdding(false); }
   }
@@ -189,7 +189,7 @@ export default function ProductDetailPage() {
       name: product.name,
       price: String(selectedVariant.price),
     });
-    router.push(`/blanks/${slug}/customize?${qs}`);
+    router.push(`/shop/blanks/${slug}/customize?${qs}`);
   }
 
   /* ── Loading / error states ── */
@@ -212,7 +212,7 @@ export default function ProductDetailPage() {
 
       {/* ── Breadcrumb ── */}
       <nav className="mb-8 flex items-center gap-1.5 text-sm text-neutral-500">
-        <Link href="/blanks" className="hover:text-ink transition-colors">Wholesale</Link>
+        <Link href="/shop/blanks" className="hover:text-ink transition-colors">Wholesale</Link>
         <span>/</span>
         {product.category && (
           <>

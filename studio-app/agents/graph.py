@@ -1,19 +1,17 @@
 """LangGraph wiring for the Amenity agent pipeline.
 
-Two graphs live here:
+After Studio sunset, only one graph remains:
 
-  build_order_graph()   — Studio: intake → compliance → routing → fulfillment
-                          → qa → comms → invoicing
-  build_bid_graph()     — Supply Co.: partner_monitor → compliance → comms
+  build_bid_graph()  — Supply Co.: partner_monitor → compliance → comms
 
-Both share `AgentState` from `agents.state`.
+The Shop/Blanks `blanks_fulfillment` node is invoked directly from the Stripe
+webhook in `api/main.py` and does not run through a graph (single-step), so it
+is not wired here.
 
 The node functions are imported from `agents/nodes/<name>/<name>.py`. Each one
 is a pure function `(state: AgentState) -> AgentState` (or partial dict).
 """
 from __future__ import annotations
-
-from typing import Callable
 
 # LangGraph is the intended runtime, but we keep the import lazy so the file
 # can be imported in environments that don't have it installed yet.
@@ -24,53 +22,9 @@ except Exception:  # pragma: no cover
     END = "END"        # type: ignore
 
 from agents.state import AgentState
-from agents.nodes.intake.intake import intake_node
 from agents.nodes.compliance.compliance import compliance_node
-from agents.nodes.routing.routing import routing_node
-from agents.nodes.fulfillment.fulfillment import fulfillment_node
-from agents.nodes.qa.qa import qa_node
 from agents.nodes.comms.comms import comms_node
-from agents.nodes.invoicing.invoicing import invoicing_node
 from agents.nodes.partner_monitor.partner_monitor import partner_monitor_node
-
-
-# ----------------------------------------------------------------------
-# Order graph (Studio)
-# ----------------------------------------------------------------------
-def build_order_graph():
-    """Build the Studio order pipeline graph.
-
-    intake → compliance → routing → fulfillment → qa → comms → invoicing → END
-    """
-    if StateGraph is None:
-        raise RuntimeError(
-            "langgraph is not installed. `pip install langgraph` to run the graph."
-        )
-
-    g = StateGraph(AgentState)
-    g.add_node("intake", intake_node)
-    g.add_node("compliance", compliance_node)
-    g.add_node("routing", routing_node)
-    g.add_node("fulfillment", fulfillment_node)
-    g.add_node("qa", qa_node)
-    g.add_node("comms", comms_node)
-    g.add_node("invoicing", invoicing_node)
-
-    g.set_entry_point("intake")
-    g.add_edge("intake", "compliance")
-    g.add_edge("compliance", "routing")
-    g.add_edge("routing", "fulfillment")
-    g.add_edge("fulfillment", "qa")
-    g.add_conditional_edges("qa", _qa_router, {"pass": "comms", "fail": "fulfillment"})
-    g.add_edge("comms", "invoicing")
-    g.add_edge("invoicing", END)
-
-    return g.compile()
-
-
-def _qa_router(state: AgentState) -> str:
-    """If QA fails, loop back to fulfillment to rework."""
-    return "pass" if state.get("qa_passed", False) else "fail"
 
 
 # ----------------------------------------------------------------------
@@ -102,15 +56,9 @@ def build_bid_graph():
 # ----------------------------------------------------------------------
 # Convenience runners
 # ----------------------------------------------------------------------
-def run_order(initial: AgentState) -> AgentState:
-    """One-shot helper for FastAPI routes."""
-    graph = build_order_graph()
-    return graph.invoke(initial)
-
-
 def run_bid(initial: AgentState) -> AgentState:
     graph = build_bid_graph()
     return graph.invoke(initial)
 
 
-__all__ = ["build_order_graph", "build_bid_graph", "run_order", "run_bid"]
+__all__ = ["build_bid_graph", "run_bid"]

@@ -9,29 +9,55 @@ import { lowestTieredPrice } from "@/lib/pricing";
 const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 type ProductWithVariants = Product & { product_variants: ProductVariant[] };
 
+/* ─── Unsplash placeholder image helper ─── */
+const BLANKS_UNSPLASH: Record<string, string> = {
+  "Essentials Tee":        "photo-1521572163474-6864f9cf17ab",
+  "Heavyweight Tee":       "photo-1583743814966-8936f5b7be1a",
+  "Long-Sleeve Tee":       "photo-1618354691373-d851c5c3a990",
+  "Heavyweight Hoodie":    "photo-1556821840-3a63f15732ce",
+  "French Terry Crewneck": "photo-1578587029809-cf2c23b8f4e2",
+  "Washed Fleece":         "photo-1602810318383-e386cc2a3ccf",
+  "Relaxed Chino":         "photo-1624378439575-d8705ad7ae80",
+  "Fleece Shorts":         "photo-1591195853828-11db59a44f43",
+  "Cargo Pant":            "photo-1624378439575-d8705ad7ae80",
+  "Structured 6-Panel":    "photo-1588850561407-ed78c282e89b",
+  "Dad Hat":               "photo-1575428652377-a2d80e2277fc",
+  "Nylon Bomber":          "photo-1551537482-f2075a1d41f2",
+  "Track Jacket":          "photo-1547592166-23ac45744acd",
+  "Canvas Tote":           "photo-1544816155-12df9643f363",
+  "Low-Top Sneaker":       "photo-1542291026-7eec264c27ff",
+  "Suede Loafer":          "photo-1614252369142-d1e5bb87c2a3",
+};
+function blanksImg(name: string) {
+  const id = BLANKS_UNSPLASH[name];
+  if (!id) return undefined;
+  return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=600&h=750&q=80`;
+}
+
 /* ─── Placeholder products (shown when API returns empty) ─── */
 interface PlaceholderProduct {
   slug: string; name: string; base_price: number;
   category: string; badge?: string; rating: number;
   reviewCount: number; colors: string[]; bg: string;
+  hero_image_url?: string;
 }
 const PLACEHOLDERS: PlaceholderProduct[] = [
-  { slug:"essentials-tee",        name:"Essentials Tee",        base_price:18,  category:"Tees & Tops",      badge:"Best seller", rating:4.8, reviewCount:127, colors:["#d4cec5","#1a1a1a","#8b7355","#4a6741"],          bg:"bg-stone-200"   },
-  { slug:"heavyweight-hoodie",    name:"Heavyweight Hoodie",    base_price:42,  category:"Hoodies & Fleece", badge:"New",         rating:4.6, reviewCount:43,  colors:["#e5e0d8","#1a1a1a","#5c6b7a"],                   bg:"bg-neutral-200" },
-  { slug:"french-terry-crewneck", name:"French Terry Crewneck", base_price:38,  category:"Hoodies & Fleece",                      rating:4.7, reviewCount:89,  colors:["#c8b89a","#2d3748","#744210"],                   bg:"bg-amber-100"   },
-  { slug:"relaxed-chino",         name:"Relaxed Chino",         base_price:54,  category:"Bottoms",          badge:"Best seller", rating:4.5, reviewCount:62,  colors:["#c9b99a","#1a1a1a","#4a5568"],                   bg:"bg-stone-300"   },
-  { slug:"structured-6-panel",    name:"Structured 6-Panel",    base_price:22,  category:"Headwear",                              rating:4.9, reviewCount:204, colors:["#1a1a1a","#d4cec5","#4a5568","#2d6a4f"],         bg:"bg-neutral-300" },
-  { slug:"nylon-bomber",          name:"Nylon Bomber",          base_price:88,  category:"Outerwear",        badge:"New",         rating:4.4, reviewCount:18,  colors:["#1a1a1a","#2d3748"],                             bg:"bg-zinc-200"    },
-  { slug:"fleece-shorts",         name:"Fleece Shorts",         base_price:28,  category:"Bottoms",                               rating:4.6, reviewCount:51,  colors:["#e5e0d8","#1a1a1a","#4a6741"],                   bg:"bg-amber-50"    },
-  { slug:"dad-hat",               name:"Dad Hat",               base_price:18,  category:"Headwear",         badge:"Best seller", rating:4.7, reviewCount:93,  colors:["#d4cec5","#1a1a1a","#8b7355"],                   bg:"bg-stone-100"   },
-  { slug:"long-sleeve-tee",       name:"Long-Sleeve Tee",       base_price:24,  category:"Tees & Tops",                           rating:4.5, reviewCount:37,  colors:["#e5e0d8","#1a1a1a","#c5b9a8","#4a5568"],         bg:"bg-neutral-100" },
-  { slug:"track-jacket",          name:"Track Jacket",          base_price:68,  category:"Outerwear",        badge:"New",         rating:4.3, reviewCount:11,  colors:["#1a1a1a","#2d6a4f","#5c6b7a"],                   bg:"bg-zinc-300"    },
-  { slug:"canvas-tote",           name:"Canvas Tote",           base_price:14,  category:"Accessories",      badge:"Best seller", rating:4.8, reviewCount:156, colors:["#d4cec5","#1a1a1a","#8b7355"],                   bg:"bg-amber-100"   },
-  { slug:"washed-fleece",         name:"Washed Fleece",         base_price:46,  category:"Hoodies & Fleece",                      rating:4.6, reviewCount:72,  colors:["#c8b89a","#4a5568","#1a1a1a"],                   bg:"bg-stone-200"   },
-  { slug:"low-top-sneaker",       name:"Low-Top Sneaker",       base_price:62,  category:"Footwear",                              rating:4.4, reviewCount:28,  colors:["#e5e0d8","#1a1a1a"],                             bg:"bg-neutral-200" },
-  { slug:"suede-loafer",          name:"Suede Loafer",          base_price:74,  category:"Footwear",         badge:"New",         rating:4.5, reviewCount:15,  colors:["#c9b99a","#4a3728"],                             bg:"bg-stone-300"   },
-  { slug:"heavyweight-tee",       name:"Heavyweight Tee",       base_price:22,  category:"Tees & Tops",      badge:"Best seller", rating:4.9, reviewCount:311, colors:["#1a1a1a","#e5e0d8","#8b7355","#4a6741","#5c6b7a"],bg:"bg-stone-200"   },
-  { slug:"cargo-pant",            name:"Cargo Pant",            base_price:58,  category:"Bottoms",          badge:"New",         rating:4.4, reviewCount:24,  colors:["#4a5568","#1a1a1a","#8b7355"],                   bg:"bg-zinc-200"    },
+  { slug:"essentials-tee",        name:"Essentials Tee",        base_price:18,  category:"Tees & Tops",      badge:"Best seller", rating:4.8, reviewCount:127, colors:["#d4cec5","#1a1a1a","#8b7355","#4a6741"],          bg:"bg-stone-200",   hero_image_url: blanksImg("Essentials Tee")        },
+  { slug:"heavyweight-hoodie",    name:"Heavyweight Hoodie",    base_price:42,  category:"Hoodies & Fleece", badge:"New",         rating:4.6, reviewCount:43,  colors:["#e5e0d8","#1a1a1a","#5c6b7a"],                   bg:"bg-neutral-200", hero_image_url: blanksImg("Heavyweight Hoodie")    },
+  { slug:"french-terry-crewneck", name:"French Terry Crewneck", base_price:38,  category:"Hoodies & Fleece",                      rating:4.7, reviewCount:89,  colors:["#c8b89a","#2d3748","#744210"],                   bg:"bg-amber-100",   hero_image_url: blanksImg("French Terry Crewneck") },
+  { slug:"relaxed-chino",         name:"Relaxed Chino",         base_price:54,  category:"Bottoms",          badge:"Best seller", rating:4.5, reviewCount:62,  colors:["#c9b99a","#1a1a1a","#4a5568"],                   bg:"bg-stone-300",   hero_image_url: blanksImg("Relaxed Chino")         },
+  { slug:"structured-6-panel",    name:"Structured 6-Panel",    base_price:22,  category:"Headwear",                              rating:4.9, reviewCount:204, colors:["#1a1a1a","#d4cec5","#4a5568","#2d6a4f"],         bg:"bg-neutral-300", hero_image_url: blanksImg("Structured 6-Panel")    },
+  { slug:"nylon-bomber",          name:"Nylon Bomber",          base_price:88,  category:"Outerwear",        badge:"New",         rating:4.4, reviewCount:18,  colors:["#1a1a1a","#2d3748"],                             bg:"bg-zinc-200",    hero_image_url: blanksImg("Nylon Bomber")           },
+  { slug:"fleece-shorts",         name:"Fleece Shorts",         base_price:28,  category:"Bottoms",                               rating:4.6, reviewCount:51,  colors:["#e5e0d8","#1a1a1a","#4a6741"],                   bg:"bg-amber-50",    hero_image_url: blanksImg("Fleece Shorts")          },
+  { slug:"dad-hat",               name:"Dad Hat",               base_price:18,  category:"Headwear",         badge:"Best seller", rating:4.7, reviewCount:93,  colors:["#d4cec5","#1a1a1a","#8b7355"],                   bg:"bg-stone-100",   hero_image_url: blanksImg("Dad Hat")                },
+  { slug:"long-sleeve-tee",       name:"Long-Sleeve Tee",       base_price:24,  category:"Tees & Tops",                           rating:4.5, reviewCount:37,  colors:["#e5e0d8","#1a1a1a","#c5b9a8","#4a5568"],         bg:"bg-neutral-100", hero_image_url: blanksImg("Long-Sleeve Tee")        },
+  { slug:"track-jacket",          name:"Track Jacket",          base_price:68,  category:"Outerwear",        badge:"New",         rating:4.3, reviewCount:11,  colors:["#1a1a1a","#2d6a4f","#5c6b7a"],                   bg:"bg-zinc-300",    hero_image_url: blanksImg("Track Jacket")           },
+  { slug:"canvas-tote",           name:"Canvas Tote",           base_price:14,  category:"Accessories",      badge:"Best seller", rating:4.8, reviewCount:156, colors:["#d4cec5","#1a1a1a","#8b7355"],                   bg:"bg-amber-100",   hero_image_url: blanksImg("Canvas Tote")            },
+  { slug:"washed-fleece",         name:"Washed Fleece",         base_price:46,  category:"Hoodies & Fleece",                      rating:4.6, reviewCount:72,  colors:["#c8b89a","#4a5568","#1a1a1a"],                   bg:"bg-stone-200",   hero_image_url: blanksImg("Washed Fleece")          },
+  { slug:"low-top-sneaker",       name:"Low-Top Sneaker",       base_price:62,  category:"Footwear",                              rating:4.4, reviewCount:28,  colors:["#e5e0d8","#1a1a1a"],                             bg:"bg-neutral-200", hero_image_url: blanksImg("Low-Top Sneaker")        },
+  { slug:"suede-loafer",          name:"Suede Loafer",          base_price:74,  category:"Footwear",         badge:"New",         rating:4.5, reviewCount:15,  colors:["#c9b99a","#4a3728"],                             bg:"bg-stone-300",   hero_image_url: blanksImg("Suede Loafer")           },
+  { slug:"heavyweight-tee",       name:"Heavyweight Tee",       base_price:22,  category:"Tees & Tops",      badge:"Best seller", rating:4.9, reviewCount:311, colors:["#1a1a1a","#e5e0d8","#8b7355","#4a6741","#5c6b7a"],bg:"bg-stone-200",   hero_image_url: blanksImg("Heavyweight Tee")        },
+  { slug:"cargo-pant",            name:"Cargo Pant",            base_price:58,  category:"Bottoms",          badge:"New",         rating:4.4, reviewCount:24,  colors:["#4a5568","#1a1a1a","#8b7355"],                   bg:"bg-zinc-200",    hero_image_url: blanksImg("Cargo Pant")             },
 ];
 
 const CATEGORIES = ["All","Tees & Tops","Hoodies & Fleece","Bottoms","Headwear","Outerwear","Footwear","Accessories"];
@@ -78,7 +104,7 @@ interface CardProps {
 }
 function ProductCard({ slug, name, base_price, badge, rating, reviewCount, colors, bg, hero_image_url }: CardProps) {
   return (
-    <Link href={`/blanks/${slug}`} className="group flex flex-col gap-3">
+    <Link href={`/shop/blanks/${slug}`} className="group flex flex-col gap-3">
       {/* Image */}
       <div className={`relative aspect-[3/4] w-full overflow-hidden rounded-xl ${bg ?? "bg-neutral-100"}`}>
         {hero_image_url ? (
@@ -170,7 +196,7 @@ export default function BlanksPage() {
         category: p.category ?? "All",
       }));
     }
-    return PLACEHOLDERS.map((p) => ({ ...p, hero_image_url: null }));
+    return PLACEHOLDERS.map((p) => ({ ...p, hero_image_url: p.hero_image_url ?? null }));
   }, [apiProducts]);
 
   const filtered = useMemo(() => {

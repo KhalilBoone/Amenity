@@ -100,7 +100,7 @@ export default function CartPage() {
   async function checkout() {
     if (useLocal) {
       // Direct to sign-in so they can create an account before placing the order
-      router.push("/sign-in?next=/cart");
+      router.push("/sign-in?next=/shop/cart");
       return;
     }
     if (!pickedAddressId) { setError("Please add or select a shipping address."); return; }
@@ -110,7 +110,7 @@ export default function CartPage() {
       const res = await apiPost<{ order_id: string; checkout_url: string }>("/checkout", {
         shipping_address_id: pickedAddressId,
         success_url: `${origin}/orders/{ORDER_ID}/success`,
-        cancel_url: `${origin}/cart`,
+        cancel_url: `${origin}/shop/cart`,
       });
       window.location.href = res.checkout_url;
     } catch (e) { setError(String(e)); setSubmitting(false); }
@@ -128,13 +128,13 @@ export default function CartPage() {
         <h1 className="mb-2 font-display text-4xl tracking-tight">Your cart</h1>
         {!signedIn && (
           <p className="mb-8 text-sm text-neutral-500">
-            <Link href="/sign-in?next=/cart" className="underline underline-offset-4">Sign in</Link> to save your cart and check out.
+            <Link href="/sign-in?next=/shop/cart" className="underline underline-offset-4">Sign in</Link> to save your cart and check out.
           </p>
         )}
         {empty ? (
           <div className="flex flex-col items-start gap-4 rounded-xl border border-dashed border-neutral-300 p-10">
             <p className="text-neutral-700">Your cart is empty.</p>
-            <Link href="/blanks" className="rounded-md bg-ink px-5 py-3 text-sm font-medium text-paper hover:bg-accent">
+            <Link href="/shop/blanks" className="rounded-md bg-ink px-5 py-3 text-sm font-medium text-paper hover:bg-accent">
               Browse Blanks →
             </Link>
           </div>
@@ -151,7 +151,7 @@ export default function CartPage() {
                   </div>
                   <div className="flex flex-1 flex-col gap-1">
                     <p className="text-xs uppercase tracking-wider text-neutral-500">{item.brand}</p>
-                    <Link href={`/blanks/${item.slug}`} className="font-medium hover:underline">{item.name}</Link>
+                    <Link href={`/shop/blanks/${item.slug}`} className="font-medium hover:underline">{item.name}</Link>
                     <p className="text-sm text-neutral-600">
                       {item.size && `Size ${item.size}`}{item.size && item.color && " · "}{item.color}
                     </p>
@@ -208,7 +208,7 @@ export default function CartPage() {
         <div className="flex flex-col items-start gap-4 rounded-xl border border-dashed border-neutral-300 p-10">
           <p className="text-neutral-700">Your cart is empty.</p>
           <Link
-            href="/blanks"
+            href="/shop/blanks"
             className="rounded-md bg-ink px-5 py-3 text-sm font-medium text-paper hover:bg-accent"
           >
             Browse Blanks →
@@ -261,7 +261,7 @@ export default function CartPage() {
                     </p>
                     {p?.slug ? (
                       <Link
-                        href={`/blanks/${p.slug}`}
+                        href={`/shop/blanks/${p.slug}`}
                         className="font-medium hover:underline"
                       >
                         {p?.name}

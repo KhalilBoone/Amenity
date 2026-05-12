@@ -327,7 +327,7 @@ export default function CustomizePage() {
           },
         });
       }
-      router.push("/cart");
+      router.push("/shop/cart");
     } catch (e) { setUploadError(String(e)); }
     finally { setSubmitting(false); }
   };

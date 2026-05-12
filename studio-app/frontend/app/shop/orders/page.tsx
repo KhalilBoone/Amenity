@@ -1,13 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiGet } from "@/lib/api";
 import { supabase } from "@/lib/supabase";
-import type { Order, OrderStatus, OrderType } from "@/types";
-
-type Filter = "all" | OrderType;
+import type { Order, OrderStatus } from "@/types";
 
 const STATUS_CLASSES: Record<OrderStatus, string> = {
   intake:      "bg-neutral-100 text-neutral-700",
@@ -27,7 +25,6 @@ export default function AccountOrdersPage() {
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
   const [orders, setOrders] = useState<Order[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState<Filter>("all");
 
   // ----- auth gate -----
   useEffect(() => {
@@ -35,7 +32,7 @@ export default function AccountOrdersPage() {
     supabase.auth.getSession().then(({ data }) => {
       if (cancelled) return;
       if (!data.session) {
-        router.replace("/sign-in?next=/account/orders");
+        router.replace("/sign-in?next=/shop/orders");
       } else {
         setSignedIn(true);
         apiGet<{ orders: Order[] }>("/orders")
@@ -47,12 +44,6 @@ export default function AccountOrdersPage() {
       cancelled = true;
     };
   }, [router]);
-
-  const filtered = useMemo(() => {
-    if (!orders) return [];
-    if (filter === "all") return orders;
-    return orders.filter((o) => o.order_type === filter);
-  }, [orders, filter]);
 
   // ----- render -----
   if (signedIn === null || orders === null) {
@@ -77,70 +68,37 @@ export default function AccountOrdersPage() {
           <h1 className="mt-2 font-display text-4xl tracking-tight">Orders</h1>
         </div>
 
-        <div className="flex gap-2">
-          {(["all", "studio", "blanks"] as const).map((f) => (
-            <button
-              key={f}
-              type="button"
-              onClick={() => setFilter(f)}
-              className={`rounded-md border px-3 py-1.5 text-sm capitalize transition ${
-                filter === f
-                  ? "border-ink bg-ink text-paper"
-                  : "border-neutral-300 hover:border-neutral-500"
-              }`}
-            >
-              {f}
-            </button>
-          ))}
-        </div>
+        {/* Filter chips removed — historical Studio orders may exist in the
+            DB but are no longer surfaced as a filter once Studio is sunset. */}
       </div>
 
-      {filtered.length === 0 ? (
+      {orders.length === 0 ? (
         <div className="flex flex-col items-start gap-4 rounded-xl border border-dashed border-neutral-300 p-10">
-          <p className="text-neutral-700">
-            {orders.length === 0
-              ? "You haven't placed any orders yet."
-              : `No ${filter} orders.`}
-          </p>
-          <div className="flex gap-3">
-            <Link
-              href="/blanks"
-              className="rounded-md bg-ink px-5 py-3 text-sm font-medium text-paper hover:bg-accent"
-            >
-              Browse Blanks →
-            </Link>
-            <Link
-              href="/studio/quote"
-              className="rounded-md border border-ink px-5 py-3 text-sm font-medium hover:bg-neutral-100"
-            >
-              Start a Studio quote
-            </Link>
-          </div>
+          <p className="text-neutral-700">You haven&apos;t placed any orders yet.</p>
+          <Link
+            href="/shop/blanks"
+            className="rounded-md bg-ink px-5 py-3 text-sm font-medium text-paper hover:bg-accent"
+          >
+            Browse Blanks →
+          </Link>
         </div>
       ) : (
         <ul className="flex flex-col divide-y divide-neutral-200 rounded-xl border border-neutral-200">
-          {filtered.map((o) => (
+          {orders.map((o) => (
             <li
               key={o.id}
               className="flex flex-col gap-3 p-5 md:flex-row md:items-center md:justify-between"
             >
               <div>
-                <div className="flex items-center gap-3">
-                  <p className="text-xs uppercase tracking-[0.18em] text-neutral-500">
-                    {o.order_type}
-                  </p>
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-xs uppercase tracking-wider ${
-                      STATUS_CLASSES[o.status] ?? "bg-neutral-100"
-                    }`}
-                  >
-                    {o.status}
-                  </span>
-                </div>
+                <span
+                  className={`rounded-full px-2 py-0.5 text-xs uppercase tracking-wider ${
+                    STATUS_CLASSES[o.status] ?? "bg-neutral-100"
+                  }`}
+                >
+                  {o.status}
+                </span>
                 <p className="mt-1 font-medium">
-                  {o.order_type === "studio"
-                    ? `${o.product_type ?? "Custom run"} · qty ${o.quantity ?? "—"}`
-                    : `Order ${String(o.id).slice(0, 8)}`}
+                  Order {String(o.id).slice(0, 8)}
                 </p>
                 <p className="text-xs text-neutral-500">
                   Placed {new Date(o.created_at).toLocaleDateString()}
@@ -150,22 +108,12 @@ export default function AccountOrdersPage() {
               <div className="flex items-center gap-4">
                 <div className="text-right">
                   <p className="font-medium">
-                    {o.total != null
-                      ? `$${Number(o.total).toFixed(2)}`
-                      : o.target_price != null
-                      ? `Target $${Number(o.target_price).toFixed(2)}/unit`
-                      : "—"}
+                    {o.total != null ? `$${Number(o.total).toFixed(2)}` : "—"}
                   </p>
-                  <p className="text-xs text-neutral-500">
-                    {o.currency}
-                  </p>
+                  <p className="text-xs text-neutral-500">{o.currency}</p>
                 </div>
                 <Link
-                  href={
-                    o.order_type === "studio"
-                      ? `/studio/quote/${o.id}`
-                      : `/orders/${o.id}/success`
-                  }
+                  href={`/orders/${o.id}/success`}
                   className="text-sm underline-offset-4 hover:underline"
                 >
                   View →

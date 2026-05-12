@@ -52,7 +52,7 @@ export default async function CategoryPage({
     <main className="mx-auto max-w-[1200px] px-4 sm:px-0 py-12">
       {/* breadcrumb */}
       <nav className="mb-6 text-sm text-neutral-500">
-        <Link href="/blanks" className="hover:underline">
+        <Link href="/shop/blanks" className="hover:underline">
           Wholesale
         </Link>
         <span className="mx-2">/</span>
@@ -74,7 +74,7 @@ export default async function CategoryPage({
           {products.map((p) => (
             <li key={p.id}>
               <Link
-                href={`/blanks/${p.slug}`}
+                href={`/shop/blanks/${p.slug}`}
                 className="group block overflow-hidden rounded-xl border border-neutral-200 transition hover:border-neutral-400"
               >
                 <div className="aspect-[4/5] w-full bg-neutral-100">

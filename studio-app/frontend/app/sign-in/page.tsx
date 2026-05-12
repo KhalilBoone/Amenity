@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase";
 function SignInContent() {
   const router = useRouter();
   const params = useSearchParams();
-  const next = params.get("next") || "/cart";
+  const next = params.get("next") || "/shop/cart";
 
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);

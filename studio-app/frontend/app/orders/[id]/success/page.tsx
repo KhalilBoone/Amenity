@@ -101,13 +101,13 @@ export default function OrderSuccessPage() {
 
         <div className="flex flex-wrap gap-3">
           <Link
-            href="/blanks"
+            href="/shop/blanks"
             className="rounded-md bg-ink px-5 py-3 text-sm font-medium text-paper hover:bg-accent"
           >
             Keep shopping →
           </Link>
           <Link
-            href="/account/orders"
+            href="/shop/orders"
             className="rounded-md border border-ink px-5 py-3 text-sm font-medium hover:bg-neutral-100"
           >
             View all orders

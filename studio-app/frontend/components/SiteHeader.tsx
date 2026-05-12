@@ -92,13 +92,8 @@ export function SiteHeader() {
           {/* Desktop nav */}
           <ul className="hidden items-center gap-6 text-sm md:flex">
             <li>
-              <Link href="/blanks" className="text-neutral-600 transition-colors duration-200 hover:text-ink hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor]">
-                Wholesale
-              </Link>
-            </li>
-            <li>
-              <Link href="/studio" className="text-neutral-600 transition-colors duration-200 hover:text-ink hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor]">
-                Production
+              <Link href="/shop" className="text-neutral-600 transition-colors duration-200 hover:text-ink hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor]">
+                Shop
               </Link>
             </li>
 
@@ -117,7 +112,7 @@ export function SiteHeader() {
               )}
 
               <Link
-                href="/cart"
+                href="/shop/cart"
                 className="group relative inline-flex h-9 w-9 items-center justify-center rounded-md text-ink transition-all duration-200 hover:ring-1 hover:ring-ink"
                 aria-label={`Cart${cartCount > 0 ? `, ${cartCount} items` : ""}`}
               >
@@ -134,7 +129,7 @@ export function SiteHeader() {
           {/* Mobile: cart + hamburger */}
           <div className="flex items-center gap-3 md:hidden">
             <Link
-              href="/cart"
+              href="/shop/cart"
               className="group relative inline-flex h-9 w-9 items-center justify-center rounded-md text-ink transition-all duration-200 hover:ring-1 hover:ring-ink"
               aria-label={`Cart${cartCount > 0 ? `, ${cartCount} items` : ""}`}
             >
@@ -165,17 +160,12 @@ export function SiteHeader() {
           <div className="border-t border-neutral-100 bg-paper px-6 py-5 md:hidden">
             <ul className="flex flex-col gap-4 text-sm">
               <li>
-                <Link href="/blanks" onClick={() => setMenuOpen(false)} className="block text-neutral-700 transition-colors hover:text-ink">
-                  Wholesale
+                <Link href="/shop" onClick={() => setMenuOpen(false)} className="block text-neutral-700 transition-colors hover:text-ink">
+                  Shop
                 </Link>
               </li>
               <li>
-                <Link href="/studio" onClick={() => setMenuOpen(false)} className="block text-neutral-700 transition-colors hover:text-ink">
-                  Production
-                </Link>
-              </li>
-              <li>
-                <Link href="/cart" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 text-neutral-700 transition-colors hover:text-ink">
+                <Link href="/shop/cart" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 text-neutral-700 transition-colors hover:text-ink">
                   <Handbag size={16} aria-hidden />
                   Cart {cartCount > 0 && <span className="font-semibold">({cartCount})</span>}
                 </Link>
