@@ -21,7 +21,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   Sparkle,
-  PaperPlaneTilt,
+  Paperclip,
   Storefront,
   ChatCircleText,
   ListChecks,
@@ -103,17 +103,19 @@ const SCRIPT: AgentReply[] = [
 ];
 
 const SUGGESTED_PROMPTS = [
-  "Heavyweight French terry hoodie, 500 units, domestic.",
-  "Berry-compliant fleece manufacturer for federal contract.",
+  "Heavyweight French terry hoodies, 500 units, domestic.",
+  "Sneakers made in Portugal, leather upper, MOQ 200.",
+  "Selvedge denim jeans, 14 oz, small batch run.",
+  "Berry-compliant fleece for federal contract.",
   "Embroidery decorator, MOQ under 50.",
 ];
 
-const GREETING: Message = {
-  id: "agent-0",
-  role: "agent",
-  body:
-    "Hi — I'm Liai, Amenity's sourcing agent. Tell me what you're making (fabric, capabilities, MOQ, certifications, timeline) and I'll return a ranked shortlist of vetted partners.",
-};
+const BRANDS = [
+  "Nike", "Carhartt", "Champion", "Patagonia", "Arc'teryx",
+  "Levi's", "Hanes", "Vans", "Dickies", "New Balance",
+  "Columbia", "Under Armour", "Filson", "Outerknown", "Outdoor Voices",
+];
+
 
 /* ─────────────────────────────────────────────────────────────────────────────
    PAGE
@@ -155,25 +157,70 @@ function ChatSection() {
           mills, and decorators.
         </p>
       </div>
-      <div className="mt-8 animate-fade-up animate-delay-200">
+      <div className="mt-8 animate-fade-up animate-delay-200 mx-auto max-w-2xl">
         <Chat />
+        <p className="mt-3 text-center text-xs text-neutral-400">
+          Try it free — no credit card required
+        </p>
       </div>
+      <BrandCarousel />
     </section>
   );
 }
 
 function Chat() {
-  const [messages, setMessages] = useState<Message[]>([GREETING]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
   const [step, setStep] = useState(0);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const fileRef = useRef<HTMLInputElement | null>(null);
+
+  // Typewriter state
+  const [displayText, setDisplayText] = useState("");
+  const [promptIdx, setPromptIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const hasMessages = messages.length > 0 || thinking;
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
     el.scrollTop = el.scrollHeight;
   }, [messages, thinking]);
+
+  // Typewriter effect — type, pause, delete, next prompt
+  useEffect(() => {
+    if (input) return; // stop animating when user is typing
+    const prompt = SUGGESTED_PROMPTS[promptIdx];
+
+    if (!isDeleting) {
+      if (charIdx < prompt.length) {
+        const t = window.setTimeout(() => {
+          setDisplayText(prompt.slice(0, charIdx + 1));
+          setCharIdx((c) => c + 1);
+        }, 48);
+        return () => window.clearTimeout(t);
+      } else {
+        // Fully typed — pause 2 s then start deleting
+        const t = window.setTimeout(() => setIsDeleting(true), 2000);
+        return () => window.clearTimeout(t);
+      }
+    } else {
+      if (charIdx > 0) {
+        const t = window.setTimeout(() => {
+          setDisplayText(prompt.slice(0, charIdx - 1));
+          setCharIdx((c) => c - 1);
+        }, 24);
+        return () => window.clearTimeout(t);
+      } else {
+        // Fully deleted — move to next prompt
+        setIsDeleting(false);
+        setPromptIdx((i) => (i + 1) % SUGGESTED_PROMPTS.length);
+      }
+    }
+  }, [charIdx, isDeleting, promptIdx, input]);
 
   function send(text: string) {
     const trimmed = text.trim();
@@ -209,63 +256,84 @@ function Chat() {
     send(input);
   }
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    // Submit on Enter (without Shift)
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send(input);
+    }
+  }
+
   return (
     <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
-      <div
-        ref={scrollRef}
-        className="flex flex-col gap-4 overflow-y-auto px-4 py-5 sm:px-6"
-        style={{ maxHeight: 320, minHeight: 200 }}
-        aria-live="polite"
-      >
-        {messages.map((m) => (
-          <MessageBubble key={m.id} message={m} />
-        ))}
-        {thinking && <TypingBubble />}
-      </div>
-
-      {messages.length === 1 && !thinking && (
-        <div className="flex flex-wrap gap-2 border-t border-neutral-100 px-4 py-3 sm:px-6">
-          <span className="text-xs uppercase tracking-[0.18em] text-neutral-400 self-center mr-1">
-            Try
-          </span>
-          {SUGGESTED_PROMPTS.map((p) => (
-            <button
-              key={p}
-              type="button"
-              onClick={() => send(p)}
-              className="rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1.5 text-xs text-neutral-700 transition hover:border-neutral-400 hover:bg-white"
-            >
-              {p}
-            </button>
+      {/* Message thread — only rendered once the user starts chatting */}
+      {hasMessages && (
+        <div
+          ref={scrollRef}
+          className="flex flex-col gap-4 overflow-y-auto px-5 py-5"
+          style={{ maxHeight: 340, minHeight: 120 }}
+          aria-live="polite"
+        >
+          {messages.map((m) => (
+            <MessageBubble key={m.id} message={m} />
           ))}
+          {thinking && <TypingBubble />}
         </div>
       )}
 
       <form
         onSubmit={handleSubmit}
-        className="flex items-center gap-2 border-t border-neutral-100 px-4 py-3 sm:px-5"
+        className={hasMessages ? "border-t border-neutral-100" : ""}
       >
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Describe what you're making…"
-          disabled={thinking}
-          className="min-w-0 flex-1 rounded-md bg-transparent px-2 py-2 text-sm outline-none placeholder:text-neutral-400 disabled:opacity-50"
-        />
-        <button
-          type="submit"
-          disabled={!input.trim() || thinking}
-          className="group inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md bg-ink text-paper transition-all duration-200 hover:bg-neutral-800 disabled:opacity-40"
-          aria-label="Send"
-        >
-          <PaperPlaneTilt size={14} weight="bold" aria-hidden />
-        </button>
-      </form>
+        {/* Tall input area with typewriter placeholder at top */}
+        <div className="relative px-5 pt-4 pb-2" style={{ minHeight: 72 }}>
+          <input
+            ref={fileRef as React.RefObject<HTMLInputElement>}
+            type="file"
+            accept="image/*,.pdf,.doc,.docx,.txt"
+            multiple
+            className="hidden"
+            aria-label="Attach files"
+          />
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            disabled={thinking}
+            rows={3}
+            placeholder=" "
+            className="w-full resize-none bg-transparent text-sm leading-relaxed outline-none placeholder:text-neutral-400 disabled:opacity-50"
+          />
+          {/* Typewriter placeholder — only shown when textarea is empty */}
+          {!input && (
+            <span className="pointer-events-none absolute left-5 top-4 text-sm text-neutral-400">
+              {displayText}
+              <span className="animate-cursor ml-[1px] font-light">|</span>
+            </span>
+          )}
+        </div>
 
-      <p className="border-t border-neutral-100 px-4 py-2.5 text-[11px] text-neutral-400 sm:px-6">
-        Preview · scripted demo of Liai. Live agent rolling out soon.
-      </p>
+        {/* Bottom action row — paperclip left, send right */}
+        <div className="flex items-center justify-between px-4 pb-4 pt-1">
+          <button
+            type="button"
+            onClick={() => (fileRef.current as HTMLInputElement | null)?.click()}
+            className="text-neutral-400 transition hover:text-neutral-600"
+            aria-label="Attach image or file"
+          >
+            <Paperclip size={16} weight="regular" aria-hidden />
+          </button>
+
+          <button
+            type="submit"
+            disabled={!input.trim() || thinking}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-neutral-100 text-neutral-400 transition-all duration-200 hover:bg-neutral-200 disabled:opacity-40 [&:not(:disabled)]:bg-ink [&:not(:disabled)]:text-paper [&:not(:disabled)]:hover:bg-neutral-800"
+            aria-label="Send"
+          >
+            <ArrowRight size={14} weight="bold" aria-hidden className="-rotate-45" />
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
@@ -337,6 +405,39 @@ function Dot({ delay }: { delay: string }) {
       className="inline-block h-1.5 w-1.5 animate-bounce rounded-full bg-neutral-400"
       style={{ animationDelay: delay, animationDuration: "1.2s" }}
     />
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BRAND CAROUSEL — infinite scrolling logo strip
+───────────────────────────────────────────────────────────────────────────── */
+
+function BrandCarousel() {
+  // Duplicate the list so the marquee can loop seamlessly
+  const doubled = [...BRANDS, ...BRANDS];
+  return (
+    <div className="mt-20 animate-fade-up animate-delay-300">
+      <p className="mb-5 text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400">
+        Trusted by your favorite brands
+      </p>
+      <div className="relative overflow-hidden">
+        {/* Left + right fade masks */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent" />
+
+        <div className="flex animate-marquee-left gap-10 whitespace-nowrap">
+          {doubled.map((brand, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-300 tracking-wide select-none"
+            >
+              <span className="h-1 w-1 rounded-full bg-neutral-200" />
+              {brand}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -562,9 +663,8 @@ function tilePhoto(id: string) {
 
 function AnchorHero() {
   return (
-    <section style={{ backgroundColor: "#5389ad" }} className="text-paper">
+    <section style={{ backgroundColor: "#efe9e7" }} className="text-ink">
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-8 px-4 py-14 sm:px-6 md:grid-cols-[1fr_1.2fr_1fr] md:gap-10 md:py-20">
-
         {/* Left tile */}
         <SwapTile pool={TILE_LEFT_POOL} intervalMs={4000} startIdx={0} />
 
@@ -575,7 +675,7 @@ function AnchorHero() {
             <br />
             no matter what you make.
           </h2>
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-white/80 md:text-base">
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-neutral-600 md:text-base">
             Whether you&apos;re launching a hoodie line or stocking a wholesale
             store, Liai finds the right manufacturer, mill, or decorator — and
             our blanks catalog is one click away.
@@ -583,8 +683,8 @@ function AnchorHero() {
 
           {/* Stacked CTAs */}
           <div className="mt-6 flex w-full max-w-[280px] flex-col gap-3">
-            <PrimaryCTA href="/sign-in" label="Sign Up for Free" tone="onDark" />
-            <SecondaryCTA href="/shop" label="Shop Blanks" tone="onDark" />
+            <PrimaryCTA href="/sign-in" label="Sign Up for Free" tone="light" />
+            <SecondaryCTA href="/shop" label="Shop Blanks" tone="light" />
           </div>
         </div>
 

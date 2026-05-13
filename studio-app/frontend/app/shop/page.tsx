@@ -152,57 +152,58 @@ export default function ShopPage() {
   }, [baseFeatured, baseTopSellers, category]);
 
   return (
-    <main className="mx-auto max-w-[1280px] px-4 py-10 sm:px-6 md:py-14">
-      {/* Header */}
-      <div className="mb-8 md:mb-10">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">Wholesale</p>
-        <h1 className="mt-1 font-display text-4xl tracking-tight md:text-5xl">Shop</h1>
-        <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-600">
-          Premium blanks at B2B pricing — tiered as quantities scale. Need help
-          finding the right manufacturer? Talk to{" "}
-          <Link href="/" className="underline underline-offset-4 hover:text-ink">
-            Liai
-          </Link>
-          .
-        </p>
+    <main>
+      {/* Top — header + filters + featured products (constrained width) */}
+      <div className="mx-auto max-w-[1280px] px-4 pt-10 sm:px-6 md:pt-14">
+        <div className="mb-8 md:mb-10">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">Wholesale</p>
+          <h1 className="mt-1 font-display text-4xl tracking-tight md:text-5xl">Shop</h1>
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-600">
+            Premium blanks at B2B pricing — tiered as quantities scale. Need help
+            finding the right manufacturer? Talk to{" "}
+            <Link href="/" className="underline underline-offset-4 hover:text-ink">
+              Liai
+            </Link>
+            .
+          </p>
+        </div>
+
+        <CategoryRail
+          categories={CATEGORIES}
+          active={category}
+          onChange={setCategory}
+        />
+
+        <ProductGrid
+          kicker="Featured products"
+          title="New + favorites"
+          items={featured}
+          loading={!loaded && apiProducts.length === 0}
+          emptyHint={category}
+          className="mt-10"
+        />
       </div>
 
-      {/* Category filters */}
-      <CategoryRail
-        categories={CATEGORIES}
-        active={category}
-        onChange={setCategory}
-      />
-
-      {/* Featured products */}
-      <ProductGrid
-        kicker="Featured products"
-        title="New + favorites"
-        items={featured}
-        loading={!loaded && apiProducts.length === 0}
-        emptyHint={category}
-        className="mt-10"
-      />
-
-      {/* Featured collection */}
+      {/* Featured collection — full-bleed blue background */}
       <FeaturedCollection
         items={collectionItems}
         loading={!loaded && apiProducts.length === 0}
         className="mt-16"
       />
 
-      {/* Top sellers */}
-      <ProductGrid
-        kicker="Top sellers"
-        title="Best of the catalog"
-        items={topSellers}
-        loading={!loaded && apiProducts.length === 0}
-        emptyHint={category}
-        className="mt-16"
-      />
+      {/* Bottom — top sellers + Try Liai (constrained width) */}
+      <div className="mx-auto max-w-[1280px] px-4 pb-10 sm:px-6 md:pb-14">
+        <ProductGrid
+          kicker="Top sellers"
+          title="Best of the catalog"
+          items={topSellers}
+          loading={!loaded && apiProducts.length === 0}
+          emptyHint={category}
+          className="mt-16"
+        />
 
-      {/* Try Liai callout */}
-      <TryLiaiCallout className="mt-16" />
+        <TryLiaiCallout className="mt-16" />
+      </div>
     </main>
   );
 }
@@ -393,18 +394,22 @@ function FeaturedCollection({
   className?: string;
 }) {
   return (
-    <section className={className}>
-      <div className="mb-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">
-          Featured collection
-        </p>
-        <h2 className="mt-1 font-display text-2xl tracking-tight md:text-3xl">
-          Heavyweight basics
-        </h2>
-      </div>
+    <section
+      className={`text-ink ${className}`}
+      style={{ backgroundColor: "#efe9e7" }}
+    >
+      <div className="mx-auto max-w-[1280px] px-4 py-14 sm:px-6 md:py-16">
+        <div className="mb-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">
+            Featured collection
+          </p>
+          <h2 className="mt-1 font-display text-2xl tracking-tight md:text-3xl">
+            Heavyweight basics
+          </h2>
+        </div>
 
-      <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-        {/* Left — lifestyle hero card */}
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+          {/* Left — lifestyle hero card */}
         <Link
           href="/shop/blanks"
           className="group relative block overflow-hidden rounded-2xl bg-neutral-100"
@@ -436,24 +441,25 @@ function FeaturedCollection({
           </div>
         </Link>
 
-        {/* Right — 3×2 image-only grid */}
-        {loading ? (
-          <div className="grid grid-cols-3 gap-3">
-            {[0, 1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="aspect-square animate-pulse rounded-xl bg-neutral-100" />
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-3 gap-3">
-            {items.slice(0, 6).map((item) => (
-              <CollectionTile key={`coll-${item.slug}`} item={item} />
-            ))}
-            {/* If filter narrows the pool to <6, pad with empty squares so the grid stays balanced. */}
-            {Array.from({ length: Math.max(0, 6 - items.length) }).map((_, i) => (
-              <div key={`pad-${i}`} className="aspect-square rounded-xl bg-neutral-50" />
-            ))}
-          </div>
-        )}
+          {/* Right — 3×2 image-only grid */}
+          {loading ? (
+            <div className="grid grid-cols-3 gap-3">
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="aspect-square animate-pulse rounded-xl bg-neutral-200" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 gap-3">
+              {items.slice(0, 6).map((item) => (
+                <CollectionTile key={`coll-${item.slug}`} item={item} />
+              ))}
+              {/* If filter narrows the pool to <6, pad with empty squares so the grid stays balanced. */}
+              {Array.from({ length: Math.max(0, 6 - items.length) }).map((_, i) => (
+                <div key={`pad-${i}`} className="aspect-square rounded-xl bg-neutral-200" />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
@@ -489,7 +495,7 @@ function CollectionTile({ item }: { item: CardItem }) {
           <Heart size={12} weight="regular" aria-hidden className="text-neutral-600" />
         </button>
       </div>
-      <p className="text-xs text-neutral-600">
+      <p className="text-xs text-neutral-700">
         ${lowestTieredPrice(item.base_price).toFixed(2)}
       </p>
     </Link>

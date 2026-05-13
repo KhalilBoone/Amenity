@@ -41,8 +41,29 @@ html, body {
 .animate-marquee-down {
   animation: marquee-down 32s linear infinite;
 }
+
+/* ── Brand carousel (horizontal infinite scroll) ─────────────────────────── */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee-left {
+  animation: marquee-left 24s linear infinite;
+  will-change: transform;
+}
+
+/* ── Typewriter cursor blink ─────────────────────────────────────────────── */
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.animate-cursor {
+  animation: cursorBlink 0.75s step-end infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee-up, .animate-marquee-down { animation: none; }
+  .animate-marquee-up, .animate-marquee-down,
+  .animate-marquee-left, .animate-placeholder { animation: none; }
 }
 
 /* ── Category pill ──────────────────────────────────────────────────────── */
