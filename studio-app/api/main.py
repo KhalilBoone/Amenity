@@ -2,6 +2,10 @@
 
 Routes split by surface:
 
+Manufacturers (public directory)
+  GET  /manufacturers       — filterable list (domestic, certifications, category, q)
+  GET  /manufacturers/{id}  — single manufacturer profile
+
 Orders (read-only — historical Studio rows + Blanks orders)
   GET  /orders              — list orders the user can see (RLS-scoped)
   GET  /orders/{id}         — order status
@@ -54,6 +58,8 @@ from api.auth import CurrentUser, optional_user, require_user
 from api.db import service_client, user_client
 from api.storage import BUCKET as ARTWORK_BUCKET, make_storage_path, new_artwork_id
 from api.stripe_client import StripeError, create_checkout_session, verify_webhook
+from api.sourcing import router as sourcing_router
+from api.pim import router as pim_router
 
 
 # ----------------------------------------------------------------------
@@ -70,6 +76,8 @@ if app is not None:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    app.include_router(sourcing_router)
+    app.include_router(pim_router)
 
 
 # ----------------------------------------------------------------------
@@ -192,6 +200,67 @@ if app is not None:
     @app.get("/health")
     def health() -> dict[str, Any]:
         return {"ok": True}
+
+    # ---------------- Manufacturer directory (public) ----------------
+    @app.get("/manufacturers")
+    def list_manufacturers(
+        q: str | None = None,               # free-text search on name/specialty
+        category: str | None = None,
+        domestic: bool | None = None,
+        cert: str | None = None,            # single cert slug e.g. "berry_compliant"
+        limit: int = 50,
+        offset: int = 0,
+    ) -> dict[str, Any]:
+        """Public manufacturer directory. Strips the embedding column."""
+        client = service_client()
+        fields = (
+            "id, name, role, category, specialty, capabilities, certifications,"
+            " brands, moq, lead_time_weeks, location, domestic, website, contact_email,"
+            " created_at"
+        )
+        q_obj = (
+            client.table("manufacturers")
+            .select(fields)
+            .order("name")
+            .limit(min(max(1, limit), 200))
+            .offset(max(0, offset))
+        )
+        if domestic is not None:
+            q_obj = q_obj.eq("domestic", domestic)
+        if category:
+            q_obj = q_obj.eq("category", category)
+        if cert:
+            q_obj = q_obj.contains("certifications", [cert])
+        # Free-text: case-insensitive name/specialty match
+        if q:
+            safe = q.replace("%", "").replace("_", "")[:100]
+            q_obj = q_obj.or_(
+                f"name.ilike.%{safe}%,specialty.ilike.%{safe}%"
+            )
+        res = q_obj.execute()
+        return {"manufacturers": res.data or []}
+
+    @app.get("/manufacturers/{manufacturer_id}")
+    def get_manufacturer(manufacturer_id: str) -> dict[str, Any]:
+        """Single manufacturer profile by id or slug."""
+        client = service_client()
+        fields = (
+            "id, name, role, category, specialty, capabilities, certifications,"
+            " brands, moq, lead_time_weeks, location, domestic, website, contact_email,"
+            " created_at"
+        )
+        # Try id first, then slug
+        res = (
+            client.table("manufacturers")
+            .select(fields)
+            .eq("id", manufacturer_id)
+            .limit(1)
+            .execute()
+        )
+        rows = res.data or []
+        if not rows:
+            raise HTTPException(status_code=404, detail="manufacturer not found")
+        return rows[0]
 
     # ---------------- Orders (read-only after Studio sunset) ---------
     @app.get("/orders/{order_id}")

@@ -154,14 +154,14 @@ export default function ShopPage() {
   return (
     <main>
       {/* Top — header + filters + featured products (constrained width) */}
-      <div className="mx-auto max-w-[1280px] px-4 pt-10 sm:px-6 md:pt-14">
+      <div className="mx-auto max-w-[1200px] px-6 pt-12 sm:px-0 md:pt-16">
         <div className="mb-8 md:mb-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">Wholesale</p>
-          <h1 className="mt-1 font-display text-4xl tracking-tight md:text-5xl">Shop</h1>
-          <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-600">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-400">Wholesale</p>
+          <h1 className="mt-2 font-display text-4xl font-semibold tracking-tight text-neutral-900 md:text-5xl">Shop</h1>
+          <p className="mt-3 max-w-xl text-base leading-relaxed text-neutral-500">
             Premium blanks at B2B pricing — tiered as quantities scale. Need help
             finding the right manufacturer? Talk to{" "}
-            <Link href="/" className="underline underline-offset-4 hover:text-ink">
+            <Link href="/products/liai" className="underline underline-offset-4 hover:text-ink">
               Liai
             </Link>
             .
@@ -192,7 +192,7 @@ export default function ShopPage() {
       />
 
       {/* Bottom — top sellers + Try Liai (constrained width) */}
-      <div className="mx-auto max-w-[1280px] px-4 pb-10 sm:px-6 md:pb-14">
+      <div className="mx-auto max-w-[1200px] px-6 pb-16 sm:px-0 md:pb-20">
         <ProductGrid
           kicker="Top sellers"
           title="Best of the catalog"
@@ -203,6 +203,32 @@ export default function ShopPage() {
         />
 
         <TryLiaiCallout className="mt-16" />
+
+        {/* ── Cross-sell: Liai ──────────────────────────────────────────── */}
+        <section className="mt-10">
+          <p className="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-neutral-400">
+            Also from Amenity
+          </p>
+          <div className="flex flex-col justify-between gap-5 rounded-2xl border border-neutral-100 p-6 sm:flex-row sm:items-center">
+            <div>
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-violet-100 bg-violet-50 px-3 py-1 text-xs font-medium text-violet-600">
+                <Sparkle size={12} weight="fill" aria-hidden />
+                Liai · AI Sourcing Agent
+              </div>
+              <p className="text-sm leading-relaxed text-neutral-600">
+                Can&apos;t find the blank you need? Describe your product to Liai and get a ranked
+                shortlist of vetted manufacturers matched to your exact specs.
+              </p>
+            </div>
+            <Link
+              href="/products/liai"
+              className="inline-flex flex-shrink-0 items-center gap-1.5 text-sm font-medium text-neutral-800 transition-colors hover:text-ink"
+            >
+              Meet Liai
+              <ArrowRight size={13} weight="bold" aria-hidden />
+            </Link>
+          </div>
+        </section>
       </div>
     </main>
   );
@@ -276,10 +302,10 @@ function ProductGrid({
   return (
     <section className={className}>
       <div className="mb-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-400">
           {kicker}
         </p>
-        <h2 className="mt-1 font-display text-2xl tracking-tight md:text-3xl">
+        <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-neutral-900 md:text-3xl">
           {title}
         </h2>
       </div>
@@ -394,16 +420,13 @@ function FeaturedCollection({
   className?: string;
 }) {
   return (
-    <section
-      className={`text-ink ${className}`}
-      style={{ backgroundColor: "#efe9e7" }}
-    >
-      <div className="mx-auto max-w-[1280px] px-4 py-14 sm:px-6 md:py-16">
-        <div className="mb-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">
+    <section className={`border-y border-neutral-100 bg-neutral-50 text-ink ${className}`}>
+      <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-0 md:py-20">
+        <div className="mb-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-400">
             Featured collection
           </p>
-          <h2 className="mt-1 font-display text-2xl tracking-tight md:text-3xl">
+          <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-neutral-900 md:text-3xl">
             Heavyweight basics
           </h2>
         </div>
@@ -525,7 +548,7 @@ function TryLiaiCallout({ className = "" }: { className?: string }) {
           </p>
         </div>
         <Link
-          href="/"
+          href="/products/liai"
           className="group inline-flex w-fit items-center justify-between gap-3 rounded-md bg-paper px-5 py-3 text-sm font-medium text-ink transition-all duration-200 hover:bg-neutral-100"
         >
           Try Liai

@@ -28,5 +28,8 @@ anthropic~=0.40
 httpx~=0.28
 python-dotenv~=1.0
 
+# --- OpenAI (embeddings for Liai sourcing agent) ---
+openai~=1.55
+
 # --- Dev / validation ---
 pglast~=6.4

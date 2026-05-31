@@ -25,9 +25,8 @@ const nextConfig = {
       // Future-proof anything else under /account that ends up moving.
       { source: "/account", destination: "/shop", permanent: true },
 
-      // /sourcing was folded into the homepage — preserve any bookmarks.
-      { source: "/sourcing", destination: "/", permanent: true },
-      { source: "/sourcing/:path*", destination: "/", permanent: true },
+      // /sourcing is now a full page — old deep-link subpaths fall back to root.
+      { source: "/sourcing/:path*", destination: "/sourcing", permanent: false },
     ];
   },
 };

@@ -1,7 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Handbag, UserCircle } from "@phosphor-icons/react/ssr";
-import { SiteHeader } from "@/components/SiteHeader";
-import NewsletterSignup from "@/components/NewsletterSignup";
 import "./globals.css";
 
 /* ── SEO metadata ──────────────────────────────────────────────────────────── */
@@ -49,10 +46,12 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#fafaf9",
+  themeColor: "#000000",
 };
 
-/* ── Root layout ────────────────────────────────────────────────────────────── */
+/* ── Root layout — HTML shell only ─────────────────────────────────────────── */
+// SiteHeader + footer live in (marketing)/layout.tsx
+// Dashboard sidebar lives in (dashboard)/layout.tsx
 export default function RootLayout({
   children,
 }: {
@@ -60,35 +59,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen font-sans">
-        {/* ── Analytics placeholder ─────────────────────────────────────────
-            Replace the script src with your GA4 / Segment / Plausible snippet.
-            Example for GA4:
-              <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX" />
-              <script dangerouslySetInnerHTML={{ __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-XXXXXXXXXX')` }} />
-        ─────────────────────────────────────────────────────────────────── */}
-
-        <SiteHeader />
-        <div className="min-h-[calc(100vh-72px)]">{children}</div>
-
-        {/* ── Newsletter ─────────────────────────────────────────────────── */}
-        <NewsletterSignup />
-
-        <footer className="border-t border-neutral-200 px-6 py-10 text-sm text-neutral-500">
-          <div className="mx-auto flex max-w-[1200px] flex-col items-start justify-between gap-4 px-4 sm:px-0 md:flex-row md:items-center">
-            <p className="font-display text-base text-ink">Amenity</p>
-            <div className="flex flex-wrap gap-6 text-xs">
-              <a href="/shop" className="inline-flex items-center gap-1 transition-colors hover:text-ink hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor]">
-                <Handbag size={13} aria-hidden /> Shop
-              </a>
-              <a href="/sign-in" className="inline-flex items-center gap-1 transition-colors hover:text-ink hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor]">
-                <UserCircle size={13} aria-hidden /> Sign in
-              </a>
-            </div>
-            <p className="text-xs">© {new Date().getFullYear()} Amenity. All rights reserved.</p>
-          </div>
-        </footer>
-      </body>
+      <body className="min-h-screen font-sans">{children}</body>
     </html>
   );
 }

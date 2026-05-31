@@ -46,11 +46,16 @@ export async function apiPatch<T>(path: string, body: unknown): Promise<T> {
   return res.json();
 }
 
-export async function apiDelete<T>(path: string): Promise<T> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function apiDelete<T = void>(path: string): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
     method: "DELETE",
     headers: { ...(await authHeaders()) },
   });
   if (!res.ok) throw new Error(`DELETE ${path} → ${res.status}`);
+  // 204 No Content — nothing to parse
+  if (res.status === 204 || res.headers.get("content-length") === "0") {
+    return undefined as T;
+  }
   return res.json();
 }
